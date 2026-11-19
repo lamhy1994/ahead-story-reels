@@ -7,7 +7,7 @@ description: Make every Ahead video. A 60–90 s English 9:16 bedtime story abou
 
 Keith's house format for every video (approved 19 Nov 2026 on episode 1, "The King With Too Much Gold"). Use it for any video he asks for, and for the scheduled daily runs. It replaces `kinetic-explainer-video`. Where `ai-reel-formula` disagrees about length, look, CTA or sound, this skill wins; its 底线 still hold (never say or show Bybit, no income promises, no logos or real app screens, facts need a source).
 
-Code, fonts and the worked example live in the GitHub repo **lamhy1994/ahead-story-reels** (attach it with add_repo, push access). Report to Keith in short Chinese; the video, captions and post are English only.
+Code, fonts and the worked example live in the GitHub repo **lamhy1994/ahead-story-reels** (attach it with add_repo, push access; this file is its SKILL.md and is the newest version). Report to Keith in short Chinese; the video, captions and post are English only.
 
 ## 1. The format
 - One true finance/money event with a date, a named person or group, what happened and how it ended. Any era: ancient money, bubbles, crashes, frauds, famous trades, crypto.
@@ -64,8 +64,8 @@ If a check fails and you cannot fix it, do not post: report to Keith what failed
 
 ## 9. Scheduled runs (Keith, 19 Nov 2026)
 - Three runs a day, one episode each. Keith chose 3 a day knowing it may hit his plan's usage limit; if a run cannot finish, stop cleanly and report.
-- Review: the first 3 scheduled episodes go to Keith before posting (send the video and caption, wait for "发" in that session). From the 4th on, post automatically after all checks pass ("自动上传到 aheadlearn 我的ig", 19 Nov 2026). Mark each episode `approved_by_keith` in episodes.json.
+- No review: post automatically as soon as every check passes, and send Keith the video and permalink afterwards (Keith, 20 Nov 2026: "不用等我回覆（发）, 请自动发到ig 上"). Just before posting, fetch main and make sure the event is not already marked posted.
 - Never post if a check failed, if a fact could not be confirmed, or if the same event was already posted.
 
 ## 10. Report to Keith (Chinese, short)
-Title + one line on the story, the permalink (or the video file if he reviews first), the 2–3 facts that carry the episode with their sources, anything uncertain, check results in one line.
+Title + one line on the story, the permalink and the video file, the 2–3 facts that carry the episode with their sources, anything uncertain, check results in one line.
