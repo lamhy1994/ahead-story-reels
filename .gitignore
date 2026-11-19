@@ -1,0 +1,15 @@
+node_modules/
+__pycache__/
+*.pyc
+episodes/*/audio/
+episodes/*/render/
+episodes/*/frames/
+episodes/*/check/
+episodes/*/out/
+episodes/*/web/node_modules
+episodes/*/web/timing.js
+template/web/timing.js
+template/audio/
+template/render/
+*.mp4
+*.wav

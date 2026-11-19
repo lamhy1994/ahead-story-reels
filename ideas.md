@@ -1,0 +1,30 @@
+# Story backlog (every fact must be re-checked against sources before use)
+Pick one not in episodes.json. Prefer: a clear year, a named person, a surprising ending, a picture you can build in low-poly 3D.
+- 1637 Tulip mania (Netherlands): a single bulb for the price of a house? (check: modern research says the crash was smaller than legend)
+- 1720 South Sea Bubble: Isaac Newton lost a fortune ("I can calculate the motions of the heavenly bodies…" quote is disputed)
+- 1720 John Law and the Mississippi Bubble: paper money in France
+- 1602 Dutch East India Company: the first shares anyone could buy
+- 1260s Kublai Khan's paper money (Marco Polo's account)
+- Potosí silver (1545 on): a mountain of silver and Spain's price revolution
+- Rai stones of Yap: money too big to move
+- 1869 Black Friday: Jay Gould and James Fisk try to corner gold
+- 1907 panic: J.P. Morgan locks bankers in his library
+- 1920 Charles Ponzi and the postal reply coupons
+- 1923 Weimar hyperinflation: wallpaper and wheelbarrows of marks
+- 1929 Black Tuesday; Jesse Livermore's short
+- 1971 Nixon ends the gold link (Bretton Woods)
+- 1980 Hunt brothers corner silver
+- 1992 Black Wednesday: George Soros and the pound
+- 1995 Nick Leeson breaks Barings Bank
+- 1998 LTCM: Nobel winners' fund collapses
+- 2008 Zimbabwe 100-trillion-dollar note
+- 2008 Volkswagen short squeeze: briefly the world's most valuable company
+- 2010 Bitcoin pizza day: 10,000 BTC for two pizzas
+- 2010 Flash Crash
+- 2012 Knight Capital loses $440 million in 45 minutes
+- 2013 James Howells throws away a hard drive with bitcoin
+- 2014 Mt. Gox
+- 2015 Swiss franc unpegged in minutes
+- 2021 GameStop squeeze
+- 2021 Archegos
+- 2022 Terra/Luna; FTX

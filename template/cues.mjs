@@ -1,0 +1,11 @@
+import { chromium } from '/opt/npm-tools/node_modules/playwright/index.mjs';
+import http from 'http'; import fs from 'fs'; import path from 'path';
+const root = path.resolve('web');
+const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.woff2': 'font/woff2' };
+const srv = http.createServer((req, res) => { const f = path.join(root, decodeURIComponent(req.url.split('?')[0])); fs.readFile(f, (e, d) => { if (e) { res.writeHead(404); res.end(); return; } res.writeHead(200, { 'Content-Type': MIME[path.extname(f)] || 'application/octet-stream' }); res.end(d); }); });
+await new Promise(r => srv.listen(0, '127.0.0.1', r));
+const browser = await chromium.launch({ executablePath: '/usr/bin/google-chrome', headless: true, args: ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--enable-webgl'] });
+const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
+await page.goto(`http://127.0.0.1:${srv.address().port}/index.html?aa=0&sh=0`); await page.waitForFunction('window.__ready===true', null, { timeout: 120000 });
+if (process.argv[2] === 'check') console.log('CAMERA NEAR/INSIDE SOLIDS:', JSON.stringify(await page.evaluate('window.camCheck()'))); else fs.writeFileSync(path.resolve('audio/cues.json'), await page.evaluate('JSON.stringify(window.CUES)'));
+await browser.close(); srv.close(); console.log('cues written');
