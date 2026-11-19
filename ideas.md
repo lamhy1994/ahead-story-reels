@@ -1,7 +1,7 @@
 # Story backlog (every fact must be re-checked against sources before use)
 Pick one not in episodes.json. Prefer: a clear year, a named person, a surprising ending, a picture you can build in low-poly 3D.
 - 1637 Tulip mania (Netherlands): a single bulb for the price of a house? (check: modern research says the crash was smaller than legend)
-- 1720 South Sea Bubble: Isaac Newton lost a fortune ("I can calculate the motions of the heavenly bodies…" quote is disputed)
+- 1720 South Sea Bubble: Isaac Newton lost a fortune ("I can calculate the motions of the heavenly bodies…" quote is disputed) (taken: episode 2)
 - 1720 John Law and the Mississippi Bubble: paper money in France
 - 1602 Dutch East India Company: the first shares anyone could buy
 - 1260s Kublai Khan's paper money (Marco Polo's account)
