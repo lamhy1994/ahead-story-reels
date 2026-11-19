@@ -23,6 +23,11 @@
   "keyword": "APPLE",
   "made": "2026-11-20",
   "posted": null,
-  "approved_by_keith": false
+  "approved_by_keith": false,
+  "sources": [
+   "A. Odlyzko, 'Newton's financial misadventures in the South Sea Bubble', Notes and Records of the Royal Society 73 (2019); Physics Today 73(7), 2020",
+   "UK National Archives blog, 'The South Sea Bubble of 1720' (2020); Univ. of Oxford, Newton and the Mint; Britannica, 'South Sea Bubble'"
+  ],
+  "length_s": 85.2
  }
 ]

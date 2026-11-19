@@ -35,6 +35,7 @@ A playful, clearly made-up "legend" tied to the story's object, asking for a one
 
 ## 5. Voice and sound
 - Kokoro voice `bm_george`, speed 0.94 (British male, ~139 Hz, warm). `tts_build.py` writes audio/vo_final.wav + timing.json (word times) and transcribes it with faster-whisper: every caption word must be heard. Then `./vo_proc.sh` (always re-run after any voice change).
+- Kokoro needs Python ≤ 3.12: `setup.sh` puts it in ~/.venvs/tts; run the voice with `./tts.sh`. Whisper writes spoken numbers as digits ("£20,000"), so check hearing with `~/.venvs/tts/bin/python hearcheck.py <wav>`, which expands them. Where the American G2P misleads the British voice, force the vowel: `[stock](/stˈɒk/)` (heard as "stark" otherwise).
 - `audio_build.py`: D-minor storybook bed (pads, plucked harp/oud arpeggios, kalimba, soft doum/tek drum in travel and market scenes), ambience (desert wind, market murmur, camel bells), a sound for every visual event (coins, pops, dings, whooshes on sky wipes). Bed about 14.5 dB under the voice with ducking. `./master.sh`: −14 LUFS, peak ≤ −2 dBFS.
 
 ## 6. Building the world (web/scene.js)
@@ -51,7 +52,7 @@ Start every episode with `./new_episode.sh NNN-slug` (copies `template/` = episo
 2. Render 20–35 keyframes across the story (`node render.mjs keys t1,t2,… frames/k`, `python3 sheet.py frames/k check/k 6 250`) and look at every sheet: subject in frame, nothing unreadable, labels not over faces or each other, no frame empty. Look at a few full-size, and at moments mid-transition. Fix and re-check.
 3. `node cues.mjs` (export cue times) → `python3 audio_build.py` → `./master.sh`.
 4. `./render_full.sh` (two workers, ~10–15 min), wait for both WORKER_DONE, `./finish.sh <name>` → qa.py must print PASS (size, frame count, −14 LUFS, peak, no cuts, no jumps at segment joins, no frozen or flat frames).
-5. Transcribe the final mix: every caption word heard near its time.
+5. Transcribe the final mix (`hearcheck.py audio/final_mix.wav`): every caption word heard near its time.
 6. Contact sheet of the finished file (one frame every ~1.5 s) and look at it.
 If a check fails and you cannot fix it, do not post: report to Keith what failed.
 

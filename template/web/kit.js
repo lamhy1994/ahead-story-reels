@@ -43,14 +43,20 @@ export class GB {
 
 // ───────── people
 export function person(o = {}) {
+  // options: robe, skin, hat, sash, crown, bigHat, scroll; 18th-century London: wig, tricorn, dress, bonnet, collar, paper, noHat
   const b = new GB(), robe = o.robe ?? 0x3B4A9A, skin = o.skin ?? 0x8D5E3F, hat = o.hat ?? 0xF6EFE2;
-  b.cyl(0.2, 0.46, 1.15, 7, robe, 0, 0.575, 0);
+  if (o.dress) b.cyl(0.2, 0.62, 1.15, 8, robe, 0, 0.575, 0); else b.cyl(0.2, 0.46, 1.15, 7, robe, 0, 0.575, 0);
   if (o.sash) b.cyl(0.3, 0.33, 0.14, 7, o.sash, 0, 0.78, 0);
+  if (o.collar) b.cyl(0.22, 0.25, 0.1, 7, o.collar, 0, 1.12, 0);
   b.ball(0.28, 1, skin, 0, 1.43, 0);
+  if (o.wig) { b.ball(0.32, 1, o.wig, -0.03, 1.56, 0, 1, 0.72, 1.06); b.ball(0.16, 1, o.wig, -0.06, 1.28, 0.27, 1, 1.55, 0.9); b.ball(0.16, 1, o.wig, -0.06, 1.28, -0.27, 1, 1.55, 0.9); b.ball(0.2, 1, o.wig, -0.22, 1.3, 0, 1, 1.45, 1.2); }
   if (o.crown) { b.cyl(0.25, 0.23, 0.2, 6, C.gold, 0, 1.74, 0); for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2; b.cone(0.06, 0.16, 4, C.gold, Math.cos(a) * 0.22, 1.9, Math.sin(a) * 0.22); } }
+  else if (o.tricorn) { b.cone(0.5, 0.2, 3, o.tricorn, 0, 1.8 + (o.wig ? 0.04 : 0), 0, 0, Math.PI / 2, 0); b.cyl(0.21, 0.25, 0.2, 7, o.tricorn, 0, 1.86 + (o.wig ? 0.04 : 0), 0); }
+  else if (o.bonnet) { b.ball(0.33, 1, o.bonnet, -0.04, 1.56, 0, 1.05, 0.72, 1.05); b.cyl(0.42, 0.42, 0.04, 9, o.bonnet, 0.02, 1.62, 0); }
   else if (o.bigHat) { b.ball(0.34, 1, hat, 0, 1.66, 0, 1, 0.62, 1); }
-  else b.cyl(0.29, 0.31, 0.18, 7, hat, 0, 1.64, 0);
+  else if (!o.wig && !o.noHat) b.cyl(0.29, 0.31, 0.18, 7, hat, 0, 1.64, 0);
   if (o.scroll) { b.cyl(0.07, 0.07, 0.6, 6, 0xFBF3DF, 0.36, 0.95, 0, Math.PI / 2, 0, 0); b.cone(0.03, 0.42, 4, 0xFFFFFF, 0.42, 1.25, 0.18, 0, 0, -0.5); }
+  if (o.paper) b.box(0.05, 0.4, 0.3, 0xFBF6E8, 0.36, 1.62, 0.18, 0, 0, -0.25);
   const m = b.mesh(); m.scale.setScalar(o.s ?? 1); return m;
 }
 
@@ -143,3 +149,95 @@ export function cloud(r) {
 export const COIN = new THREE.CylinderGeometry(0.17, 0.17, 0.05, 8);
 export const LOAF = new THREE.IcosahedronGeometry(0.2, 1);
 export { SACKG };
+
+// ───────── London, 1720 (episode 2)
+// triangular prism (a pitched roof): ridge along x, length L, half-width hw, height hh, base at y = 0
+export function prismGeo(L, hw, hh) {
+  const x0 = -L / 2, x1 = L / 2, A = [x0, 0, -hw], B = [x0, 0, hw], Cc = [x0, hh, 0], D = [x1, 0, -hw], E = [x1, 0, hw], F = [x1, hh, 0], p = [];
+  const q = (a, b, c, d) => p.push(...a, ...b, ...c, ...a, ...c, ...d);
+  p.push(...A, ...B, ...Cc, ...E, ...D, ...F); q(B, E, F, Cc); q(D, A, Cc, F);
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(p, 3)); return g;
+}
+// Georgian town house: ridge along x; door and windows on the +z side (o.front = 1) or the -z side (-1)
+export function house(w, h, d, o = {}) {
+  const b = new GB(), f = o.front ?? 1, r = o.rand ?? Math.random, col = o.color ?? 0xB8644A, trim = o.trim ?? 0xF3E9D6, rh = o.pitch ?? Math.min(2.8, d * 0.42);
+  b.box(w, h, d, col, 0, h / 2, 0); b.box(w + 0.12, 0.26, d + 0.12, trim, 0, h - 0.13, 0);
+  b.add(prismGeo(w + 0.4, d / 2 + 0.35, rh), o.roof ?? 0x5A5E6C, M(0, h, 0));
+  for (const sx of [-1, 1]) if (r() < 0.8) b.box(0.7, 1.7, 0.9, o.chim ?? 0x8C4A36, sx * (w / 2 - 0.55), h + rh * 0.5, (r() - 0.5) * 0.8);
+  const dx = (r() - 0.5) * Math.max(0, w - 2.6), fz = f * (d / 2);
+  b.box(1.0, 1.9, 0.14, o.door ?? [0x2E3A4F, 0x2F5A3A, 0x6B2A2A, 0x23262E][Math.floor(r() * 4)], dx, 0.95, fz + f * 0.03); b.box(1.3, 0.14, 0.26, trim, dx, 1.98, fz + f * 0.06); b.box(1.5, 0.18, 0.8, 0x9A938A, dx, 0.09, fz + f * 0.4);
+  const rows = Math.max(1, Math.floor((h - 2.0) / 1.75)), cols = Math.max(1, Math.floor(w / 1.6)), win = [];
+  for (let ry = 0; ry < rows; ry++) for (let cx = 0; cx < cols; cx++) {
+    const x = (cx - (cols - 1) / 2) * (w / cols), y = 2.75 + ry * 1.75;
+    if (ry === 0 && Math.abs(x - dx) < 1.05) continue;
+    b.box(0.74, 1.04, 0.08, trim, x, y, fz + f * 0.02); b.box(0.56, 0.86, 0.1, 0x2B3140, x, y, fz + f * 0.03); win.push([x, y, fz + f * 0.1]);
+  }
+  if (o.sign) { b.box(0.1, 0.1, 1.3, C.dark, dx + 1.5, 3.0, fz + f * 0.65); b.box(0.12, 0.9, 1.05, o.sign, dx + 1.5, 2.45, fz + f * 0.85); b.box(0.13, 0.5, 0.6, 0xF2D27A, dx + 1.5, 2.45, fz + f * 0.85); }
+  if (o.shop) { b.box(w * 0.7, 1.5, 0.16, 0xF3E9D6, 0, 1.25, fz + f * 0.05); b.box(w * 0.66, 1.3, 0.18, 0x3A4458, 0, 1.25, fz + f * 0.06); }
+  const m = b.mesh(); m.userData = { win, rh, w, h, d }; return m;
+}
+// tall ship, bow toward +x
+export function ship(o = {}) {
+  const b = new GB(), hull = o.hull ?? 0x5E3A22, sail = o.sail ?? 0xF2EBD8, dk = 0x3A2616;
+  b.box(8.4, 1.5, 2.7, hull, 0, 0.75, 0); b.box(1.8, 1.3, 2.0, hull, 4.9, 0.85, 0); b.box(1.0, 1.1, 1.2, hull, 6.1, 1.0, 0);
+  b.box(8.6, 0.22, 2.9, 0xC9A14A, 0, 1.55, 0); b.box(2.6, 1.4, 2.7, hull, -3.6, 2.2, 0); b.box(2.7, 0.2, 2.9, 0xC9A14A, -3.6, 2.95, 0);
+  b.cyl(0.07, 0.09, 4.2, 5, dk, 7.2, 2.3, 0, 0, 0, -1.15);
+  for (const [x, h] of [[-1.9, 10.5], [1.0, 12.0], [3.6, 9.0]]) {
+    b.cyl(0.13, 0.17, h, 6, dk, x, 1.4 + h / 2, 0);
+    b.box(0.1, h * 0.25, 3.4, sail, x + 0.14, 1.4 + h * 0.37, 0); b.box(0.1, h * 0.2, 2.6, sail, x + 0.14, 1.4 + h * 0.65, 0);
+    b.box(0.1, 0.1, 3.8, dk, x, 1.4 + h * 0.51, 0); b.box(0.1, 0.1, 3.0, dk, x, 1.4 + h * 0.77, 0);
+    b.box(0.04, 0.34, 0.9, o.flag ?? C.crimson, x, 1.4 + h + 0.2, 0.45);
+  }
+  return b.mesh();
+}
+// a domed cathedral (west front toward -x)
+export function cathedral() {
+  const b = new GB(), st = 0xE8E2D0, st2 = 0xD5CCB6, lead = 0x7D978F;
+  b.box(34, 9, 11, st, 0, 4.5, 0); b.box(11, 9, 30, st, 2, 4.5, 0); b.box(34.4, 0.6, 11.4, st2, 0, 9.3, 0); b.box(11.4, 0.6, 30.4, st2, 2, 9.3, 0);
+  b.add(prismGeo(34, 5.6, 3.0), lead, M(0, 9.6, 0)); b.add(prismGeo(30, 5.6, 3.0), lead, M(2, 9.6, 0, 0, Math.PI / 2, 0));
+  b.cyl(7.2, 7.4, 6, 16, st, 2, 12.5, 0); for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2; b.cyl(0.35, 0.35, 5.4, 6, st2, 2 + Math.cos(a) * 7.8, 12.3, Math.sin(a) * 7.8); }
+  b.cyl(8.2, 8.2, 0.6, 16, st2, 2, 15.4, 0); b.cyl(6.6, 6.8, 3.4, 16, st, 2, 17.2, 0);
+  b.add(new THREE.SphereGeometry(6.6, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2), lead, M(2, 18.9, 0, 0, 0, 0, 1, 1.25, 1));
+  b.cyl(1.3, 1.5, 3.2, 8, st, 2, 28.7, 0); b.cone(1.0, 2.2, 8, lead, 2, 31.4, 0); b.ball(0.5, 1, C.gold, 2, 32.8, 0); b.box(0.15, 1.4, 0.15, C.gold, 2, 33.8, 0); b.box(0.8, 0.15, 0.15, C.gold, 2, 33.9, 0);
+  for (const z of [-4.2, 4.2]) { b.box(4.2, 15, 4.2, st, -15.5, 7.5, z); b.cyl(1.7, 2.0, 4, 8, st, -15.5, 17, z); b.cone(1.6, 3.8, 8, lead, -15.5, 20.9, z); b.ball(0.35, 0, C.gold, -15.5, 23, z); }
+  for (let i = 0; i < 6; i++) b.cyl(0.42, 0.45, 6.5, 8, st2, -17.6, 3.25, -4.0 + i * 1.6);
+  b.box(1.4, 1.0, 10.4, st2, -17.6, 7.0, 0); b.add(prismGeo(1.4, 5.2, 2.0), st, M(-17.6, 7.5, 0));
+  return b.mesh();
+}
+// square stone keep with four corner turrets and lead cupolas
+export function keep() {
+  const b = new GB(), st = 0xE6DFCF, st2 = 0xD3CAB4, lead = 0x6F7F86;
+  b.box(14, 15, 12, st, 0, 7.5, 0);
+  for (let i = 0; i < 9; i++) for (const z of [-6, 6]) b.box(0.9, 0.9, 0.5, st2, -6.6 + i * 1.65, 15.45, z);
+  for (let i = 0; i < 7; i++) for (const x of [-7, 7]) b.box(0.5, 0.9, 0.9, st2, x, 15.45, -5.4 + i * 1.8);
+  for (const [x, z] of [[-7, -6], [7, -6], [-7, 6], [7, 6]]) { b.box(2.4, 19, 2.4, st, x, 9.5, z); b.cyl(1.1, 1.2, 0.9, 8, lead, x, 19.45, z); b.ball(1.25, 1, lead, x, 20.6, z, 1, 1.15, 1); b.cone(0.12, 1.3, 4, C.gold, x, 22.3, z); }
+  for (let r = 0; r < 3; r++) for (let i = 0; i < 4; i++) for (const z of [-6.04, 6.04]) b.box(0.9, 1.6, 0.12, 0x2B3140, -4.5 + i * 3, 4 + r * 4, z);
+  for (let r = 0; r < 3; r++) for (let i = 0; i < 3; i++) for (const x of [-7.04, 7.04]) b.box(0.12, 1.6, 0.9, 0x2B3140, x, 4 + r * 4, -3 + i * 3);
+  return b.mesh();
+}
+// screw press for striking coins (frame); the turning bar is a separate mesh (pressBar)
+export function press() {
+  const b = new GB(), w = 0x6E4A2C, ir = 0x6A707C;
+  b.box(1.9, 0.6, 1.4, w, 0, 0.3, 0); b.box(0.36, 3.0, 0.5, ir, -0.72, 1.8, 0); b.box(0.36, 3.0, 0.5, ir, 0.72, 1.8, 0); b.box(1.95, 0.5, 0.62, ir, 0, 3.35, 0); b.box(0.5, 0.2, 0.5, 0x8A8F99, 0, 0.7, 0);
+  return b.mesh();
+}
+export function pressBar() { const b = new GB(); b.cyl(0.13, 0.13, 2.2, 6, 0x6A707C, 0, 0, 0); b.box(3.6, 0.13, 0.13, 0x6A707C, 0, 1.0, 0); b.ball(0.32, 0, 0x4A4E58, -1.85, 1.0, 0); b.ball(0.32, 0, 0x4A4E58, 1.85, 1.0, 0); return b.mesh(); }
+// bare tree (trunk + branches); the leaves are a separate canopy mesh so they can change with the seasons
+export function treeTrunk(h) { const b = new GB(); b.cyl(0.15, 0.24, h * 0.62, 6, C.trunk, 0, h * 0.31, 0); b.cyl(0.05, 0.09, h * 0.4, 5, C.trunk, 0.32, h * 0.66, 0.1, 0, 0, -0.55); b.cyl(0.05, 0.09, h * 0.36, 5, C.trunk, -0.28, h * 0.68, -0.1, 0.2, 0, 0.6); b.cyl(0.04, 0.07, h * 0.3, 5, C.trunk, 0, h * 0.74, 0.3, 0.6, 0, 0); return b.mesh(); }
+export function canopyGeo(h, r) { const b = new GB(); for (let i = 0; i < 4; i++) b.ball(h * (0.2 + r() * 0.06), 1, 0xFFFFFF, (r() - 0.5) * h * 0.3, h * (0.78 + r() * 0.12), (r() - 0.5) * h * 0.3); return b.geo(); }
+// study with the street side open (a doll's-house view): open side faces -z; desk faces the open side
+export function study() {
+  const b = new GB(), wall = 0xE9DCC0, wood = 0x6B4226;
+  b.box(6.4, 0.24, 5.4, 0x7A5234, 0, 0.12, 0); b.box(6.4, 3.8, 0.3, wall, 0, 2.0, 2.55); b.box(0.3, 3.8, 5.4, wall, -3.05, 2.0, 0); b.box(0.3, 3.8, 5.4, wall, 3.05, 2.0, 0);
+  b.box(6.6, 0.3, 5.6, 0xD8C9A8, 0, 3.95, 0); b.box(3.6, 0.03, 2.4, 0x8B3A3A, 0, 0.255, 0.3);
+  b.box(1.5, 1.7, 0.1, 0xF3E9D6, 1.7, 2.3, 2.38); b.box(1.25, 1.45, 0.12, 0x1B2550, 1.7, 2.3, 2.37);
+  b.box(0.5, 2.7, 2.3, wood, -2.62, 1.45, 0.8); for (let i = 0; i < 4; i++) for (let k = 0; k < 6; k++) b.box(0.3, 0.42, 0.13, [0x8B2E2E, 0x2E4A7A, 0x4C7A3A, 0xB08A3A, 0x5A3A6A][(i + k * 2) % 5], -2.45, 0.6 + i * 0.62, 0.12 + k * 0.29);
+  b.box(2.6, 0.12, 1.3, wood, 0, 1.02, 0.35); for (const [x, z] of [[-1.15, -0.2], [1.15, -0.2], [-1.15, 0.9], [1.15, 0.9]]) b.box(0.12, 1.0, 0.12, wood, x, 0.5, z);
+  b.box(0.95, 0.03, 0.68, 0xF6EEDA, -0.15, 1.1, 0.25); b.cyl(0.1, 0.12, 0.16, 6, 0x1A1A22, 0.55, 1.16, 0.6);
+  b.box(0.7, 1.5, 0.12, wood, 0, 1.05, 1.85); b.box(0.75, 0.1, 0.72, wood, 0, 0.64, 1.5);
+  b.cyl(0.15, 0.18, 0.06, 8, C.gold, 0.85, 1.11, 0.25); b.cyl(0.06, 0.06, 0.34, 6, 0xFFF6E0, 0.85, 1.31, 0.25);
+  return b.mesh();
+}
+// a share certificate (paper) and an apple, ready for instancing
+export const PAPER = new THREE.BoxGeometry(0.44, 0.02, 0.32);
+export const APPLE = (() => { const b = new GB(); b.ball(0.3, 1, 0xC8282C, 0, 0, 0, 1, 0.92, 1); b.ball(0.11, 0, 0xE04848, 0.12, 0.12, 0.14); b.cyl(0.025, 0.03, 0.18, 4, 0x5A3A1E, 0, 0.32, 0); b.box(0.2, 0.03, 0.1, 0x4C9A3A, 0.1, 0.34, 0, 0, 0, 0.4); return b.geo(); })();

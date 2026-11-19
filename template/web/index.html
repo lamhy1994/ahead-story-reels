@@ -81,6 +81,43 @@ html,body{margin:0;padding:0;background:#070B24;overflow:hidden;}
 .cbox .post{font:800 32px/1 'Figtree',sans-serif;color:rgba(255,255,255,.35);padding:16px 26px;border-radius:30px;}
 .cbox .post.on{color:#1C1300;background:#F7A600;}
 .cbox .post.sent{background:#3FAE6A;color:#fff;}
+/* episode 2: price chart, loop, quote, fortune, letter */
+.spark{width:800px;text-align:center;}
+.spark svg{display:block;overflow:visible;}
+.spark .sl{fill:none;stroke:#FFB52E;stroke-width:9;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 12px rgba(255,170,40,.95)) drop-shadow(0 3px 0 rgba(5,7,20,.5));}
+.spark .sh{fill:#fff;stroke:#FFB52E;stroke-width:6;filter:drop-shadow(0 0 14px rgba(255,200,90,1));}
+.spark .lbl{margin-top:10px;font:700 21px/1 'Inter',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#FFE1A0;text-shadow:0 0 16px rgba(5,7,20,.95),0 2px 0 rgba(5,7,20,.6);}
+.chart{width:860px;height:470px;background:rgba(8,10,26,.86);border:2px solid rgba(255,225,160,.6);border-radius:30px;box-shadow:0 18px 50px rgba(5,7,20,.5);}
+.chart .t{position:absolute;left:0;right:0;top:26px;text-align:center;font:700 22px/1 'Inter',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#FFD27A;}
+.chart svg{position:absolute;left:0;top:60px;overflow:visible;}
+.chart .grid{stroke:rgba(255,255,255,.14);stroke-width:2;}
+.chart .ax{font:600 19px 'Inter',sans-serif;fill:rgba(255,255,255,.55);}
+.chart .mo{font:700 20px 'Inter',sans-serif;fill:rgba(255,255,255,.6);}
+.chart .ln{fill:none;stroke:#F7A600;stroke-width:7;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(247,166,0,.7));}
+.chart .hd{fill:#fff;stroke:#F7A600;stroke-width:5;}
+.chart .ref{stroke:rgba(255,255,255,.75);stroke-width:3;stroke-dasharray:10 10;opacity:0;}
+.chart .mk{opacity:0;} .chart .mk circle{fill:#0B0E22;stroke:#fff;stroke-width:5;} .chart .mk.buy circle{stroke:#FF7A6B;}
+.chart .mk text{font:800 22px 'Inter',sans-serif;letter-spacing:.12em;fill:#fff;}
+.chart .lb{font:800 30px 'JBM',monospace;fill:#FFC84A;opacity:0;} .chart .lless{font:700 22px 'Inter',sans-serif;fill:#fff;letter-spacing:.06em;}
+.loopc{font:700 34px/1 'Figtree',sans-serif;color:#fff;background:rgba(8,10,26,.84);border:2px solid rgba(255,225,160,.6);padding:20px 30px;border-radius:999px;box-shadow:0 12px 34px rgba(5,7,20,.45);}
+.loopc .arr{margin:0 14px;color:#F7A600;font-weight:800;}
+.quote{text-align:center;background:rgba(8,10,26,.86);border:2px solid rgba(255,225,160,.6);border-radius:26px;padding:30px 44px 28px;box-shadow:0 14px 40px rgba(5,7,20,.5);}
+.quote .q{font:700 44px/1.28 'Fraunces',serif;color:#fff;}
+.quote .q em{font-style:normal;color:#FFC84A;}
+.quote .s{margin-top:18px;font:600 19px/1 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,225,160,.8);}
+.meter b{display:inline-block;margin-left:14px;vertical-align:middle;font:800 30px/1 'JBM',monospace;color:#FFC84A;letter-spacing:0;}
+.worth{width:700px;padding:28px 0 30px;text-align:center;background:rgba(8,10,26,.86);border:2px solid rgba(255,225,160,.6);border-radius:30px;box-shadow:0 18px 50px rgba(5,7,20,.5);}
+.worth .t{font:700 22px/1 'Inter',sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#FFD27A;}
+.worth .row{margin-top:24px;font:800 64px/1 'JBM',monospace;color:#fff;letter-spacing:-2px;}
+.worth .row .v1{color:#FFC84A;} .worth .row .arr{margin:0 18px;color:rgba(255,255,255,.6);font:700 48px/1 'Figtree',sans-serif;}
+.worth .bar{margin:26px auto 0;width:560px;height:26px;border-radius:13px;background:rgba(255,255,255,.1);display:flex;overflow:hidden;}
+.worth .fill{height:26px;background:#F7A600;} .worth .gone{height:26px;background:repeating-linear-gradient(45deg,#7A7E90 0 8px,#4A4E5E 8px 16px);}
+.worth .d{display:inline-block;margin-top:22px;font:800 28px/1 'Inter',sans-serif;letter-spacing:.08em;color:#1C1300;background:#F7A600;padding:11px 20px;border-radius:12px;opacity:0;}
+.letter{width:820px;box-sizing:border-box;padding:34px 46px 30px;background:linear-gradient(#F6EBD0,#E9D6AC);border-radius:18px;box-shadow:0 18px 50px rgba(5,7,20,.55);text-align:left;white-space:normal;}
+.letter .h{font:700 20px/1 'Inter',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#8A6A3A;}
+.letter .tx{margin-top:22px;min-height:124px;font:700 50px/1.24 'Fraunces',serif;color:#2E2014;}
+.letter .tx i{display:inline-block;width:4px;height:46px;margin-left:4px;vertical-align:-6px;background:#8A6A3A;}
+.letter .sg{margin-top:22px;font:600 22px/1 'Inter',sans-serif;color:#6A5030;text-align:right;}
 #foot{position:absolute;left:0;right:0;top:1556px;text-align:center;font:500 18.5px/1.5 'Inter',sans-serif;color:rgba(255,255,255,.66);letter-spacing:.01em;white-space:pre;text-shadow:0 0 10px rgba(5,7,20,.9);}
 </style>
 <script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
