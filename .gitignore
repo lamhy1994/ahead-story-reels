@@ -13,3 +13,10 @@ template/audio/
 template/render/
 *.mp4
 *.wav
+# Episode folders are working copies of template/; git keeps only these five files per episode (SKILL.md §8)
+episodes/*/*
+!episodes/*/script.py
+!episodes/*/scene.js
+!episodes/*/audio_build.py
+!episodes/*/sources.md
+!episodes/*/caption.txt
