@@ -66,5 +66,17 @@
    "NVDA closes 11 Nov 173.73 and 18 Nov 150.96: Yahoo Finance and StatMuse (read 20 Nov 2026); 12 Nov intraday -14.3%: Motley Fool, Wealth Professional"
   ],
   "length_s": 89.9
+ },
+ {
+  "n": 5,
+  "slug": "005-bitcoin-dominoes",
+  "title": "The Bitcoin Dominoes",
+  "event": "Bitcoin falls below $60,000 for the first time since July (20 Nov 2026) after about $2 billion of crypto liquidations in one day (weekend of 14-15 Nov 2026)",
+  "story": "Bitcoin's November 2026 slide below $60,000",
+  "angle": "the mechanism: bets made with borrowed money are closed by force as the price falls, and each forced sale pushes the price lower (liquidation dominoes); the weekend $2 billion of liquidations and the break below $60,000",
+  "window": "14 days",
+  "keyword": "SELL/HOLD",
+  "made": "2026-11-21",
+  "posted": null
  }
 ]
