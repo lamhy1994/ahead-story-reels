@@ -44,8 +44,12 @@ export class GB {
 // ───────── people
 export function person(o = {}) {
   // options: robe, skin, hat, sash, crown, bigHat, scroll; 18th-century London: wig, tricorn, dress, bonnet, collar, paper, noHat
+  // Yap, 1903 (episode 3): bare (skin-coloured chest, robe = skirt), hair, helmet (pith helmet colour), flower (hair flower colour)
   const b = new GB(), robe = o.robe ?? 0x3B4A9A, skin = o.skin ?? 0x8D5E3F, hat = o.hat ?? 0xF6EFE2;
-  if (o.dress) b.cyl(0.2, 0.62, 1.15, 8, robe, 0, 0.575, 0); else b.cyl(0.2, 0.46, 1.15, 7, robe, 0, 0.575, 0);
+  if (o.bare) { b.cyl(0.21, 0.3, 0.6, 7, skin, 0, 0.87, 0); b.cyl(0.3, 0.47, 0.62, 7, robe, 0, 0.31, 0); }
+  else if (o.dress) b.cyl(0.2, 0.62, 1.15, 8, robe, 0, 0.575, 0); else b.cyl(0.2, 0.46, 1.15, 7, robe, 0, 0.575, 0);
+  if (o.hair) { b.ball(0.3, 1, o.hair, -0.04, 1.52, 0, 1, 0.78, 1.04); if (o.flower) b.ball(0.08, 0, o.flower, 0.02, 1.62, 0.25); }
+  if (o.helmet) { b.ball(0.31, 1, o.helmet, 0, 1.62, 0, 1.05, 0.72, 1.05); b.cyl(0.47, 0.47, 0.04, 10, o.helmet, 0, 1.6, 0); b.cyl(0.29, 0.29, 0.05, 8, 0x8A6A3A, 0, 1.64, 0); }
   if (o.sash) b.cyl(0.3, 0.33, 0.14, 7, o.sash, 0, 0.78, 0);
   if (o.collar) b.cyl(0.22, 0.25, 0.1, 7, o.collar, 0, 1.12, 0);
   b.ball(0.28, 1, skin, 0, 1.43, 0);
@@ -54,7 +58,7 @@ export function person(o = {}) {
   else if (o.tricorn) { b.cone(0.5, 0.2, 3, o.tricorn, 0, 1.8 + (o.wig ? 0.04 : 0), 0, 0, Math.PI / 2, 0); b.cyl(0.21, 0.25, 0.2, 7, o.tricorn, 0, 1.86 + (o.wig ? 0.04 : 0), 0); }
   else if (o.bonnet) { b.ball(0.33, 1, o.bonnet, -0.04, 1.56, 0, 1.05, 0.72, 1.05); b.cyl(0.42, 0.42, 0.04, 9, o.bonnet, 0.02, 1.62, 0); }
   else if (o.bigHat) { b.ball(0.34, 1, hat, 0, 1.66, 0, 1, 0.62, 1); }
-  else if (!o.wig && !o.noHat) b.cyl(0.29, 0.31, 0.18, 7, hat, 0, 1.64, 0);
+  else if (!o.wig && !o.noHat && !o.hair && !o.helmet) b.cyl(0.29, 0.31, 0.18, 7, hat, 0, 1.64, 0);
   if (o.scroll) { b.cyl(0.07, 0.07, 0.6, 6, 0xFBF3DF, 0.36, 0.95, 0, Math.PI / 2, 0, 0); b.cone(0.03, 0.42, 4, 0xFFFFFF, 0.42, 1.25, 0.18, 0, 0, -0.5); }
   if (o.paper) b.box(0.05, 0.4, 0.3, 0xFBF6E8, 0.36, 1.62, 0.18, 0, 0, -0.25);
   const m = b.mesh(); m.scale.setScalar(o.s ?? 1); return m;
@@ -241,3 +245,46 @@ export function study() {
 // a share certificate (paper) and an apple, ready for instancing
 export const PAPER = new THREE.BoxGeometry(0.44, 0.02, 0.32);
 export const APPLE = (() => { const b = new GB(); b.ball(0.3, 1, 0xC8282C, 0, 0, 0, 1, 0.92, 1); b.ball(0.11, 0, 0xE04848, 0.12, 0.12, 0.14); b.cyl(0.025, 0.03, 0.18, 4, 0x5A3A1E, 0, 0.32, 0); b.box(0.2, 0.03, 0.1, 0x4C9A3A, 0.1, 0.34, 0, 0, 0, 0.4); return b.geo(); })();
+
+// ───────── Yap, 1903 (episode 3): stone money, outrigger canoe, raft, thatched house, Palau's rock islands
+// fei (stone money): a limestone wheel with a hole, thicker at the hole. Standing on its rim, facing ±x (axis along x), bottom at y = 0.
+export function feiGeo(R, o = {}) {
+  const ri = R * (o.hole ?? 0.17), th = R * (o.th ?? 0.3), n = o.seg ?? 14;
+  const pts = [[ri, -th / 2], [R * 0.6, -th * 0.4], [R * 0.93, -th * 0.27], [R, 0], [R * 0.93, th * 0.27], [R * 0.6, th * 0.4], [ri, th / 2], [ri, -th / 2]].map(([x, y]) => new THREE.Vector2(x, y));
+  const g = new THREE.LatheGeometry(pts, n).toNonIndexed();
+  if (o.lying) g.translate(0, th / 2, 0); else g.rotateZ(Math.PI / 2).translate(0, R, 0);
+  const col = new THREE.Color(o.color ?? 0xD9D1BC), c = new THREE.Color(), r = o.rand ?? Math.random, a = [];
+  for (let i = 0; i < g.attributes.position.count; i += 3) { c.copy(col).offsetHSL(0, 0, (r() - 0.5) * 0.06); for (let k = 0; k < 3; k++) a.push(c.r, c.g, c.b); }
+  g.setAttribute('color', new THREE.Float32BufferAttribute(a, 3)); g.computeVertexNormals(); return g;
+}
+export const feiFace = (R, r, o = {}) => { const ri = R * (o.hole ?? 0.17), th = R * (o.th ?? 0.3); return r <= R * 0.6 ? lerp3(th / 2, th * 0.4, (r - ri) / (R * 0.6 - ri)) : lerp3(th * 0.4, th * 0.27, (r - R * 0.6) / (R * 0.33)); };   // half-thickness at radius r
+const lerp3 = (a, b, u) => a + (b - a) * Math.max(0, Math.min(1, u));
+export function fei(R, o = {}) { const m = new THREE.Mesh(feiGeo(R, o), o.mat ?? MAT); m.castShadow = true; m.receiveShadow = true; return m; }
+// outrigger canoe with a crab-claw sail; bow toward +x, outrigger on the +z side; origin at the waterline
+export function canoe(o = {}) {
+  const b = new GB(), hull = o.hull ?? 0x6B4630, trim = o.trim ?? 0xB8383B, sail = o.sail ?? 0xE6D3A3, L = o.L ?? 4.6;
+  b.box(L * 0.72, 0.5, 0.62, hull, 0, 0.05, 0); b.box(L * 0.2, 0.42, 0.5, hull, L * 0.43, 0.12, 0, 0, 0, 0.32); b.box(L * 0.2, 0.42, 0.5, hull, -L * 0.43, 0.12, 0, 0, 0, -0.32);
+  b.box(L * 0.74, 0.08, 0.66, trim, 0, 0.32, 0); b.box(0.08, 0.5, 0.08, trim, L * 0.53, 0.42, 0); b.box(0.08, 0.5, 0.08, trim, -L * 0.53, 0.42, 0);
+  for (const x of [-0.7, 0.7]) b.box(0.1, 0.1, 2.0, 0x8A6A44, x, 0.36, 1.0);
+  b.cyl(0.13, 0.13, L * 0.6, 6, 0x7A5A3A, 0, -0.02, 2.0, 0, 0, Math.PI / 2); b.cone(0.13, 0.4, 6, 0x7A5A3A, L * 0.32, -0.02, 2.0, 0, 0, -Math.PI / 2);
+  if (!o.noSail) { b.cyl(0.05, 0.06, 3.4, 5, 0x5A3E28, 0.1, 1.9, 0); b.add(new THREE.ConeGeometry(1.4, 3.3, 3), sail, M(-0.25, 2.2, 0, 0, 0.5, 0.22, 1, 1, 0.07)); }
+  return b.mesh();
+}
+// bamboo raft (logs along x), top at y ≈ 0.3
+export function raft(L = 5.2, Wd = 3.0) { const b = new GB(); const n = 9; for (let i = 0; i < n; i++) b.cyl(Wd / n / 2 * 1.05, Wd / n / 2 * 1.05, L, 6, i % 2 ? 0xC4AB66 : 0xB59A58, 0, 0.12, -Wd / 2 + (i + 0.5) * Wd / n, 0, 0, Math.PI / 2); for (const x of [-L * 0.36, 0, L * 0.36]) b.box(0.16, 0.12, Wd + 0.2, 0x7A5A3A, x, 0.3, 0); return b.mesh(); }
+// Yapese house on a stone platform: steep thatched roof, ridge along x, door side +z
+export function hut(w, d, o = {}) {
+  const b = new GB(), st = o.stone ?? 0x98948A, wall = o.wall ?? 0x9C7A4C, roof = o.roof ?? 0x8C7646, ph = o.ph ?? 0.8, wh = o.wh ?? 1.7, rh = o.rh ?? Math.min(4.2, d * 0.95);
+  b.box(w + 2.2, ph, d + 2.2, st, 0, ph / 2, 0); b.box(w + 2.3, 0.1, d + 2.3, 0xA8A398, 0, ph + 0.02, 0);
+  b.box(w, wh, d, wall, 0, ph + wh / 2, 0); b.box(1.0, 1.25, 0.1, 0x3A2A1C, 0, ph + 0.63, d / 2 + 0.03);
+  for (const x of [-w / 2, w / 2]) for (const z of [-d / 2, d / 2]) b.box(0.18, wh + 0.1, 0.18, 0x5A3E28, x, ph + wh / 2, z);
+  b.add(prismGeo(w + 1.0, d / 2 + 0.7, rh), roof, M(0, ph + wh - 0.05, 0));
+  b.add(prismGeo(w + 1.3, 0.22, 0.28), 0x6E5A34, M(0, ph + wh - 0.05 + rh - 0.12, 0));
+  for (const s of [-1, 1]) b.box(0.22, 0.9, 0.22, 0x6E5A34, s * (w / 2 + 0.75), ph + wh + rh + 0.1, 0, 0, 0, -s * 0.5);
+  const m = b.mesh(); m.userData = { w, d, h: ph + wh + rh }; return m;
+}
+// a limestone rock island (Palau): undercut white rock with a green cap
+export function rockIsle(r, h, rand = Math.random) { const b = new GB(); b.cyl(r * 0.8, r * 0.55, h * 0.55, 7, 0xD8D2C2, 0, h * 0.27, 0); b.ball(r, 1, 0x3E8A50, 0, h * 0.62, 0, 1, 0.55 + rand() * 0.2, 1); b.ball(r * 0.6, 1, 0x4C9A5C, r * 0.3, h * 0.8, r * 0.2, 1, 0.6, 1); return b.mesh(); }
+// a round broadleaf tree (breadfruit-like)
+export function bushTree(h, rand = Math.random) { const b = new GB(); b.cyl(0.18, 0.26, h * 0.6, 6, C.trunk, 0, h * 0.3, 0); for (let i = 0; i < 3; i++) b.ball(h * (0.26 + rand() * 0.08), 1, [0x3F8F57, 0x4C9A62, 0x357F4C][i], (rand() - 0.5) * h * 0.35, h * (0.68 + rand() * 0.14), (rand() - 0.5) * h * 0.35); return b.mesh(); }
+export const FISH = (() => { const b = new GB(); b.ball(0.22, 0, 0xFFFFFF, 0, 0, 0, 1.6, 0.8, 0.5); b.cone(0.16, 0.3, 3, 0xFFFFFF, -0.42, 0, 0, 0, 0, Math.PI / 2); return b.geo(); })();
