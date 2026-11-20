@@ -1,1 +1,1 @@
-One file per day (Malaysia date, YYYY-MM-DD.md) with that day's single vidIQ outlier search: query, date filter, and the top results (account, views, multiple of median). Later runs that day reuse it instead of paying again.
+One file per day (Malaysia date, YYYY-MM-DD.md). Every paid vidIQ call that day: time, query, credits, and the top results (account, views, multiple of median). Daily cap 20 credits across all runs; later runs read it first and reuse what already covers their candidates.
