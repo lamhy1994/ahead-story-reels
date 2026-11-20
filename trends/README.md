@@ -1,0 +1,1 @@
+One file per day (Malaysia date, YYYY-MM-DD.md) with that day's single vidIQ outlier search: query, date filter, and the top results (account, views, multiple of median). Later runs that day reuse it instead of paying again.
