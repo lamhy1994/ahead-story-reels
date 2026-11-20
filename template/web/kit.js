@@ -44,11 +44,13 @@ export class GB {
 // ───────── people
 export function person(o = {}) {
   // options: robe, skin, hat, sash, crown, bigHat, scroll; 18th-century London: wig, tricorn, dress, bonnet, collar, paper, noHat
+  // Silicon Valley (episode 4): toque (chef's hat), apron, shirt (colour of the shirt opening), tie, mic, cam, badge, short (short hair colour) for modern people
   // Yap, 1903 (episode 3): bare (skin-coloured chest, robe = skirt), hair, helmet (pith helmet colour), flower (hair flower colour)
   const b = new GB(), robe = o.robe ?? 0x3B4A9A, skin = o.skin ?? 0x8D5E3F, hat = o.hat ?? 0xF6EFE2;
   if (o.bare) { b.cyl(0.21, 0.3, 0.6, 7, skin, 0, 0.87, 0); b.cyl(0.3, 0.47, 0.62, 7, robe, 0, 0.31, 0); }
   else if (o.dress) b.cyl(0.2, 0.62, 1.15, 8, robe, 0, 0.575, 0); else b.cyl(0.2, 0.46, 1.15, 7, robe, 0, 0.575, 0);
   if (o.hair) { b.ball(0.3, 1, o.hair, -0.04, 1.52, 0, 1, 0.78, 1.04); if (o.flower) b.ball(0.08, 0, o.flower, 0.02, 1.62, 0.25); }
+  if (o.short) b.ball(0.29, 1, o.short, -0.08, 1.56, 0, 0.92, 0.6, 1.02);   // short modern hair: leaves the face clear
   if (o.helmet) { b.ball(0.31, 1, o.helmet, 0, 1.62, 0, 1.05, 0.72, 1.05); b.cyl(0.47, 0.47, 0.04, 10, o.helmet, 0, 1.6, 0); b.cyl(0.29, 0.29, 0.05, 8, 0x8A6A3A, 0, 1.64, 0); }
   if (o.sash) b.cyl(0.3, 0.33, 0.14, 7, o.sash, 0, 0.78, 0);
   if (o.collar) b.cyl(0.22, 0.25, 0.1, 7, o.collar, 0, 1.12, 0);
@@ -58,7 +60,15 @@ export function person(o = {}) {
   else if (o.tricorn) { b.cone(0.5, 0.2, 3, o.tricorn, 0, 1.8 + (o.wig ? 0.04 : 0), 0, 0, Math.PI / 2, 0); b.cyl(0.21, 0.25, 0.2, 7, o.tricorn, 0, 1.86 + (o.wig ? 0.04 : 0), 0); }
   else if (o.bonnet) { b.ball(0.33, 1, o.bonnet, -0.04, 1.56, 0, 1.05, 0.72, 1.05); b.cyl(0.42, 0.42, 0.04, 9, o.bonnet, 0.02, 1.62, 0); }
   else if (o.bigHat) { b.ball(0.34, 1, hat, 0, 1.66, 0, 1, 0.62, 1); }
-  else if (!o.wig && !o.noHat && !o.hair && !o.helmet) b.cyl(0.29, 0.31, 0.18, 7, hat, 0, 1.64, 0);
+  else if (o.toque) { b.cyl(0.25, 0.23, 0.42, 8, 0xFFFFFF, 0, 1.8, 0); b.ball(0.33, 1, 0xFFFFFF, 0, 2.08, 0, 1, 0.7, 1); }
+  else if (!o.wig && !o.noHat && !o.hair && !o.short && !o.helmet) b.cyl(0.29, 0.31, 0.18, 7, hat, 0, 1.64, 0);
+  // Silicon Valley, 2026 (episode 4): shirt opening, tie, apron, a reporter's microphone, a shoulder camera, a lanyard badge
+  if (o.shirt) b.box(0.07, 0.34, 0.2, o.shirt, 0.2, 1.0, 0, 0, 0, 0.12);
+  if (o.tie) b.box(0.05, 0.32, 0.07, o.tie, 0.235, 0.96, 0, 0, 0, 0.12);
+  if (o.apron) b.box(0.07, 0.86, 0.46, 0xFBF8F2, 0.36, 0.55, 0, 0, 0, 0.2);
+  if (o.mic) { b.cyl(0.025, 0.025, 0.26, 5, 0x2A2A2A, 0.42, 1.2, 0.12, 0, 0, -0.3); b.ball(0.07, 0, 0x3A3A3A, 0.46, 1.33, 0.12); }
+  if (o.cam) { b.box(0.62, 0.34, 0.3, 0x2E3238, 0.1, 1.5, 0.3); b.cyl(0.1, 0.12, 0.16, 8, 0x1A1C20, 0.46, 1.5, 0.3, 0, 0, Math.PI / 2); }
+  if (o.badge) b.box(0.04, 0.16, 0.11, 0xF2F2F2, 0.24, 0.82, -0.08);
   if (o.scroll) { b.cyl(0.07, 0.07, 0.6, 6, 0xFBF3DF, 0.36, 0.95, 0, Math.PI / 2, 0, 0); b.cone(0.03, 0.42, 4, 0xFFFFFF, 0.42, 1.25, 0.18, 0, 0, -0.5); }
   if (o.paper) b.box(0.05, 0.4, 0.3, 0xFBF6E8, 0.36, 1.62, 0.18, 0, 0, -0.25);
   const m = b.mesh(); m.scale.setScalar(o.s ?? 1); return m;
@@ -288,3 +298,135 @@ export function rockIsle(r, h, rand = Math.random) { const b = new GB(); b.cyl(r
 // a round broadleaf tree (breadfruit-like)
 export function bushTree(h, rand = Math.random) { const b = new GB(); b.cyl(0.18, 0.26, h * 0.6, 6, C.trunk, 0, h * 0.3, 0); for (let i = 0; i < 3; i++) b.ball(h * (0.26 + rand() * 0.08), 1, [0x3F8F57, 0x4C9A62, 0x357F4C][i], (rand() - 0.5) * h * 0.35, h * (0.68 + rand() * 0.14), (rand() - 0.5) * h * 0.35); return b.mesh(); }
 export const FISH = (() => { const b = new GB(); b.ball(0.22, 0, 0xFFFFFF, 0, 0, 0, 1.6, 0.8, 0.5); b.cone(0.16, 0.3, 3, 0xFFFFFF, -0.42, 0, 0, 0, 0, Math.PI / 2); return b.geo(); })();
+
+// ───────── Silicon Valley, 1993–2026 (episode 4): towers, HQ, diner, cars, TV vans, chips, server racks, a storybook bakery, a ledger, a magnifier
+// Lit windows share one material; the scene sets its emissiveIntensity from the night factor (day: plain glass, night: warm light).
+export const WIN_LIT = new THREE.MeshLambertMaterial({ vertexColors: true, emissive: 0xFFC46A, emissiveIntensity: 0 });
+export const GLASS_M = new THREE.MeshLambertMaterial({ color: 0xBFE3F2, transparent: true, opacity: 0.18, depthWrite: false });
+// office tower: concrete or glass body, a band of panes on every floor of all four faces; some panes are "lit" (WIN_LIT) for the night
+export function tower(w, h, d, o = {}) {
+  const b = new GB(), lw = new GB(), r = o.rand ?? Math.random, col = o.color ?? 0xD9D3C6, glass = o.glass ?? 0x5E7F9A, fr = o.frame ?? 0xEEE9DE, fl = o.floor ?? 3.3, litP = o.litP ?? 0.55;
+  b.box(w, h, d, col, 0, h / 2, 0); b.box(w + 0.3, 0.55, d + 0.3, fr, 0, h + 0.27, 0);
+  if (o.crown) { b.box(w * 0.7, 2.2, d * 0.7, fr, 0, h + 1.6, 0); b.box(w * 0.4, 2.6, d * 0.4, col, 0, h + 3.9, 0); }
+  else if (!o.bare && r() < 0.7) { b.box(w * 0.34, 1.3, d * 0.3, 0x9EA2A6, (r() - .5) * w * 0.3, h + 1.2, (r() - .5) * d * 0.3); b.box(w * 0.2, 0.9, d * 0.2, 0x8C9096, (r() - .5) * w * 0.3, h + 1.0, (r() - .5) * d * 0.3); }
+  const nF = Math.max(1, Math.floor((h - 1.6) / fl));
+  for (let i = 0; i < nF; i++) {
+    const y = 2.0 + i * fl + fl * 0.3;
+    for (const [ax, len] of [['z', w], ['x', d]]) {
+      const n = Math.max(1, Math.round(len / 2.3)), pw = len / n;
+      for (let k = 0; k < n; k++) for (const s of [-1, 1]) {
+        const c = -len / 2 + pw * (k + 0.5), g = r() < litP ? lw : b;
+        if (ax === 'z') g.box(pw - 0.32, fl * 0.56, 0.12, glass, c, y, s * (d / 2 + 0.04)); else g.box(0.12, fl * 0.56, pw - 0.32, glass, s * (w / 2 + 0.04), y, c);
+      }
+    }
+  }
+  if (o.lobby) { b.box(w * 0.6, 2.6, 0.16, 0x2E4458, 0, 1.3, d / 2 + 0.05); b.box(w * 0.7, 0.25, 1.6, fr, 0, 2.75, d / 2 + 0.8); }
+  const g = new THREE.Group(); const body = b.mesh(); g.add(body);
+  if (lw.p.length) { const m = new THREE.Mesh(lw.geo(), WIN_LIT); m.castShadow = true; g.add(m); }
+  g.userData = { w, h, d }; return g;
+}
+// headquarters: a glass atrium between two lower wings; entrance (glass doors, canopy, steps) on +z; flat roof terrace on the atrium
+export function hq(o = {}) {
+  const r = o.rand ?? Math.random, g = new THREE.Group(), glass = 0x4E7C93, fr = 0xF1EDE4, AH = o.ah ?? 22, AW = 18, AD = 16;
+  const at = tower(AW, AH, AD, { rand: r, color: 0x6D97AA, glass: 0x3F6A80, frame: fr, litP: 0.6, floor: 3.6, bare: true }); g.add(at); const RY = AH + 0.55;   // top of the tower's cap
+  for (const s of [-1, 1]) { const wg = tower(16, 13, 20, { rand: r, color: 0xE4DED2, glass, frame: fr, litP: 0.55 }); wg.position.set(s * 17, 0, -1); g.add(wg); }
+  const b = new GB();
+  b.box(8, 3.4, 0.2, 0x26404F, 0, 1.7, AD / 2 + 0.08); for (let i = -2; i <= 2; i++) b.box(0.14, 3.4, 0.3, fr, i * 2, 1.7, AD / 2 + 0.12);
+  b.box(12, 0.35, 4.2, fr, 0, 4.2, AD / 2 + 2.0); for (const x of [-5.6, 5.6]) b.box(0.3, 4.1, 0.3, fr, x, 2.05, AD / 2 + 3.9);
+  b.box(12.4, 0.06, 4.4, 0xCFC7B6, 0, 0.03, AD / 2 + 2.1);                                     // entrance paving under the canopy
+  b.box(AW + 0.6, 1.1, 0.2, fr, 0, RY + 0.55, AD / 2 + 0.2); b.box(AW + 0.6, 1.1, 0.2, fr, 0, RY + 0.55, -AD / 2 - 0.2); b.box(0.2, 1.1, AD + 0.6, fr, AW / 2 + 0.2, RY + 0.55, 0); b.box(0.2, 1.1, AD + 0.6, fr, -AW / 2 - 0.2, RY + 0.55, 0);   // roof railing
+  b.box(AW - 0.4, 0.12, AD - 0.4, 0xB9B2A4, 0, RY + 0.06, 0);   // terrace deck
+  for (const [x, z] of [[-7, -5.5], [7, -5.5], [-7, 5.5], [7, 5.5]]) { b.box(1.4, 0.8, 1.4, 0x9C8E78, x, RY + 0.4, z); b.ball(0.9, 1, 0x4C9A62, x, RY + 1.3, z); }   // planters
+  const m = b.mesh(); g.add(m); g.userData = { roofY: RY + 0.12, doorZ: AD / 2 + 0.2, AW, AD }; return g;
+}
+// 1993 roadside diner: long and low, big windows on the front (+z), door at the +x end, a booth just inside the front windows
+export function diner(o = {}) {
+  const g = new THREE.Group(), b = new GB(), gl = new GB(), L = 14, D = 6.4, H = 3.7, st = o.stripe ?? 0xC8423A, wall = o.wall ?? 0xF2E6CF, fr = 0xDCDCDC;
+  b.box(L + 0.4, 0.3, D + 0.4, 0x9A948A, 0, 0.15, 0);                                        // floor slab
+  b.box(L, H, 0.25, wall, 0, H / 2, -D / 2);                                                  // back wall
+  for (const s of [-1, 1]) b.box(0.25, H, D, wall, s * L / 2, H / 2, 0);                      // ends
+  b.box(L, 0.85, 0.25, wall, 0, 0.425, D / 2); b.box(L, 0.75, 0.25, wall, 0, H - 0.375, D / 2);  // front: low wall + top band (big windows between)
+  b.box(L + 0.06, 0.2, 0.3, st, 0, 0.72, D / 2 + 0.02); b.box(L + 0.06, 0.32, 0.3, st, 0, H - 0.2, D / 2 + 0.02);
+  for (let i = 0; i <= 7; i++) b.box(0.16, H - 1.6, 0.3, fr, -L / 2 + 0.1 + i * (L - 0.2) / 7, 0.85 + (H - 1.6) / 2, D / 2);   // window mullions
+  for (let i = 0; i < 7; i++) gl.box((L - 0.2) / 7 - 0.18, H - 1.6, 0.04, 0xffffff, -L / 2 + 0.1 + (i + 0.5) * (L - 0.2) / 7, 0.85 + (H - 1.6) / 2, D / 2 + 0.02);
+  b.box(L + 1.2, 0.3, D + 1.4, 0xE9E2D2, 0, H + 0.15, 0.25); b.box(L + 1.24, 0.34, 0.3, st, 0, H + 0.15, D / 2 + 0.95);   // roof with an overhang
+  b.box(1.1, 2.3, 0.1, 0x6B4A2E, L / 2 - 0.2, 1.15, D / 2 + 0.6);                           // door (in a vestibule)
+  b.box(1.6, 2.6, 1.2, wall, L / 2 - 0.2, 1.3, D / 2 + 0.6 - 0.65); 
+  // inside: counter with stools along the back, booths along the front windows
+  b.box(L - 4, 1.05, 0.9, 0xB8B0A2, 0.6, 0.53, -D / 2 + 1.1); b.box(L - 3.9, 0.08, 1.05, 0xE0D8C8, 0.6, 1.08, -D / 2 + 1.1);
+  for (let i = 0; i < 7; i++) { b.cyl(0.05, 0.05, 0.7, 5, 0x9A9A9A, -4.4 + i * 1.6, 0.35, -D / 2 + 2.0); b.cyl(0.24, 0.22, 0.12, 8, st, -4.4 + i * 1.6, 0.74, -D / 2 + 2.0); }
+  const booths = [];
+  for (const bx of [-3.94, 0, 3.94]) {   // one booth behind each window pane (the front benches have no backs, so you can see in)
+    b.box(1.9, 0.08, 0.9, 0xE8E0CC, bx, 0.82, 1.55); b.box(0.12, 0.8, 0.12, 0x9A9A9A, bx, 0.4, 1.55);   // table
+    b.box(1.9, 0.42, 0.55, st, bx, 0.45, 0.78); b.box(1.9, 1.15, 0.16, st, bx, 0.95, 0.48); b.box(1.9, 0.42, 0.55, st, bx, 0.45, 2.32);
+    booths.push([bx, 1.55]);
+  }
+  for (let i = 0; i < 4; i++) { b.cyl(0.36, 0.36, 0.06, 8, 0xFFF1C8, -4.8 + i * 3.2, H - 0.12, 0.6); }                       // ceiling lamps
+  const m = b.mesh(); g.add(m); const gm = new THREE.Mesh(gl.geo(), GLASS_M); gm.renderOrder = 2; g.add(gm);
+  g.userData = { L, D, H, booths }; return g;
+}
+// a sign on a tall pole (the panel itself is a separate textured plane added by the scene at y = h)
+export function signPole(h, pw = 4.4) { const b = new GB(); b.cyl(0.18, 0.24, h, 8, 0x8A8F96, 0, h / 2, 0); b.box(pw + 0.4, 0.3, 0.5, 0xC8423A, 0, h - 1.15, 0); b.box(pw + 0.4, 0.3, 0.5, 0xC8423A, 0, h + 1.15, 0); return b.mesh(); }
+// car (bow toward +x); o.boxy = early-1990s shape
+export function car(col, o = {}) {
+  const b = new GB(), dk = 0x26303A, L = o.L ?? 4.3;
+  b.box(L, 0.72, 1.82, col, 0, 0.68, 0); b.box(L * (o.boxy ? 0.5 : 0.46), 0.66, 1.62, col, -L * 0.05, 1.36, 0); b.box(L * (o.boxy ? 0.5 : 0.46) + 0.04, 0.46, 1.64, dk, -L * 0.05, 1.38, 0);
+  b.box(0.08, 0.2, 0.36, 0xFFF4D0, L / 2 + 0.01, 0.78, 0.6); b.box(0.08, 0.2, 0.36, 0xFFF4D0, L / 2 + 0.01, 0.78, -0.6); b.box(0.08, 0.18, 0.4, 0xC8282C, -L / 2 - 0.01, 0.8, 0.6); b.box(0.08, 0.18, 0.4, 0xC8282C, -L / 2 - 0.01, 0.8, -0.6);
+  for (const x of [L * 0.32, -L * 0.32]) for (const z of [0.86, -0.86]) b.cyl(0.36, 0.36, 0.26, 10, 0x1E2226, x, 0.36, z, Math.PI / 2, 0, 0);
+  return b.mesh();
+}
+// TV news van with a satellite dish (bow toward +x)
+export function van(o = {}) {
+  const b = new GB(), col = o.color ?? 0xF4F2EC, st = o.stripe ?? 0x2F6FB8, dk = 0x26303A;
+  b.box(5.2, 2.2, 2.1, col, -0.3, 1.4, 0); b.box(1.4, 1.5, 2.0, col, 2.9, 1.05, 0); b.box(0.9, 0.7, 1.96, dk, 3.05, 1.5, 0, 0, 0, 0.3); b.box(5.24, 0.28, 2.14, st, -0.3, 1.3, 0);
+  for (const x of [2.6, -1.9]) for (const z of [0.95, -0.95]) b.cyl(0.42, 0.42, 0.3, 10, 0x1E2226, x, 0.42, z, Math.PI / 2, 0, 0);
+  b.cyl(0.08, 0.1, 1.2, 6, 0x8A8F96, -1.2, 3.1, 0); b.add(new THREE.SphereGeometry(1.0, 12, 4, 0, Math.PI * 2, 0, Math.PI / 2.6), 0xE8E8E8, M(-1.2, 3.6, 0, 0, 0, -1.1, 1, 0.45, 1)); b.cyl(0.03, 0.03, 0.8, 4, 0x8A8F96, -0.8, 3.75, 0, 0, 0, -1.1);
+  b.cyl(0.06, 0.08, 2.6, 6, 0x9A9A9A, 0.8, 3.8, 0.7); b.box(0.5, 0.3, 0.3, 0x3A3A3A, 0.8, 5.1, 0.7);
+  return b.mesh();
+}
+// street lamp (the head's glow is a separate emissive mesh in the scene at y = h)
+export function lamp(h = 6) { const b = new GB(); b.cyl(0.09, 0.13, h, 6, 0x5A5F66, 0, h / 2, 0); b.box(1.4, 0.1, 0.12, 0x5A5F66, 0.65, h - 0.05, 0); b.box(0.6, 0.18, 0.34, 0x4A4E54, 1.25, h - 0.18, 0); return b.mesh(); }
+// a graphics chip: dark package with a silver lid and gold pins, lying flat, 1 x 1 at s = 1 (for InstancedMesh with MAT)
+export const CHIP = (() => { const b = new GB(); b.box(1.0, 0.12, 1.0, 0x1F3B2E, 0, 0.06, 0); b.box(0.62, 0.08, 0.62, 0xC9CED6, 0, 0.16, 0); b.box(0.3, 0.02, 0.3, 0x9AA2AE, 0, 0.21, 0);
+  for (let i = 0; i < 6; i++) for (const s of [-1, 1]) { const c = -0.375 + i * 0.15; b.box(0.08, 0.04, 0.12, 0xE2B24A, c, 0.04, s * 0.53); b.box(0.12, 0.04, 0.08, 0xE2B24A, s * 0.53, 0.04, c); }
+  return b.geo(); })();
+// server rack (front toward +z); its LEDs come back as a second geometry for an emissive material
+export function rack() { const b = new GB(), l = new GB(); b.box(0.9, 2.3, 1.2, 0x2A2F38, 0, 1.15, 0); for (let i = 0; i < 9; i++) { b.box(0.8, 0.18, 0.04, 0x3A404C, 0, 0.3 + i * 0.22, 0.61); l.box(0.06, 0.05, 0.03, 0xffffff, -0.3 + (i % 3) * 0.08, 0.3 + i * 0.22, 0.635); l.box(0.06, 0.05, 0.03, 0xffffff, 0.28, 0.3 + i * 0.22, 0.635); } return [b.geo(), l.geo()]; }
+// conveyor belt along x, top at y = 1.0
+export function conveyor(L) { const b = new GB(); b.box(L, 0.16, 1.5, 0x2C2F35, 0, 1.0, 0); b.box(L, 0.22, 0.12, 0xE0A23A, 0, 1.0, 0.8); b.box(L, 0.22, 0.12, 0xE0A23A, 0, 1.0, -0.8); for (let x = -L / 2 + 0.6; x < L / 2; x += 1.6) for (const z of [0.7, -0.7]) b.box(0.14, 0.95, 0.14, 0x8A8F96, x, 0.47, z); return b.mesh(); }
+// fab / data hall: a long low building whose +x side is open (a doll's-house view of the racks inside)
+export function hall(L, D, H) { const b = new GB(), wall = 0xE6E1D6; b.box(L, 0.2, D, 0xB8B2A6, 0, 0.1, 0); b.box(L, H, 0.3, wall, 0, H / 2, -D / 2); b.box(L, H, 0.3, wall, 0, H / 2, D / 2); b.box(0.3, H, D, wall, -L / 2, H / 2, 0); b.box(L + 0.6, 0.4, D + 0.6, 0xCFC8BA, 0, H + 0.2, 0); for (let i = 0; i < 4; i++) b.box(1.6, 1.1, 1.6, 0x9EA2A6, -L / 2 + 3 + i * (L - 6) / 3, H + 0.95, 0); b.box(0.3, 0.8, D, wall, L / 2, H - 0.4, 0); return b.mesh(); }
+// storybook bakery, doll's-house style: the front (+z) is open; oven at the back left, bread shelves at the back right, counter in front
+export function bakery(o = {}) {
+  const b = new GB(), wall = 0xF3E3C3, wd = 0x8A5A34, W = 9, D = 6, H = 4.2, brick = 0xB5603E;
+  b.box(W, 0.2, D, 0xCFB48C, 0, 0.1, 0); b.box(W, H, 0.3, wall, 0, H / 2, -D / 2); for (const s of [-1, 1]) b.box(0.3, H, D, wall, s * W / 2, H / 2, 0);
+  b.box(W, 0.9, 0.3, wall, 0, H - 0.45, D / 2); b.add(prismGeo(W + 0.8, D / 2 + 0.6, 2.4), 0xB8383B, M(0, H, 0)); b.box(0.9, 1.6, 0.9, 0x8C4A36, -W / 2 + 1.4, H + 1.6, -0.8);
+  for (let i = 0; i < 9; i++) b.box(W / 9, 0.1, 1.5, i % 2 ? 0xF6EFE2 : 0xB8383B, -W / 2 + (i + 0.5) * W / 9, H - 0.95, D / 2 + 0.6, 0.35, 0, 0);   // striped awning
+  b.dome(1.25, brick, -2.6, 0.2, -1.6); b.box(2.7, 0.2, 2.7, 0x8C4A36, -2.6, 0.1, -1.6); b.box(0.9, 0.7, 0.2, 0x1C120C, -2.6, 0.55, -0.42);   // oven (mouth faces +z)
+  for (let i = 0; i < 3; i++) b.box(3.2, 0.1, 0.7, wd, 2.4, 0.9 + i * 0.85, -D / 2 + 0.55);                                               // shelves
+  b.box(5.2, 1.0, 0.9, wd, 0.6, 0.5, 1.4); b.box(5.4, 0.1, 1.05, 0xE8D2A8, 0.6, 1.05, 1.4);                                               // counter
+  const m = b.mesh(); m.userData = { W, D, H, oven: [-2.6, 0.55, -0.4], shelf: [2.4, 0.9, -D / 2 + 0.55], counter: [0.6, 1.1, 1.4] }; return m;
+}
+// a giant ledger: page block + two covers that open on the spine (covers are pivots: rotate z from ±π/2·0.98 closed to 0 open)
+export function ledger(W = 5, Dp = 7, o = {}) {
+  const g = new THREE.Group(), cov = o.cover ?? 0x7A2E2E, pg = 0xF7F0DC;
+  const block = new GB(); block.box(0.5, 0.9, Dp - 0.2, cov, 0, 0.45, 0); g.add(block.mesh());
+  const pivots = [-1, 1].map(s => { const p = new THREE.Group(), b = new GB(); b.box(W, 0.14, Dp, cov, s * W / 2, 0.07, 0); b.box(W - 0.3, 0.32, Dp - 0.4, pg, s * (W / 2 - 0.1), 0.3, 0); for (let i = 0; i < 8; i++) b.box(W * 0.7, 0.02, 0.12, 0xC9BFA6, s * (W / 2 - 0.2), 0.47, -Dp / 2 + 1.0 + i * 0.7); p.add(b.mesh()); p.position.set(0, 0.9, 0); g.add(p); p.userData.s = s; return p; });
+  g.userData = { pivots, W, Dp }; return g;
+}
+// long boardroom table with chairs: seats along ±x sides facing the table, one at the +z head (index 0)
+export function boardTable(n = 4, o = {}) {
+  const b = new GB(), wd = o.wood ?? 0x5E3A22, ch = o.chair ?? 0x2A2E36, Lz = n * 1.5 + 1.2, seats = [];
+  b.box(2.2, 0.12, Lz, wd, 0, 0.8, 0); for (const x of [-0.8, 0.8]) for (const z of [-Lz / 2 + 0.5, Lz / 2 - 0.5]) b.box(0.12, 0.8, 0.12, wd, x, 0.4, z);
+  const chair = (x, z, ry) => { const c = new THREE.Matrix4().makeRotationY(ry).setPosition(x, 0, z); const cb = new GB(); cb.box(0.6, 0.1, 0.6, ch, 0, 0.5, 0); cb.box(0.1, 1.0, 0.6, ch, -0.3, 1.0, 0); cb.cyl(0.04, 0.04, 0.5, 5, 0x8A8F96, 0, 0.25, 0); const gg = cb.geo(); gg.applyMatrix4(c); const a = gg.attributes.position.array, cc = gg.attributes.color.array; for (let i = 0; i < a.length; i++) { b.p.push(a[i]); b.c.push(cc[i]); } };
+  chair(0, Lz / 2 + 0.6, Math.PI / 2); seats.push([0, Lz / 2 + 0.6, -Math.PI / 2]);
+  for (let i = 0; i < n; i++) { const z = -Lz / 2 + 1.1 + i * 1.5; chair(-1.55, z, 0); seats.push([-1.55, z, 0]); chair(1.55, z, Math.PI); seats.push([1.55, z, Math.PI]); }
+  const m = b.mesh(); m.userData = { seats, Lz }; return m;
+}
+// magnifying glass, lens facing +z, handle down-right
+export function magnifier() { const g = new THREE.Group(), b = new GB(); b.add(new THREE.TorusGeometry(1.6, 0.22, 8, 24), 0xE2B24A, M()); b.cyl(0.22, 0.26, 2.6, 8, 0x5E3A22, 1.6, -1.6, 0, 0, 0, Math.PI / 4); g.add(b.mesh()); const lens = new THREE.Mesh(new THREE.CircleGeometry(1.5, 24), new THREE.MeshLambertMaterial({ color: 0xCFEFFF, transparent: true, opacity: 0.35, side: THREE.DoubleSide, depthWrite: false })); g.add(lens); return g; }
+// a tiny arcade spaceship: blocky (pixel) version and a smooth version, nose toward +x
+export const SHIP_PIX = (() => { const b = new GB(), c = 0x7FD3FF, k = 0.22; for (const [x, y] of [[0, 0], [1, 0], [2, 0], [-1, 0], [-2, 0], [0, 1], [1, 1], [-1, 1], [0, 2], [-2, -1], [2, -1], [-2, 1], [2, 1]]) b.box(k, k, k, x === 0 && y === 2 ? 0xFFE27A : c, y * k, x * k, 0); return b.geo(); })();
+export const SHIP_SMOOTH = (() => { const b = new GB(); b.cone(0.28, 1.0, 10, 0xDDE8F2, 0.25, 0, 0, 0, 0, -Math.PI / 2); b.cyl(0.28, 0.24, 0.5, 10, 0xB8C8D8, -0.45, 0, 0, 0, 0, Math.PI / 2); b.box(0.5, 0.05, 1.3, 0x7FD3FF, -0.35, 0, 0); b.box(0.3, 0.4, 0.05, 0x7FD3FF, -0.5, 0.2, 0); b.ball(0.12, 1, 0xFFE27A, 0.05, 0.16, 0, 1.4, 0.8, 0.8); b.cone(0.18, 0.4, 8, 0xFF9A3C, -0.85, 0, 0, 0, 0, Math.PI / 2); return b.geo(); })();
+export const CUP = (() => { const b = new GB(); b.cyl(0.07, 0.06, 0.13, 8, 0xFAF6EE, 0, 0.065, 0); b.cyl(0.075, 0.075, 0.01, 8, 0x4A2C1A, 0, 0.125, 0); b.cyl(0.1, 0.1, 0.01, 8, 0xFAF6EE, 0, 0.005, 0); return b.geo(); })();
+export const NEWS = new THREE.PlaneGeometry(0.62, 0.86);
