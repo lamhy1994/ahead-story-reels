@@ -63,7 +63,11 @@ Start every episode with `./new_episode.sh NNN-slug` (copies `template/` = episo
 If a check fails and you cannot fix it, do not post: report to Keith what failed.
 
 ## 8. Caption and posting (@ahead.learn)
-- Caption: hook line (year or date + paradox) · 1–2 story lines · sources line (history: "Told from …. Historians still debate …" when relevant; news: "Sources: Reuters, CoinDesk … · as of <date>") · the CTA line (history: "Legend says: comment KEYWORD 👇"; news: the question + "Comment SELL or HOLD 👇") · 3–5 hashtags (#moneyhistory or #moneynews + topic). English, no Bybit, no income talk, no price predictions.
+- Caption (the description under the Reel; Keith, 20 Nov 2026): no plot summary. The video tells the story; the caption makes the viewer feel it is about them.
+  1. One or two resonance lines in plain English, chosen per story from three styles: ask whether they've lived it ("Ever sold too early, then bought back at the top? So did Isaac Newton."), name the pain ("Being smart doesn't protect you from FOMO. It didn't protect Newton."), or tell them the story is about them ("If you've ever chased a pump, this 300-year-old story is about you."). Stay true to the story; no advice, no income talk, no price predictions.
+  2. Sources line (history: "Told from …. Historians still debate …" when relevant; news: "Sources: Reuters, CoinDesk … · as of <date>").
+  3. The CTA line (history: "Legend says: comment KEYWORD 👇"; news: the question + "Comment SELL or HOLD 👇").
+  4. 3–5 hashtags (#moneyhistory or #moneynews + topic). English only, never Bybit.
 - Host: `./host_video.sh <file>` (upload copy on the repo's `media` branch) → `vidiq_video_upload(url=…)` → `vidiq_instagram_publish_reel(platformAccountId="29736220745970319", videoUrl=<vidIQ videoUrl>, caption=…)`, follow its containerId / mcpJobId continuation until PUBLISHED, record the permalink → `./clear_media.sh`.
 - Regular Reel; leave `isAiGenerated` out unless Keith asks for the label. Never retry a failed publish automatically: report it.
 - Update `episodes.json` (slug, title, event, keyword, made, posted, permalink, sources) and commit the episode's script.py, scene.js, audio_build.py, sources.md and caption.txt (no renders) to main.
