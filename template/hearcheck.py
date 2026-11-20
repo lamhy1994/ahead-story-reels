@@ -6,7 +6,7 @@ from scipy.signal import resample_poly
 from num2words import num2words
 from faster_whisper import WhisperModel
 norm = lambda s: re.sub(r"[^a-z0-9]", "", s.lower())
-HOMO = [("2", "too"), ("two", "too"), ("to", "too"), ("collette", "colette")]
+HOMO = [("2", "too"), ("two", "too"), ("to", "too"), ("collette", "colette"), ("dominos", "dominoes")]
 wav = sys.argv[1]; T = json.load(open(sys.argv[2] if len(sys.argv) > 2 else "audio/timing.json"))
 a, sr = sf.read(wav)
 if a.ndim > 1: a = a.mean(axis=1)
@@ -34,7 +34,7 @@ for raw, st in ws:
     if "$" in raw: heard.append(("dollars", st))
     if "%" in raw: heard.append(("percent", st))
     m = re.fullmatch(r"(\d+)(st|nd|rd|th)[.,!?]?", raw)                      # "12th" -> "twelfth" (the script writes ordinals as words)
-    if m: heard.append((norm(num2words(int(m.group(1)), to="ordinal")), st))
+    if m: heard.append((norm(num2words(int(m.group(1)), to="ordinal")), st)); heard.append(("the", st))   # "November the twentieth" is written "November 20th"
     for a, b in HOMO:                                                         # same sound, other spelling ("too" heard as "2")
         if norm(raw) == a: heard.append((b, st))
 print("HEARD:", " ".join(h[0] for h in heard))

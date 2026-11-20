@@ -430,3 +430,46 @@ export const SHIP_PIX = (() => { const b = new GB(), c = 0x7FD3FF, k = 0.22; for
 export const SHIP_SMOOTH = (() => { const b = new GB(); b.cone(0.28, 1.0, 10, 0xDDE8F2, 0.25, 0, 0, 0, 0, -Math.PI / 2); b.cyl(0.28, 0.24, 0.5, 10, 0xB8C8D8, -0.45, 0, 0, 0, 0, Math.PI / 2); b.box(0.5, 0.05, 1.3, 0x7FD3FF, -0.35, 0, 0); b.box(0.3, 0.4, 0.05, 0x7FD3FF, -0.5, 0.2, 0); b.ball(0.12, 1, 0xFFE27A, 0.05, 0.16, 0, 1.4, 0.8, 0.8); b.cone(0.18, 0.4, 8, 0xFF9A3C, -0.85, 0, 0, 0, 0, Math.PI / 2); return b.geo(); })();
 export const CUP = (() => { const b = new GB(); b.cyl(0.07, 0.06, 0.13, 8, 0xFAF6EE, 0, 0.065, 0); b.cyl(0.075, 0.075, 0.01, 8, 0x4A2C1A, 0, 0.125, 0); b.cyl(0.1, 0.1, 0.01, 8, 0xFAF6EE, 0, 0.005, 0); return b.geo(); })();
 export const NEWS = new THREE.PlaneGeometry(0.62, 0.86);
+
+// ───────── Bitcoin, November 2026 (episode 5): leveraged bets as dominoes, a lender's kiosk, a SELL button, a fund building, a coin
+// domino geometry (for InstancedMesh with MAT): origin at the bottom centre, thin along x (falls toward +x), 2.0 wide along z, 3.4 tall.
+// Gold foot = the trader's own 10 %, blue body = borrowed 90 %, white divider and pips on both faces. o.blueOnly: the blue part alone (origin at its own bottom).
+export function domino(o = {}) {
+  const b = new GB(), Hh = 3.4, Th = 0.5, Wd = 2.0, foot = Hh * 0.1, blue = 0x3F6FC0, gold = 0xF2B53A, pip = 0xF4F2EC, y0 = o.blueOnly ? 0 : foot, bh = Hh - foot;
+  if (!o.blueOnly) b.box(Th, foot, Wd, gold, 0, foot / 2, 0);
+  b.box(Th, bh, Wd, blue, 0, y0 + bh / 2, 0);
+  for (const s of [-1, 1]) { const x = s * (Th / 2 + 0.006); b.box(0.02, 0.07, Wd * 0.8, pip, x, y0 + bh * 0.5, 0); for (const [py, pz] of [[0.76, -0.45], [0.76, 0.45], [0.26, 0]]) b.cyl(0.13, 0.13, 0.02, 8, pip, x, y0 + bh * py, pz, 0, 0, Math.PI / 2); }
+  return b.geo();
+}
+// lender's kiosk, open toward +x (counter, striped awning, sign board above the window); a person can stand inside at x ≈ -0.4
+export function kiosk() {
+  const g = new THREE.Group(), b = new GB(), wall = 0xF2E6CF;
+  b.box(0.2, 2.8, 3.2, wall, -1.4, 1.4, 0); b.box(2.9, 2.8, 0.2, wall, 0, 1.4, -1.5); b.box(2.9, 2.8, 0.2, wall, 0, 1.4, 1.5);
+  b.box(0.4, 1.1, 3.0, 0x2F6FB8, 1.25, 0.55, 0); b.box(0.7, 0.12, 3.2, 0xE6DCC4, 1.25, 1.16, 0);
+  b.box(3.6, 0.25, 3.8, 0xC8423A, 0.15, 2.9, 0);
+  for (let i = 0; i < 6; i++) b.box(1.0, 0.08, 0.64, i % 2 ? 0xF6EFE2 : 0x2F6FB8, 1.95, 2.55, -1.6 + i * 0.64, 0, 0, -0.35);
+  b.box(0.12, 0.8, 2.9, 0x2F3A55, 1.5, 3.45, 0); b.box(0.2, 0.6, 0.2, 0x5A5F66, 1.5, 3.0, -1.2); b.box(0.2, 0.6, 0.2, 0x5A5F66, 1.5, 3.0, 1.2);
+  g.add(b.mesh()); return g;
+}
+// a big red button on a pedestal (userData.cap can be pressed down; userData.glow is a ring that pulses)
+export function bigButton() {
+  const g = new THREE.Group(), b = new GB();
+  b.cyl(0.55, 0.7, 1.1, 10, 0x3A4048, 0, 0.55, 0); b.cyl(0.85, 0.85, 0.14, 14, 0x8A8F96, 0, 1.17, 0); g.add(b.mesh());
+  const cap = new THREE.Mesh(new THREE.SphereGeometry(0.58, 16, 6, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshLambertMaterial({ color: 0xE0352B, emissive: 0x801010, emissiveIntensity: 0.6 })); cap.position.y = 1.22; cap.castShadow = true; g.add(cap);
+  const glow = new THREE.Mesh(new THREE.RingGeometry(0.9, 1.3, 28).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xFF5A4A, transparent: true, opacity: 0.6, depthWrite: false, toneMapped: false })); glow.position.y = 1.26; g.add(glow);
+  g.userData = { cap, capY: 1.22, glow }; return g;
+}
+// a classical fund building facing +z: plinth, steps, eight columns, a tall frieze for a sign, a pediment; userData: door (z of the doorway), signY, signZ
+export function bank() {
+  const g = new THREE.Group(), b = new GB(), st = 0xEDE6D6, st2 = 0xD9D0BC, Wd = 24, D = 14, Hh = 11;
+  b.box(Wd + 2, 1.0, D + 5, st2, 0, 0.5, 1.5);
+  for (let i = 0; i < 3; i++) b.box(Wd - 2 - i * 0.8, 0.34, 1.0, st, 0, 1.0 + i * 0.34 + 0.17 - 1.0 + 0.34 * 0, D / 2 + 3.2 - i * 0.9);
+  b.box(Wd, Hh, D, st, 0, 1 + Hh / 2, -1);
+  for (let i = 0; i < 8; i++) b.cyl(0.55, 0.62, Hh - 2.6, 10, 0xF6F0E2, -Wd / 2 + 1.6 + i * (Wd - 3.2) / 7, 1 + (Hh - 2.6) / 2, D / 2 + 0.7);
+  b.box(Wd + 0.8, 2.6, 2.8, st, 0, 1 + Hh - 1.3, D / 2 + 0.3);
+  b.add(prismGeo(D + 2.6, (Wd + 0.8) / 2, 3.2), 0xE4DCC8, M(0, 1 + Hh, -0.5, 0, Math.PI / 2, 0));
+  b.box(4.2, 5.4, 0.3, 0x3A2E24, 0, 3.7, D / 2 - 0.85); b.box(4.8, 0.3, 0.5, st2, 0, 6.5, D / 2 - 0.8);
+  g.add(b.mesh()); g.userData = { door: D / 2 - 0.5, signY: 1 + Hh - 1.3, signZ: D / 2 + 1.72 }; return g;
+}
+// a coin with a raised rim (axis along y), white vertex colour so the material sets its colour
+export function BIGCOIN(r = 0.5, th = 0.16) { const b = new GB(); b.cyl(r, r, th, 18, 0xFFFFFF, 0, 0, 0); b.cyl(r * 0.74, r * 0.74, th + 0.04, 18, 0xFFFFFF, 0, 0, 0); return b.geo(); }
