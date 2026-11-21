@@ -106,5 +106,18 @@
    "Prices: CoinGecko (read 21 Nov 2026 ~01:45 UTC, $58,832; 30-day series); 24/7 Wall St. (9 Nov 2026: below Strategy's cost on 8 Nov); Fortune (11 Aug 2020)"
   ],
   "length_s": 88.6
+ },
+ {
+  "n": 7,
+  "slug": "007-silver-slide",
+  "title": "The Silver Slide",
+  "event": "Silver falls about 61% from its record of about $121 an ounce (late January 2026) to about $44-46 (mid-November 2026), its lowest in over a year, while gold has its worst week in eight months (week to 20 Nov 2026)",
+  "story": "The 2026 gold and silver crash",
+  "angle": "what happened: silver's record in January 2026, the crash that started the next day, and the ten-month slide to a one-year low as markets bet on higher interest rates (gold down about a third too)",
+  "window": "14 days",
+  "keyword": "SELL/HOLD",
+  "made": "2026-11-22",
+  "posted": null,
+  "approved_by_keith": false
  }
 ]
