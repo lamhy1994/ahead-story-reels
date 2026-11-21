@@ -86,5 +86,17 @@
    "Prices: CoinGecko (read 20 Nov 2026, 17:35-18:10 UTC); Crypto Times (1 Oct 2026); FinanceFeeds (20 Nov 2026)"
   ],
   "length_s": 85.8
+ },
+ {
+  "n": 6,
+  "slug": "006-strategy-bitcoin-vault",
+  "title": "The Bitcoin Vault",
+  "event": "Strategy (Michael Saylor's company, 850,849 BTC at an average cost of $75,452 as of 15 Nov 2026) sees its bitcoin worth less than it paid as bitcoin falls below $60,000, and MSCI drops it from its indexes at the close of 30 Nov 2026 (announced 11 Nov 2026)",
+  "story": "Bitcoin's November 2026 slide below $60,000",
+  "angle": "one company's story: Strategy, the company that turned its cash into bitcoin, now worth about $14 billion less than it paid on paper and being dropped by MSCI's index lists (is it a company or a bitcoin fund?)",
+  "window": "14 days",
+  "keyword": "SELL/HOLD",
+  "made": "2026-11-21",
+  "posted": null
  }
 ]
