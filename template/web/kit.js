@@ -71,6 +71,7 @@ export function person(o = {}) {
   if (o.badge) b.box(0.04, 0.16, 0.11, 0xF2F2F2, 0.24, 0.82, -0.08);
   if (o.scroll) { b.cyl(0.07, 0.07, 0.6, 6, 0xFBF3DF, 0.36, 0.95, 0, Math.PI / 2, 0, 0); b.cone(0.03, 0.42, 4, 0xFFFFFF, 0.42, 1.25, 0.18, 0, 0, -0.5); }
   if (o.paper) b.box(0.05, 0.4, 0.3, 0xFBF6E8, 0.36, 1.62, 0.18, 0, 0, -0.25);
+  if (o.phone) { b.box(0.05, 0.3, 0.16, 0x22262E, 0.34, 1.42, 0.2, 0, 0, -0.2); b.box(0.06, 0.24, 0.12, 0x7FD3FF, 0.37, 1.43, 0.2, 0, 0, -0.2); b.box(0.24, 0.1, 0.1, o.robe ?? 0x3B4A9A, 0.22, 1.25, 0.2, 0, 0, 0.9); }   // episode 7: a trader looking at a phone (plain glowing screen)
   const m = b.mesh(); m.scale.setScalar(o.s ?? 1); return m;
 }
 
@@ -511,3 +512,41 @@ export const CERT = (() => { const b = new GB(); b.box(1.0, 0.02, 0.7, 0xFBF6E8,
 export function listSlab(W = 13, H = 18) { const b = new GB(); b.box(W + 2, 1.0, 4, 0xCFC7B6, 0, 0.5, 0); b.box(W, H, 1.2, 0xE9E3D6, 0, 1 + H / 2, 0); b.box(W + 0.6, 0.6, 1.5, 0xD6CEBC, 0, 1 + H + 0.3, 0); b.box(0.3, H, 1.3, 0xD6CEBC, -W / 2, 1 + H / 2, 0); b.box(0.3, H, 1.3, 0xD6CEBC, W / 2, 1 + H / 2, 0); return b.mesh(); }
 // a stone pedestal, top at y = h
 export function pedestal(h = 1.3, r = 0.9) { const b = new GB(); b.cyl(r * 1.25, r * 1.35, 0.25, 10, 0xD6CEBC, 0, 0.125, 0); b.cyl(r, r, h - 0.45, 10, 0xEDE6D6, 0, 0.25 + (h - 0.45) / 2, 0); b.cyl(r * 1.2, r * 1.1, 0.2, 10, 0xD6CEBC, 0, h - 0.1, 0); return b.mesh(); }
+
+// ───────── Silver, November 2026 (episode 7): silver bars (ingots), solar panels, a factory, a savings jar
+// an ingot (for InstancedMesh with a material that sets the colour): a frustum with a rectangular base L x W, height H, a shallow stamp on top; origin at its centre, long side along x
+export function INGOT(L = 2.6, H = 0.66, W = 1.2) {
+  const b = new GB(), m = new THREE.Matrix4().makeScale(L / Math.SQRT2, 1, W / Math.SQRT2).multiply(new THREE.Matrix4().makeRotationY(Math.PI / 4));
+  b.add(new THREE.CylinderGeometry(0.84, 1, H, 4, 1), 0xFFFFFF, m);
+  const m2 = new THREE.Matrix4().makeTranslation(0, H / 2, 0).multiply(new THREE.Matrix4().makeScale(L * 0.62 / Math.SQRT2, 1, W * 0.5 / Math.SQRT2)).multiply(new THREE.Matrix4().makeRotationY(Math.PI / 4));
+  b.add(new THREE.CylinderGeometry(0.9, 1, 0.05, 4, 1), 0xE4E7EC, m2);
+  return b.geo();
+}
+// a solar panel on a post: dark blue cells with a light grid, tilted toward +x; origin at the foot of the post
+export function solarPanel(w = 3.4, d = 2.0) {
+  const b = new GB(), tilt = 0.5, y = 1.5;
+  b.cyl(0.09, 0.12, y, 6, 0x8A8F96, 0, y / 2, 0); b.box(0.5, 0.12, 0.3, 0x8A8F96, 0, y, 0);
+  const P = (x, z) => [x * Math.cos(tilt), y + 0.12 + x * Math.sin(tilt), z];
+  b.box(d, 0.08, w, 0x24365E, ...P(0, 0), 0, 0, tilt); b.box(d + 0.12, 0.05, w + 0.12, 0xC9CED6, ...P(0, 0).map((v, i) => i === 1 ? v - 0.05 : v), 0, 0, tilt);
+  for (let i = 1; i < 4; i++) b.box(d, 0.1, 0.04, 0x8FA6C8, ...P(0, -w / 2 + i * w / 4), 0, 0, tilt);
+  for (let i = 1; i < 3; i++) b.box(0.04, 0.1, w, 0x8FA6C8, ...P(-d / 2 + i * d / 3, 0), 0, 0, tilt);
+  return b.mesh();
+}
+// a factory (front toward +x): brick-red body, sawtooth roof with glazing, a chimney, a big door; userData.door = [x, y, z] of the doorway
+export function factory(L = 16, D = 12, H = 6) {
+  const b = new GB(), wall = 0xC9765A, trim = 0xEDE6D6;
+  b.box(L, H, D, wall, 0, H / 2, 0); b.box(L + 0.3, 0.4, D + 0.3, trim, 0, H + 0.2, 0);
+  for (let i = 0; i < 4; i++) { const x = -L / 2 + (i + 0.5) * L / 4; b.add(prismGeo(D, L / 8, 2.4), 0xB9B2A6, M(x, H + 0.4, 0, 0, Math.PI / 2, 0)); b.box(0.12, 2.0, D - 0.4, 0x7FB2D0, x + L / 8 - 0.15, H + 1.4, 0, 0, 0, 0.25); }
+  b.cyl(0.8, 1.0, 9, 10, 0xB25A44, -L / 2 + 2.2, H + 4.5, -D / 2 + 2.2); b.cyl(0.95, 0.95, 0.5, 10, trim, -L / 2 + 2.2, H + 8.8, -D / 2 + 2.2);
+  b.box(0.3, 4.2, 4.6, 0x3A3F48, L / 2 + 0.05, 2.1, 0); b.box(0.4, 0.4, 5.2, trim, L / 2 + 0.1, 4.4, 0);
+  for (const z of [-D / 2 + 1.6, D / 2 - 1.6]) b.box(0.14, 1.4, 2.2, 0x7FB2D0, L / 2 + 0.05, 3.2, z);
+  const m = b.mesh(); m.userData = { door: [L / 2 + 0.2, 1.6, 0], L, D, H }; return m;
+}
+// a savings jar on a pedestal: glass cylinder (transparent, separate mesh) with a lid; userData: inner radius, floorY, H
+export function savingsJar(R = 1.4, H = 2.8, ph = 1.2) {
+  const g = new THREE.Group(), b = new GB();
+  b.cyl(R * 1.35, R * 1.45, 0.25, 12, 0xD6CEBC, 0, 0.125, 0); b.cyl(R * 1.1, R * 1.1, ph - 0.45, 12, 0xEDE6D6, 0, 0.25 + (ph - 0.45) / 2, 0); b.cyl(R * 1.3, R * 1.2, 0.2, 12, 0xD6CEBC, 0, ph - 0.1, 0);
+  b.cyl(R + 0.08, R + 0.08, 0.12, 16, 0xC9CED6, 0, ph + 0.06, 0); b.cyl(R * 0.75, R * 0.85, 0.3, 16, 0xE2B24A, 0, ph + H + 0.15, 0); b.box(R * 0.9, 0.06, 0.18, 0x5A4A2A, 0, ph + H + 0.31, 0);
+  g.add(b.mesh()); const gl = new THREE.Mesh(new THREE.CylinderGeometry(R, R, H, 16, 1, true), GLASS_M); gl.position.y = ph + 0.12 + H / 2; gl.renderOrder = 2; g.add(gl);
+  g.userData = { R, floorY: ph + 0.12, H }; return g;
+}
