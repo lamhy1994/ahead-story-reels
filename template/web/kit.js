@@ -473,3 +473,41 @@ export function bank() {
 }
 // a coin with a raised rim (axis along y), white vertex colour so the material sets its colour
 export function BIGCOIN(r = 0.5, th = 0.16) { const b = new GB(); b.cyl(r, r, th, 18, 0xFFFFFF, 0, 0, 0); b.cyl(r * 0.74, r * 0.74, th + 0.04, 18, 0xFFFFFF, 0, 0, 0); return b.geo(); }
+
+// ───────── Strategy's bitcoin vault, November 2026 (episode 6): a glass vault, a round vault door, cash bundles, a list slab, a pedestal
+// glass vault: stone plinth, steel frame, glass walls and roof (one transparent mesh); userData: W, D, H, floorY (top of the plinth)
+export function glassVault(W = 16, D = 12, H = 9) {
+  const g = new THREE.Group(), b = new GB(), gl = new GB(), st = 0x7E848E, fy = 0.6, y1 = fy + H;
+  b.box(W + 1.6, fy, D + 1.6, 0xD8D0BE, 0, fy / 2, 0); b.box(W + 1.9, 0.12, D + 1.9, 0xEDE6D6, 0, fy - 0.04, 0);
+  b.box(W - 0.2, 0.06, D - 0.2, 0xB9A47A, 0, fy + 0.03, 0);                                                    // the vault floor
+  for (const x of [-W / 2, W / 2]) for (const z of [-D / 2, D / 2]) b.box(0.42, H, 0.42, st, x, fy + H / 2, z);   // corner posts
+  for (const x of [-W / 6, W / 6]) for (const z of [-D / 2, D / 2]) b.box(0.2, H, 0.2, st, x, fy + H / 2, z);
+  for (const z of [-D / 6, D / 6]) for (const x of [-W / 2, W / 2]) b.box(0.2, H, 0.2, st, x, fy + H / 2, z);
+  for (const y of [fy + 0.2, y1]) { b.box(W + 0.42, 0.42, 0.42, st, 0, y, D / 2); b.box(W + 0.42, 0.42, 0.42, st, 0, y, -D / 2); b.box(0.42, 0.42, D + 0.42, st, W / 2, y, 0); b.box(0.42, 0.42, D + 0.42, st, -W / 2, y, 0); }
+  for (const x of [-W / 6, W / 6]) b.box(0.24, 0.3, D, st, x, y1, 0);                                         // roof beams
+  b.box(4.2, 0.5, 0.3, 0x5A5F68, 0, y1 + 0.1, -1.6); b.box(4.2, 0.5, 0.3, 0x5A5F68, 0, y1 + 0.1, 1.6); b.box(0.3, 0.5, 3.5, 0x5A5F68, -2.0, y1 + 0.1, 0); b.box(0.3, 0.5, 3.5, 0x5A5F68, 2.0, y1 + 0.1, 0);   // the hatch in the roof
+  gl.box(W, H, 0.06, 0xffffff, 0, fy + H / 2, D / 2); gl.box(W, H, 0.06, 0xffffff, 0, fy + H / 2, -D / 2); gl.box(0.06, H, D, 0xffffff, W / 2, fy + H / 2, 0); gl.box(0.06, H, D, 0xffffff, -W / 2, fy + H / 2, 0);
+  gl.box(W, 0.06, D / 2 - 1.75, 0xffffff, 0, y1, -(D / 4 + 0.875)); gl.box(W, 0.06, D / 2 - 1.75, 0xffffff, 0, y1, D / 4 + 0.875); gl.box(W / 2 - 2.0, 0.06, 3.5, 0xffffff, -(W / 4 + 1.0), y1, 0); gl.box(W / 2 - 2.0, 0.06, 3.5, 0xffffff, W / 4 + 1.0, y1, 0);
+  const m = b.mesh(); g.add(m); const gm = new THREE.Mesh(gl.geo(), GLASS_M); gm.renderOrder = 2; g.add(gm);
+  g.userData = { W, D, H, floorY: fy + 0.06 }; return g;
+}
+// round vault door, facing +z (the disc lies in the xy plane); the door hangs on a pivot at its -x edge (userData.pivot, rotate y to open)
+export function vaultDoor(R = 2.6) {
+  const g = new THREE.Group(), b = new GB(), st = 0xBFC5CC, dk = 0x5A606A;
+  b.add(new THREE.TorusGeometry(R + 0.3, 0.32, 8, 28), dk, M(0, 0, 0)); g.add(b.mesh());
+  const pivot = new THREE.Group(); pivot.position.set(-R - 0.3, 0, 0.35); g.add(pivot);
+  const d = new GB(), cx = R + 0.3;
+  d.cyl(R, R, 0.7, 28, st, cx, 0, 0, Math.PI / 2, 0, 0); d.cyl(R * 0.8, R * 0.8, 0.78, 28, 0xA9B0B8, cx, 0, 0, Math.PI / 2, 0, 0);
+  for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; d.cyl(0.14, 0.14, 0.9, 8, dk, cx + Math.cos(a) * R * 0.9, Math.sin(a) * R * 0.9, 0, Math.PI / 2, 0, 0); }
+  d.add(new THREE.TorusGeometry(R * 0.42, 0.08, 6, 20), dk, M(cx, 0, 0.55)); for (let i = 0; i < 3; i++) d.box(R * 0.84, 0.11, 0.11, dk, cx, 0, 0.55, 0, 0, i * Math.PI / 3); d.cyl(0.22, 0.22, 0.4, 10, dk, cx, 0, 0.5, Math.PI / 2, 0, 0);
+  d.box(0.5, 0.7, 0.5, dk, 0.1, R * 0.5, -0.2); d.box(0.5, 0.7, 0.5, dk, 0.1, -R * 0.5, -0.2);                 // hinges
+  pivot.add(d.mesh()); g.userData = { pivot, R }; return g;
+}
+// a bundle of banknotes (for InstancedMesh with MAT): green block with a paper band, 1.0 x 0.42 x 0.6, origin at its centre
+export const CASH = (() => { const b = new GB(); b.box(1.0, 0.42, 0.6, 0x5E9E5A, 0, 0, 0); b.box(0.22, 0.44, 0.62, 0xF2EEE2, 0, 0, 0); b.box(0.9, 0.02, 0.5, 0x7CB874, 0, 0.215, 0); return b.geo(); })();
+// a share certificate (for InstancedMesh with MAT): a thin cream sheet with an amber seal, 1.0 x 0.7
+export const CERT = (() => { const b = new GB(); b.box(1.0, 0.02, 0.7, 0xFBF6E8, 0, 0, 0); b.box(0.8, 0.025, 0.06, 0xC9BFA6, 0, 0.005, -0.2); b.box(0.6, 0.025, 0.05, 0xC9BFA6, -0.1, 0.005, 0.0); b.cyl(0.11, 0.11, 0.03, 10, 0xE2A23A, 0.32, 0.01, 0.2); return b.geo(); })();
+// a tall stone slab for a list (the list itself is a textured plane the scene puts on the +z face, 0.62 in front of the centre)
+export function listSlab(W = 13, H = 18) { const b = new GB(); b.box(W + 2, 1.0, 4, 0xCFC7B6, 0, 0.5, 0); b.box(W, H, 1.2, 0xE9E3D6, 0, 1 + H / 2, 0); b.box(W + 0.6, 0.6, 1.5, 0xD6CEBC, 0, 1 + H + 0.3, 0); b.box(0.3, H, 1.3, 0xD6CEBC, -W / 2, 1 + H / 2, 0); b.box(0.3, H, 1.3, 0xD6CEBC, W / 2, 1 + H / 2, 0); return b.mesh(); }
+// a stone pedestal, top at y = h
+export function pedestal(h = 1.3, r = 0.9) { const b = new GB(); b.cyl(r * 1.25, r * 1.35, 0.25, 10, 0xD6CEBC, 0, 0.125, 0); b.cyl(r, r, h - 0.45, 10, 0xEDE6D6, 0, 0.25 + (h - 0.45) / 2, 0); b.cyl(r * 1.2, r * 1.1, 0.2, 10, 0xD6CEBC, 0, h - 0.1, 0); return b.mesh(); }
