@@ -20,7 +20,7 @@ PAUSE = [0.20, 0.22, 0.22, 0.22, 0.22, 0.24, 0.0]                 # silence afte
 HOOK = ["He gave away gold.", "Gold got *cheaper*."]
 HOOK_SUB = "Cairo · 1324 · a true story"
 # Big number at 1.5-3 s: (value, what, when). Money first: lost / wiped out / liquidated / paid, in billions or trillions; a percentage only when it is huge
-BIG = ("12 YEARS", "and gold in Cairo was still cheap", "al-Umari, c. 1337")
+BIG = ("12 YEARS", "and gold in Cairo was still cheap", "al-Umari, c. 1337", "down")   # optional 4th: "down" (red, diving) or "up" (amber, climbing)
 # BIG_WORD = "trillion"     # the word of sentence 1 that says the number (tts.sh checks it falls at 1.2-3 s)
 # LONG = "why this story needs more than 75 s"      # only when it really does (never over 120 s)
 import re

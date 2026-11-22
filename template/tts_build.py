@@ -73,7 +73,7 @@ def build(voice, speed, lead=0.12, tail=1.25):
     hook = getattr(script, "HOOK", None)          # the hook card: 2 short lines (*word* = amber) + a small subline with subject and date
     if hook: T["hook"] = {"lines": list(hook), "sub": getattr(script, "HOOK_SUB", "")}
     big = getattr(script, "BIG", None)            # the big number at 1.5-3 s: (value, what, when), e.g. ("−$2.9 TRILLION", "wiped off the S&P 500 in one day", "5 Nov 2026")
-    if big: T["big"] = {"value": big[0], "label": big[1] if len(big) > 1 else "", "when": big[2] if len(big) > 2 else ""}
+    if big: T["big"] = {"value": big[0], "label": big[1] if len(big) > 1 else "", "when": big[2] if len(big) > 2 else "", "dir": big[3] if len(big) > 3 else ""}   # dir "down"/"up": red diving line or amber climbing (default: red when the value starts with a minus)
     return a, T
 def pace_report(T):
     """Video length and pace; returns a list of problems that must be fixed before rendering."""
