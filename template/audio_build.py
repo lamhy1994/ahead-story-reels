@@ -155,6 +155,10 @@ def cue(name, t): cues.append((round(t, 2), name))
 # the hook card: a soft hit on the first frame, a light whoosh when it lifts away
 sfx(thud(85, 42, 0.42), 0.0, 0, db(-21)); sfx(ding([587.3, 880, 1174.7], 1.3), 0.0, 0, db(-25)); cue("hook card", 0.0)
 if T.get("hookEnd"): sfx(whoosh(0.6, 500, 3600), T["hookEnd"] - 0.05, 0, db(-27)); cue("hook card lifts", T["hookEnd"])
+if T.get("bigIn"):                                                     # the big number (1.5-3 s)
+    sfx(thud(70, 34, 0.6), T["bigIn"] + 0.02, 0, db(-19)); sfx(whoosh(0.5, 3200, 400), T["bigIn"] - 0.15, 0, db(-26)); cue("big number", T["bigIn"])
+    for k in range(10): sfx(tick(1800 + k * 140, 0.016, 0.4), T["bigIn"] + 0.06 + k * 0.064, 0.3 * np.sin(k), db(-31))
+    sfx(ding([587.3, 880, 1174.7], 1.0), T["bigIn"] + 0.72, 0, db(-25)); sfx(whoosh(0.5, 600, 3000), T["bigOut"] - 0.1, 0, db(-29))
 land = sorted(CU["land"])
 for i, tl in enumerate(land):                                                                                                                # coins landing
     if tl < T["wipe1"] and i % 4 == 0: sfx(coin(), tl, rng.uniform(-0.7, 0.7), db(-31 + rng.uniform(-3, 2)))

@@ -19,7 +19,8 @@ const R = rng(13240719);
 
 // ───────────────────────── story clock (everything hangs off the narration)
 const T = {
-  hookEnd: TIM.hook ? E(1) + 0.15 : 0,                 // the hook card (script.py HOOK) stays until the hook sentence ends
+  hookEnd: TIM.big ? 1.5 : TIM.hook ? E(1) + 0.15 : 0,  // the hook card (script.py HOOK): 0-1.5 s when there is a big number, else until the hook sentence ends
+  bigIn: TIM.big ? 1.5 : 0, bigOut: TIM.big ? 3.0 : 0,   // the big number (script.py BIG): 1.5-3 s (Keith, 22 Nov 2026)
   wipe1: S(2) - 0.42, name: wt(2, 'Mansa') - 0.12, rich: wt(2, 'richest') - 0.15,
   b3: S(3) - 0.1, gold3: wt(3, 'gold') - 0.35,
   b4: S(4) - 0.1, days: wt(4, 'three') - 0.1, wipe2: wt(4, 'entered') - 0.42,
@@ -396,6 +397,7 @@ const chunks = [];
 }
 const capEl = document.getElementById('cap'); let capIdx = -2;
 function updateCaption(t) {
+  capEl.style.opacity = TIM.big ? seg(t, T.bigOut - 0.05, T.bigOut + 0.2).toFixed(3) : '1';
   let idx = -1; for (let i = 0; i < chunks.length; i++) if (t >= chunks[i].s && t < chunks[i].hide) { idx = i; break; }
   if (idx !== capIdx) { capIdx = idx; capEl.innerHTML = idx < 0 ? '' : chunks[idx].ws.map(w => `<span class="w${w.kw ? ' kw' : ''}">${w.t.replace(/&/g, '&amp;')}</span>`).join(''); }
   if (idx < 0) return;
@@ -404,7 +406,15 @@ function updateCaption(t) {
 }
 // hook card: on the very first frame (it is also the Reel's cover) until the hook sentence ends; lines from script.py HOOK, *word* = amber
 const HK = TIM.hook, hookEl = HK ? mk('hook', `<div class="n">${HK.lines.map(l => l.replace(/\*([^*]+)\*/g, '<em>$1</em>')).join('\n')}</div>` + (HK.sub ? `<div class="s">${HK.sub}</div>` : '')) : null;
-function fitHook() { if (!hookEl) return; const n = hookEl.querySelector('.n'), w = n.scrollWidth; if (w > 940) n.style.fontSize = (112 * 940 / w).toFixed(1) + 'px'; }
+function fitHook() { if (!hookEl) return; const n = hookEl.querySelector('.n'), w = n.scrollWidth; if (w > 940) n.style.fontSize = (112 * 940 / w).toFixed(1) + 'px'; if (bigEl) { const v = bigEl.querySelector('.v'), bw = v.scrollWidth; if (bw > 960) v.style.fontSize = (172 * 960 / bw).toFixed(1) + 'px'; } }
+// big number: 1.5-3 s, the most shocking number of the story counting up over a dark screen, a chart line diving (or climbing) behind it
+const BG = TIM.big, bigBg = BG ? mk('bigbg', '') : null, bigEl = BG ? mk('big' + (/^[^\d]*[−-]/.test(BG.value) || BG.dir === 'down' ? '' : ' up'), '') : null, BIGN = {};
+if (BG) { const m = BG.value.match(/^([^\d]*)(\d[\d,]*(?:\.\d+)?)(.*)$/) || ['', '', '0', BG.value]; Object.assign(BIGN, { pre: m[1], num: parseFloat(m[2].replace(/,/g, '')), dec: (m[2].split('.')[1] || '').length, comma: m[2].includes(','), post: m[3] });
+  const down = !bigEl.classList.contains('up'), pts = (down ? [[0, 20], [90, 34], [160, 18], [240, 60], [320, 48], [420, 100], [520, 86], [620, 140], [760, 160]] : [[0, 160], [90, 140], [170, 150], [260, 104], [350, 116], [450, 66], [540, 80], [640, 30], [760, 12]]);
+  BIGN.len = pts.slice(1).reduce((a, q, i) => a + Math.hypot(q[0] - pts[i][0], q[1] - pts[i][1]), 0);
+  bigEl.innerHTML = `<svg width="760" height="170" viewBox="0 0 760 170"><polyline points="${pts.map(q => q.join(',')).join(' ')}" stroke-dasharray="${BIGN.len.toFixed(1)}"/></svg><div class="v"></div><div class="l">${BG.label || ''}</div>` + (BG.when ? `<div class="d">${BG.when}</div>` : '');
+  BIGN.line = bigEl.querySelector('polyline'); BIGN.v = bigEl.querySelector('.v'); }
+const bigText = u => { const x = BIGN.num * u; let n = x.toFixed(BIGN.dec); if (BIGN.comma) n = Number(n).toLocaleString('en-US', { minimumFractionDigits: BIGN.dec, maximumFractionDigits: BIGN.dec }); const unit = BIGN.post.trim(); return BIGN.pre + n + (unit ? (/^[A-Za-z]/.test(unit) ? `<small>${unit}</small>` : BIGN.post) : ''); };
 const chip = mk('chip', ''), chip2 = mk('chip am', '');
 const nameEl = mk('name', '<div class="n">Mansa Musa</div><div class="r">King of Mali</div>');
 const route = mk('route', '<div class="line"></div><div class="fill"></div><div class="nd" style="left:40px"></div><div class="nd" style="left:500px"></div><div class="nd" style="left:720px"></div><div class="dot"></div><div class="lb" style="left:40px">MALI</div><div class="lb" style="left:500px">CAIRO</div><div class="lb" style="left:720px">MECCA</div>');
@@ -436,7 +446,10 @@ function updateUI(t) {
   foot.style.opacity = (0.95 * seg(t, 0.8, 1.4) * (1 - seg(t, T.cta, T.cta + 0.3) * 0.45)).toFixed(3);
   { let on = 0; for (const [t0, x0, y0] of [[2.0, 760, 150], [T.b10 + 3.6, 300, 120]]) { const u = (t - t0) / 0.55; if (u > 0 && u < 1) { put(shoot, x0 + u * 330, y0 + u * 120, Math.sin(u * Math.PI), 1); on = 1; } } if (!on) put(shoot, 0, 0, 0); }
   // 1 — the hook card: full from frame 0, a slow push-in while the hook is spoken, then it lifts away
-  if (hookEl) { const out = seg(t, T.hookEnd, T.hookEnd + 0.3); put(hookEl, W / 2, 640 - 40 * eo(out), 1 - out, 1 + 0.035 * seg(t, 0, T.hookEnd) + 0.06 * out); }
+  if (hookEl) { const out = seg(t, T.hookEnd, T.hookEnd + (TIM.big ? 0.22 : 0.3)); put(hookEl, W / 2, 640 - 40 * eo(out), 1 - out, 1 + 0.035 * seg(t, 0, T.hookEnd) + 0.06 * out); }
+  if (bigEl) { const o = win(t, T.bigIn, T.bigOut - 0.05, 0.15, 0.25), u = eo(seg(t, T.bigIn + 0.05, T.bigIn + 0.7)), land = seg(t, T.bigIn + 0.7, T.bigIn + 1.0), sh = (1 - land) * (land > 0 ? 1 : 0);
+    bigBg.style.opacity = (0.92 * o).toFixed(3); setHTML(BIGN.v, bigText(u)); BIGN.line.style.strokeDashoffset = (BIGN.len * (1 - eo(seg(t, T.bigIn, T.bigIn + 0.9)))).toFixed(1);
+    put(bigEl, W / 2 + Math.sin(t * 90) * 7 * sh, 860 + Math.cos(t * 77) * 5 * sh, o, pop(t, T.bigIn, 0.4) * (1 + 0.05 * Math.sin(Math.PI * land))); }
   // 2 — the king
   { const k = kingAt(t), p = proj(k[0], k[1] + 6.6, k[2]); put(nameEl, c01((p[0] - 250) / 580) * 580 + 250, Math.max(585, p[1]), win(t, T.name, T.b3 - 0.25, 0.3, 0.3), pop(t, T.name)); }
   put(chip2, W / 2, 472, 0);

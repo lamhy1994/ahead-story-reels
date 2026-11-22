@@ -72,6 +72,8 @@ def build(voice, speed, lead=0.12, tail=1.25):
     T = {"duration": round(sentences[-1]["e"], 3), "sentences": sentences, "words": words}
     hook = getattr(script, "HOOK", None)          # the hook card: 2 short lines (*word* = amber) + a small subline with subject and date
     if hook: T["hook"] = {"lines": list(hook), "sub": getattr(script, "HOOK_SUB", "")}
+    big = getattr(script, "BIG", None)            # the big number at 1.5-3 s: (value, what, when), e.g. ("−$2.9 TRILLION", "wiped off the S&P 500 in one day", "5 Nov 2026")
+    if big: T["big"] = {"value": big[0], "label": big[1] if len(big) > 1 else "", "when": big[2] if len(big) > 2 else ""}
     return a, T
 def pace_report(T):
     """Video length and pace; returns a list of problems that must be fixed before rendering."""
@@ -82,6 +84,13 @@ def pace_report(T):
     elif L > 60: print(f"note: {L:.1f} s is over the 60 s default" + (f" (LONG: {long_ok})" if long_ok else ": keep it only if every sentence earns its place"))
     if wpm < 150: print(f"WARN: {wpm:.0f} wpm is slow: fewer commas and full stops, longer paragraphs (fewer PAUSEs), shorter number phrases; speed at most 1.2")
     if not getattr(script, "HOOK", None): bad.append("no HOOK in script.py (the hook card on the first frame)")
+    if not getattr(script, "BIG", None): bad.append("no BIG in script.py (the big number at 1.5-3 s)")
+    bw = getattr(script, "BIG_WORD", None)
+    if bw:
+        ws = [w for w in T["words"] if w["si"] == 1 and re.sub(r"[^a-z0-9]", "", w["t"].lower()) == re.sub(r"[^a-z0-9]", "", bw.lower())]
+        if not ws: bad.append(f"BIG_WORD {bw!r} is not in sentence 1")
+        elif not 1.2 <= ws[0]["s"] <= 3.0: print(f"WARN: the big number is said at {ws[0]['s']:.2f} s; it is on screen 1.5-3 s (move it in sentence 1)")
+        else: print(f"big number said at {ws[0]['s']:.2f} s (on screen 1.5-3 s)")
     return bad
 def auto_speed(voice, target=160, lo=0.95, hi=1.2):
     """Kokoro speed that puts the whole video at about `target` words a minute (2-4 voice passes)."""
