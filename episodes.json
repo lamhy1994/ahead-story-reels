@@ -13,7 +13,9 @@
    "Warren Schultz, 'Mansa Musa's Gold in Mamluk Cairo'"
   ],
   "approved_by_keith": true,
-  "length_s": 75.9
+  "length_s": 75.9,
+  "format": "v1",
+  "wpm": 157
  },
  {
   "n": 2,
@@ -29,7 +31,9 @@
    "UK National Archives blog, 'The South Sea Bubble of 1720' (2020); Univ. of Oxford, Newton and the Mint; Britannica, 'South Sea Bubble'"
   ],
   "length_s": 85.2,
-  "permalink": "https://www.instagram.com/reel/Df8BWl0hQVU/"
+  "permalink": "https://www.instagram.com/reel/Df8BWl0hQVU/",
+  "format": "v1",
+  "wpm": 141
  },
  {
   "n": 3,
@@ -45,7 +49,9 @@
    "W. H. Furness, The Island of Stone Money (1910), as quoted by Milton Friedman, 'The Island of Stone Money' (Hoover Institution working paper E-91-3, 1991; Money Mischief, 1992)",
    "J. L. Walton, 'Bitcoin and stone money: Anglophone use of Yapese economic cultures, 1910-2020', Finance and Society 8(1) (2022) 42-66; Penn Museum object 201355; Fitzpatrick & McKeon, Economic Anthropology 7(1) (2020)"
   ],
-  "length_s": 82.3
+  "length_s": 82.3,
+  "format": "v1",
+  "wpm": 152
  },
  {
   "n": 4,
@@ -65,7 +71,9 @@
    "Reuters (via Star-Advertiser, 12 Nov 2026); CBS News (17 Nov 2026); AP/NPR; CNBC (Denny's, 2024); The National (17 Nov 2026)",
    "NVDA closes 11 Nov 173.73 and 18 Nov 150.96: Yahoo Finance and StatMuse (read 20 Nov 2026); 12 Nov intraday -14.3%: Motley Fool, Wealth Professional"
   ],
-  "length_s": 89.9
+  "length_s": 89.9,
+  "format": "v1",
+  "wpm": 133
  },
  {
   "n": 5,
@@ -85,7 +93,9 @@
    "Liquidations (CoinGlass data): investingLive ($2.02B, 8am ET 14 Nov to 8am ET 15 Nov 2026); The Straits Times via Bitbo (about $2B, 15 Nov 2026); The Block (9 Nov 2026)",
    "Prices: CoinGecko (read 20 Nov 2026, 17:35-18:10 UTC); Crypto Times (1 Oct 2026); FinanceFeeds (20 Nov 2026)"
   ],
-  "length_s": 85.8
+  "length_s": 85.8,
+  "format": "v1",
+  "wpm": 120
  },
  {
   "n": 6,
@@ -105,7 +115,9 @@
    "MSCI, final impact list of the Non-Operating Companies Methodology (11 Nov 2026); Reuters (11 Nov 2026, via Euronext); The Block (11 Nov, 15 Oct, 1 Sep 2026); CoinDesk (12 Nov 2026); Cointelegraph (12 Nov 2026); Bitcoin Magazine (11 and 16 Nov 2026); Decrypt (16 Oct 2026)",
    "Prices: CoinGecko (read 21 Nov 2026 ~01:45 UTC, $58,832; 30-day series); 24/7 Wall St. (9 Nov 2026: below Strategy's cost on 8 Nov); Fortune (11 Aug 2020)"
   ],
-  "length_s": 88.6
+  "length_s": 88.6,
+  "format": "v1",
+  "wpm": 114
  },
  {
   "n": 7,
@@ -125,7 +137,9 @@
    "30 Jan 2026 fall: Bloomberg via ThinkAdvisor ('plunged more than 26%, a record intraday decline'); Business Today (31 Jan 2026, 'as much as 30%'); 2025 run-up: Bloomberg via Fortune (31 Dec 2025), BullionVault (31 Dec 2025, +144.4%), INN ('opening 2025 at US$30')",
    "20 Nov 2026: silver about $41 (Kitco 5 p.m. ET $41.12; USA TODAY via AOL 4 p.m. ET $40.86; Trading Economics $41.19, lowest since Sep 2025); gold $3,537.90 (Kitco) vs record $5,594.82 (Reuters, 29 Jan); 99% odds of a December US rate hike (CME FedWatch via Reuters, 20 Nov 2026); Euronews ('Gold pays no interest'); forced selling to cover losses (Reuters, Trading Economics)"
   ],
-  "length_s": 89.2
+  "length_s": 89.2,
+  "format": "v1",
+  "wpm": 128
  },
  {
   "n": 8,
@@ -145,6 +159,8 @@
    "30 Jan 2026: WSJ (Ryan Dezember, 'Silver Prices Crash 31% in Second Worst Day on Record': worst percentage drop since March 1980, when the Hunt brothers' corner unraveled) and Dow Jones (David Uberti) via Tiger Brokers; Business Today (31 Jan 2026); Investing.com (2 Feb 2026)",
    "1979-80: Britannica, 'Silver Thursday'; ABA Journal (Allen Pusey, 2019); Christian Science Monitor (31 Mar and 1 Apr 1980); Fortune (Roy Rowan with Shawn Tully, 28 Jul 1980); SEC staff report on the 1980 silver crisis (1982, SEC Historical Society); Marketplace (Sarah Gardner, 22 Oct 2014); Bloomberg via FA Magazine (2014)",
    "Prices 2026: record about $121 on 29 Jan 2026 and about $41 on 20 Nov 2026 (Kitco, USA TODAY via AOL, Trading Economics; episode 7's sources, read 22 Nov 2026)"
-  ]
+  ],
+  "format": "v1",
+  "wpm": 123
  }
 ]

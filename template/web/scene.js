@@ -19,6 +19,7 @@ const R = rng(13240719);
 
 // ───────────────────────── story clock (everything hangs off the narration)
 const T = {
+  hookEnd: TIM.hook ? E(1) + 0.15 : 0,                 // the hook card (script.py HOOK) stays until the hook sentence ends
   wipe1: S(2) - 0.42, name: wt(2, 'Mansa') - 0.12, rich: wt(2, 'richest') - 0.15,
   b3: S(3) - 0.1, gold3: wt(3, 'gold') - 0.35,
   b4: S(4) - 0.1, days: wt(4, 'three') - 0.1, wipe2: wt(4, 'entered') - 0.42,
@@ -387,10 +388,10 @@ const chunks = [];
 {
   let clause = []; let si = 0;
   const flush = () => { const n = clause.length; if (!n) return; const k = Math.ceil(n / 3); let i = 0; for (let c = 0; c < k; c++) { const size = Math.ceil((n - i) / (k - c)); chunks.push({ ws: clause.slice(i, i + size) }); i += size; } clause = []; };
-  for (const w of TIM.words) { if (w.si !== si) { flush(); si = w.si; } clause.push(w); if (/[.,?!]$/.test(w.t)) flush(); }
+  for (const w of TIM.words) { if (TIM.hook && w.si === 1) continue; if (w.si !== si) { flush(); si = w.si; } clause.push(w); if (/[.,?!]$/.test(w.t)) flush(); }   // the hook card shows sentence 1
   flush();
   chunks.forEach(c => { c.s = c.ws[0].s - 0.07; c.e = c.ws[c.ws.length - 1].e; });
-  chunks[0].s = -1;
+  if (!TIM.hook) chunks[0].s = -1;
   chunks.forEach((c, i) => { const nx = chunks[i + 1]; c.hide = nx ? Math.min(nx.s, c.e + 0.5) : c.e + 0.8; });
 }
 const capEl = document.getElementById('cap'); let capIdx = -2;
@@ -401,7 +402,9 @@ function updateCaption(t) {
   const c = chunks[idx], spans = capEl.children;
   c.ws.forEach((w, i) => { const nx = c.ws[i + 1]; const st = t < w.s - 0.05 ? 'fut' : (nx && t >= nx.s - 0.05) ? 'said' : 'cur'; const cl = 'w' + (w.kw ? ' kw' : '') + (st === 'cur' ? '' : ' ' + st); if (spans[i].className !== cl) spans[i].className = cl; });
 }
-const yearEl = mk('year', '2026'), subEl = mk('sub', 'Cairo · a true money story');
+// hook card: on the very first frame (it is also the Reel's cover) until the hook sentence ends; lines from script.py HOOK, *word* = amber
+const HK = TIM.hook, hookEl = HK ? mk('hook', `<div class="n">${HK.lines.map(l => l.replace(/\*([^*]+)\*/g, '<em>$1</em>')).join('\n')}</div>` + (HK.sub ? `<div class="s">${HK.sub}</div>` : '')) : null;
+function fitHook() { if (!hookEl) return; const n = hookEl.querySelector('.n'), w = n.scrollWidth; if (w > 940) n.style.fontSize = (112 * 940 / w).toFixed(1) + 'px'; }
 const chip = mk('chip', ''), chip2 = mk('chip am', '');
 const nameEl = mk('name', '<div class="n">Mansa Musa</div><div class="r">King of Mali</div>');
 const route = mk('route', '<div class="line"></div><div class="fill"></div><div class="nd" style="left:40px"></div><div class="nd" style="left:500px"></div><div class="nd" style="left:720px"></div><div class="dot"></div><div class="lb" style="left:40px">MALI</div><div class="lb" style="left:500px">CAIRO</div><div class="lb" style="left:720px">MECCA</div>');
@@ -432,8 +435,8 @@ function updateUI(t) {
   updateCaption(t);
   foot.style.opacity = (0.95 * seg(t, 0.8, 1.4) * (1 - seg(t, T.cta, T.cta + 0.3) * 0.45)).toFixed(3);
   { let on = 0; for (const [t0, x0, y0] of [[2.0, 760, 150], [T.b10 + 3.6, 300, 120]]) { const u = (t - t0) / 0.55; if (u > 0 && u < 1) { put(shoot, x0 + u * 330, y0 + u * 120, Math.sin(u * Math.PI), 1); on = 1; } } if (!on) put(shoot, 0, 0, 0); }
-  // 1 — the year rolls back
-  { const u = eo(seg(t, 0.05, 1.25)); setTxt(yearEl, String(Math.round(lerp(2026, 1324, u)))); const o = win(t, -1, T.wipe1 - 0.25, 0.5, 0.3); put(yearEl, W / 2, 565, o, 1 + 0.06 * (1 - u)); put(subEl, W / 2, 705, o * seg(t, 0.9, 1.3)); }
+  // 1 — the hook card: full from frame 0, a slow push-in while the hook is spoken, then it lifts away
+  if (hookEl) { const out = seg(t, T.hookEnd, T.hookEnd + 0.3); put(hookEl, W / 2, 640 - 40 * eo(out), 1 - out, 1 + 0.035 * seg(t, 0, T.hookEnd) + 0.06 * out); }
   // 2 — the king
   { const k = kingAt(t), p = proj(k[0], k[1] + 6.6, k[2]); put(nameEl, c01((p[0] - 250) / 580) * 580 + 250, Math.max(585, p[1]), win(t, T.name, T.b3 - 0.25, 0.3, 0.3), pop(t, T.name)); }
   put(chip2, W / 2, 472, 0);
@@ -562,4 +565,4 @@ window.camCheck = () => {
 };
 window.renderAt = renderAt;
 window.CUES = { T, DUR, rain: RAIN.sort((a, b) => a - b), typing: [0, 1, 2, 3].map(i => +(T.gold + (i + 0.5) * 0.12).toFixed(3)), land: FL.map(f => +(f.t0 + f.d).toFixed(3)), gifts: OFF.map(o => +(o.t + 0.75).toFixed(3)), loans: MER.map((m, j) => +(loanT(j) + 0.75).toFixed(3)), tents: tents.map((m, i) => +(T.b4 + 0.75 + i * 0.16).toFixed(3)), heaps: HEAP.map(h => +h.t0.toFixed(3)).sort((a, b) => a - b), sent: TIM.sentences.map(s => s.s) };
-document.fonts.ready.then(() => Promise.all(['700 64px Figtree', '900 190px Fraunces', '800 30px JBM', '700 22px Inter', '700 78px Fraunces', '800 54px Figtree', '600 34px Figtree', '500 18px Inter'].map(f => document.fonts.load(f)))).then(() => { renderAt(0); window.__ready = true; });
+document.fonts.ready.then(() => Promise.all(['700 64px Figtree', '900 190px Fraunces', '800 30px JBM', '700 22px Inter', '700 78px Fraunces', '800 54px Figtree', '600 34px Figtree', '500 18px Inter'].map(f => document.fonts.load(f)))).then(() => { fitHook(); renderAt(0); window.__ready = true; });

@@ -152,8 +152,9 @@ for ch in MUS: ch *= fo
 # ───────── sound effects
 cues = []
 def cue(name, t): cues.append((round(t, 2), name))
-for k in range(15): u = k / 14; sfx(tick(2600 - 1300 * u, 0.02, 0.35), 0.06 + 1.18 * (1 - (1 - u) ** 2), 0.3 * np.sin(k), db(-29))                 # the year rolls back
-sfx(ding([1174.7, 1760], 0.9), 1.27, 0, db(-25)); cue("year lands on 1324", 1.27)
+# the hook card: a soft hit on the first frame, a light whoosh when it lifts away
+sfx(thud(85, 42, 0.42), 0.0, 0, db(-21)); sfx(ding([587.3, 880, 1174.7], 1.3), 0.0, 0, db(-25)); cue("hook card", 0.0)
+if T.get("hookEnd"): sfx(whoosh(0.6, 500, 3600), T["hookEnd"] - 0.05, 0, db(-27)); cue("hook card lifts", T["hookEnd"])
 land = sorted(CU["land"])
 for i, tl in enumerate(land):                                                                                                                # coins landing
     if tl < T["wipe1"] and i % 4 == 0: sfx(coin(), tl, rng.uniform(-0.7, 0.7), db(-31 + rng.uniform(-3, 2)))
