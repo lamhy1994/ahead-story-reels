@@ -189,13 +189,22 @@
   "n": 10,
   "slug": "010-where-did-it-go",
   "title": "Where Did the Money Go?",
-  "event": "Friday 20 Nov 2026: the S&P 500 (-3.7%) and the Dow closed in a correction and the Nasdaq (-5.3%) erased its 2026 gains; Nvidia fell 14% (about $500 billion) and roughly $2 trillion of Nasdaq-100 value was 'wiped out' in a day, though almost none of it was spent: a company's value is its last price times every share",
+  "event": "Nvidia lost about $2.7 trillion of market value between its 6 Oct 2026 record close ($239.24) and 20 Nov 2026 ($125.53, 47.5% lower), more than the whole crypto market (about $2.1 trillion); on Friday 20 Nov it fell 14% while only about 2.6 in 100 of its shares changed hands, the day the S&P 500 and Dow closed in a correction. A company's value is its last price times every share: the trillions were a price, not cash",
   "story": "The November 2026 AI stock sell-off",
   "angle": "the latest twist and what a wipe-out really is: Friday 20 Nov 2026 (S&P 500 and Dow in correction, the Nasdaq's year erased) and where 'wiped-out' trillions go (a lower price on every share, not cash leaving; a loss is locked in only by those who sell)",
   "window": "14 days",
   "keyword": "SELL/HOLD",
   "made": "2026-11-23",
-  "posted": null,
-  "format": "v2"
+  "posted": "2026-11-23",
+  "format": "v2",
+  "permalink": "https://www.instagram.com/reel/DgD6PXUygnw/",
+  "length_s": 58.8,
+  "wpm": 160,
+  "approved_by_keith": false,
+  "sources": [
+   "$2.7 trillion lost since the 6 Oct 2026 record: Yahoo Finance (Jared Blikre, 21 Nov 2026), Beinsure (21 Nov 2026), Bitcoin.com News (21 Nov 2026: $2.75 tn, close $125.53 on 20 Nov, 47.5% below the $239.24 record close), Motley Fool (Jonathan Ponciano, 20 Nov 2026)",
+   "Whole crypto market about $2.1 trillion: CoinGecko global data (22 Nov 2026, about 22:40 UTC: $2.075 tn); Bitcoin.com News (21 Nov 2026: about $2.02 tn)",
+   "20 Nov 2026: -14.01% to $125.53 from $145.98, volume 633,336,951 shares: stockanalysis.com (S&P Global Market Intelligence data), Motley Fool (Joe Tenebruso, 20 Nov 2026: 633.4M), South Shore Press (24.1 bn shares), Fox Business via Yahoo Finance (about 14%)"
+  ]
  }
 ]
