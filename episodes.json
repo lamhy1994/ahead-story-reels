@@ -162,5 +162,18 @@
   ],
   "format": "v1",
   "wpm": 123
+ },
+ {
+  "n": 9,
+  "slug": "009-heavy-end",
+  "title": "The Heavy End",
+  "event": "12 Nov 2026: Jensen Huang resigned as Nvidia's CEO; Nvidia closed about 4% lower while rival chip stocks rose, and the S&P 500 still fell. Why: the index is weighted by size, the ten biggest companies carry about 40% of it, and Nvidia was the heaviest. By 19 Nov the S&P 500 had fallen six days in a row, about 8% below its October record",
+  "story": "The November 2026 AI stock sell-off",
+  "angle": "the mechanism: how one giant can pull the whole S&P 500 down even when its rivals rise (index weighting and concentration)",
+  "window": "14 days",
+  "keyword": "SELL/HOLD",
+  "made": "2026-11-22",
+  "posted": null,
+  "format": "v2"
  }
 ]
