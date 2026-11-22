@@ -173,7 +173,16 @@
   "window": "14 days",
   "keyword": "SELL/HOLD",
   "made": "2026-11-22",
-  "posted": null,
-  "format": "v2"
+  "posted": "2026-11-22",
+  "format": "v2",
+  "permalink": "https://www.instagram.com/reel/DgCJTiNBTBZ/",
+  "length_s": 59.2,
+  "wpm": 159,
+  "approved_by_keith": false,
+  "sources": [
+   "12 Nov 2026: Reuters (Mikolajczak, Nishant) via Illawarra Mercury/Devdiscourse/NST: Huang resigns, Nvidia closes -4.3%, Broadcom and AMD among the biggest boosts, S&P 500 -0.35% to 7,592.40; AP via La Nacion: other AI chip stocks rose",
+   "Weighting: RBC Wealth Management (22 Jan 2026), AP (5 Nov 2026); top 10 about 40%: S&P Dow Jones Indices via The Motley Fool (16 Jul 2026), RBC (40.7% end-2025), Benzinga/Kobeissi (41%, May 2026); Nvidia the single heaviest weight on 12 Nov: AP via Wealth Professional",
+   "19 Nov 2026: AP via NBC Boston (sixth straight loss, longest losing streak in two and a half years, 8.2% below the all-time high), Stocktwits (-2% to 7,175.83), Dow Jones Market Data via Morningstar (record close 7,818.93 on 6 Oct 2026)"
+  ]
  }
 ]
