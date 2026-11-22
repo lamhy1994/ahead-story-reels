@@ -61,6 +61,7 @@ export function person(o = {}) {
   else if (o.bonnet) { b.ball(0.33, 1, o.bonnet, -0.04, 1.56, 0, 1.05, 0.72, 1.05); b.cyl(0.42, 0.42, 0.04, 9, o.bonnet, 0.02, 1.62, 0); }
   else if (o.bigHat) { b.ball(0.34, 1, hat, 0, 1.66, 0, 1, 0.62, 1); }
   else if (o.toque) { b.cyl(0.25, 0.23, 0.42, 8, 0xFFFFFF, 0, 1.8, 0); b.ball(0.33, 1, 0xFFFFFF, 0, 2.08, 0, 1, 0.7, 1); }
+  else if (o.cowboy) { b.cyl(0.6, 0.6, 0.05, 12, o.cowboy, 0, 1.64, 0); b.cyl(0.25, 0.3, 0.36, 9, o.cowboy, 0, 1.83, 0); b.cyl(0.305, 0.305, 0.08, 9, o.band ?? 0x3A2A1E, 0, 1.7, 0); b.box(0.2, 0.06, 0.34, o.cowboy, 0, 2.02, 0); }   // episode 8: a cowboy hat (Texas, 1970s)
   else if (!o.wig && !o.noHat && !o.hair && !o.short && !o.helmet) b.cyl(0.29, 0.31, 0.18, 7, hat, 0, 1.64, 0);
   // Silicon Valley, 2026 (episode 4): shirt opening, tie, apron, a reporter's microphone, a shoulder camera, a lanyard badge
   if (o.shirt) b.box(0.07, 0.34, 0.2, o.shirt, 0.2, 1.0, 0, 0, 0, 0.12);
@@ -550,3 +551,37 @@ export function savingsJar(R = 1.4, H = 2.8, ph = 1.2) {
   g.add(b.mesh()); const gl = new THREE.Mesh(new THREE.CylinderGeometry(R, R, H, 16, 1, true), GLASS_M); gl.position.y = ph + 0.12 + H / 2; gl.renderOrder = 2; g.add(gl);
   g.userData = { R, floorY: ph + 0.12, H }; return g;
 }
+
+// ───────── Silver Thursday, Texas and New York, 1979–80 (episode 8): oil derricks, a pumpjack, a desk telephone, a banknote
+// strut: a thin cylinder from point a to point c (for lattices)
+const _sq = new THREE.Quaternion(), _sy = new THREE.Vector3(0, 1, 0);
+export function strut(b, a, c, r, col, n = 5) { const d = new THREE.Vector3(c[0] - a[0], c[1] - a[1], c[2] - a[2]), L = d.length(); _sq.setFromUnitVectors(_sy, d.normalize()); return b.add(new THREE.CylinderGeometry(r, r, L, n), col, new THREE.Matrix4().compose(new THREE.Vector3((a[0] + c[0]) / 2, (a[1] + c[1]) / 2, (a[2] + c[2]) / 2), _sq, new THREE.Vector3(1, 1, 1))); }
+// a lattice oil derrick, h tall, base side s, with a small engine house on +x
+export function derrick(h = 14, s = 3.4, col = 0x6A3E2E) {
+  const b = new GB(), tp = s * 0.22, lv = 5, P = (k, y) => { const w = (s + (tp - s) * y / h) / 2; return [[-w, y, -w], [w, y, -w], [w, y, w], [-w, y, w]][k]; };
+  for (let k = 0; k < 4; k++) strut(b, P(k, 0.5), P(k, h), 0.12, col);
+  for (let i = 0; i <= lv; i++) { const y = 0.5 + i * (h - 0.5) / lv; for (let k = 0; k < 4; k++) strut(b, P(k, y), P((k + 1) % 4, y), 0.07, col); if (i < lv) for (let k = 0; k < 4; k++) strut(b, P(k, y), P((k + 1) % 4, y + (h - 0.5) / lv), 0.05, col); }
+  b.box(s + 1.4, 0.5, s + 1.4, 0x9A7A5A, 0, 0.25, 0); b.box(tp + 0.7, 0.3, tp + 0.7, col, 0, h + 0.15, 0); b.cyl(0.28, 0.28, 0.5, 6, 0x3A3A3A, 0, h + 0.6, 0, Math.PI / 2, 0, 0);
+  b.box(1.6, 1.4, 1.6, 0x8A8F96, s / 2 + 1.6, 0.7, 0); b.box(1.8, 0.14, 1.8, 0x6A6E74, s / 2 + 1.6, 1.45, 0);
+  return b.mesh();
+}
+// a pumpjack ("nodding donkey") facing +x: base, A-frame, gearbox; userData.beam (a group at the pivot) rocks about z
+export function pumpjack(col = 0x3A4A5A) {
+  const g = new THREE.Group(), b = new GB(), hy = 3.2;
+  b.box(6.6, 0.4, 1.7, 0x6A6E74, 0, 0.2, 0); b.box(1.3, 1.0, 1.1, 0x8A8F96, -2.4, 0.9, 0); b.cyl(0.35, 0.45, 0.5, 8, 0x5A5F66, 3.5, 0.45, 0);
+  strut(b, [-0.5, 0.4, -0.65], [0, hy, 0], 0.14, col); strut(b, [-0.5, 0.4, 0.65], [0, hy, 0], 0.14, col); strut(b, [0.9, 0.4, 0], [0, hy, 0], 0.14, col);
+  g.add(b.mesh());
+  const beam = new THREE.Group(); beam.position.set(0, hy, 0); g.add(beam);
+  const bb = new GB(); bb.box(5.6, 0.36, 0.42, col, 0.5, 0.22, 0); bb.box(0.55, 1.7, 0.75, 0xC8423A, 3.35, -0.25, 0); bb.box(0.6, 0.6, 0.6, col, -2.2, 0.05, 0); bb.cyl(0.05, 0.05, 2.1, 5, 0x2A2A2A, 3.62, -1.3, 0);
+  beam.add(bb.mesh()); g.userData = { beam }; return g;
+}
+// a 1980 desk telephone (oversized, storybook scale): body and dial; userData.handset lies on top along z and can jump when it rings
+export function deskPhone(col = 0xC8423A) {
+  const g = new THREE.Group(), b = new GB();
+  b.box(1.1, 0.34, 1.0, col, 0, 0.17, 0); b.box(0.86, 0.22, 0.8, col, -0.05, 0.42, 0); b.cyl(0.27, 0.27, 0.05, 14, 0xF4F2EC, 0.33, 0.37, 0, 0, 0, -0.35); b.cyl(0.08, 0.08, 0.07, 8, col, 0.34, 0.39, 0, 0, 0, -0.35);
+  g.add(b.mesh());
+  const h = new GB(); h.box(0.22, 0.16, 1.2, col, 0, 0, 0); h.box(0.3, 0.2, 0.3, col, 0, -0.06, -0.52); h.box(0.3, 0.2, 0.3, col, 0, -0.06, 0.52);
+  const hs = h.mesh(); hs.position.set(-0.08, 0.66, 0); g.add(hs); g.userData = { handset: hs }; return g;
+}
+// a banknote (for a single mesh with MAT): green sheet with a pale border and a plain oval (no real design), 2.6 x 1.15, origin at its centre
+export const BILL = (() => { const b = new GB(); b.box(2.6, 0.03, 1.15, 0x7FB27A, 0, 0, 0); b.box(2.36, 0.035, 0.93, 0x5E9E5A, 0, 0, 0); b.cyl(0.3, 0.3, 0.04, 14, 0xD8E8C8, 0, 0, 0, 0, 0, 0); b.box(0.5, 0.04, 0.12, 0xD8E8C8, -0.85, 0, -0.3); b.box(0.5, 0.04, 0.12, 0xD8E8C8, 0.85, 0, 0.3); return b.geo(); })();
