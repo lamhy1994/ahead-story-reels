@@ -217,7 +217,16 @@
   "window": "14 days",
   "keyword": "YES/NO",
   "made": "2026-11-23",
-  "posted": null,
-  "format": "v2"
+  "posted": "2026-11-23",
+  "format": "v2",
+  "permalink": "https://www.instagram.com/reel/DgEv8MihqOn/",
+  "length_s": 58.0,
+  "wpm": 160,
+  "approved_by_keith": false,
+  "sources": [
+   "29 Oct 2026, about $6.3bn (Binance's figure; trackers $6.34-6.43bn), biggest crypto theft on record, 20:05-23:56 UTC: CoinDesk (Sandor, Alpher, 29 Oct 2026), CNBC (29 Oct 2026, headline), The Guardian (29-30 Oct 2026), Elliptic (Robinson, 3 Nov 2026, updated 20 Nov), Gulf News and Decrypt via Yahoo Finance (19 Nov 2026), The Block (Khatri, 18 Nov 2026)",
+   "The way in, Binance's account: Yahoo Finance (Hollerith, 3 Nov 2026), ITdaily (Duchene, 4 Nov 2026), CNBC (3 Nov 2026, headline), BBC (4 Nov 2026); about $2.85bn frozen (Tether, Circle and others): The Block, CoinDesk, Decrypt, Gulf News, Elliptic; Binance covered losses: CoinDesk (Rodrigues, 19 Nov 2026), Decrypt (19 Nov 2026); FBI alert 31 Oct 2026 and North Korea's denial: CoinDesk (3 Nov 2026), Yahoo Finance (3 Nov 2026)",
+   "18-19 Nov 2026: ADGM Courts' $6.5bn worldwide freezing order, can be served via the blockchain: The Block (18 Nov), Decrypt via Yahoo Finance (19 Nov), CoinDesk (19 Nov), Gulf News (19 Nov), Bloomberg (18 Nov, headline); laundering through about 27,000 wallets, $149m via coinjoins: Elliptic (20 Nov), The Block (Baird, 20 Nov), crypto.news (Roy, 19 Nov)"
+  ]
  }
 ]
