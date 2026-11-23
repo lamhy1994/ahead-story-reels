@@ -585,3 +585,16 @@ export function deskPhone(col = 0xC8423A) {
 }
 // a banknote (for a single mesh with MAT): green sheet with a pale border and a plain oval (no real design), 2.6 x 1.15, origin at its centre
 export const BILL = (() => { const b = new GB(); b.box(2.6, 0.03, 1.15, 0x7FB27A, 0, 0, 0); b.box(2.36, 0.035, 0.93, 0x5E9E5A, 0, 0, 0); b.cyl(0.3, 0.3, 0.04, 14, 0xD8E8C8, 0, 0, 0, 0, 0, 0); b.box(0.5, 0.04, 0.12, 0xD8E8C8, -0.85, 0, -0.3); b.box(0.5, 0.04, 0.12, 0xD8E8C8, 0.85, 0, 0.3); return b.geo(); })();
+// episode 13 (a board vote, 23 Nov 2026): a raised arm for a seated or standing person (origin at the shoulder, arm pointing up +y; scale.y 0 → 1 raises it)
+export function hand(sleeve = 0x2B2F3A, skin = 0x8D5E3F) { const b = new GB(); b.cyl(0.075, 0.085, 0.72, 6, sleeve, 0, 0.36, 0); b.ball(0.12, 0, skin, 0, 0.8, 0); b.box(0.05, 0.16, 0.05, skin, 0.06, 0.92, 0); return b.mesh(); }
+// glass meeting room on a low plinth: frame posts, an open roof of beams, four glass walls (GLASS_M); seen into from above, origin at the floor centre
+export function pavilion(Wd = 11, Dp = 8, Ht = 3.6) {
+  const g = new THREE.Group(), b = new GB(), fr = 0xF1EDE4;
+  b.box(Wd + 0.8, 0.3, Dp + 0.8, 0xCFC7B6, 0, 0.15, 0); b.box(Wd, 0.04, Dp, 0xB9A88A, 0, 0.32, 0);
+  for (const x of [-Wd / 2, Wd / 2]) for (const z of [-Dp / 2, Dp / 2]) b.box(0.24, Ht, 0.24, fr, x, 0.3 + Ht / 2, z);
+  for (const s of [-1, 1]) { b.box(Wd + 0.5, 0.32, 0.36, fr, 0, 0.3 + Ht + 0.16, s * Dp / 2); b.box(0.36, 0.32, Dp + 0.5, fr, s * Wd / 2, 0.3 + Ht + 0.16, 0); }   // open roof: a frame of beams, so the room can be seen from above
+  g.add(b.mesh());
+  const gl = new GB(); gl.box(Wd, Ht, 0.06, 0xFFFFFF, 0, 0.3 + Ht / 2, -Dp / 2); gl.box(Wd, Ht, 0.06, 0xFFFFFF, 0, 0.3 + Ht / 2, Dp / 2); gl.box(0.06, Ht, Dp, 0xFFFFFF, -Wd / 2, 0.3 + Ht / 2, 0); gl.box(0.06, Ht, Dp, 0xFFFFFF, Wd / 2, 0.3 + Ht / 2, 0);
+  const glass = new THREE.Mesh(gl.geo(), GLASS_M); glass.renderOrder = 1; g.add(glass);
+  g.userData = { floorY: 0.34, Wd, Dp, Ht }; return g;
+}
