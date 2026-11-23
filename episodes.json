@@ -228,5 +228,19 @@
    "The way in, Binance's account: Yahoo Finance (Hollerith, 3 Nov 2026), ITdaily (Duchene, 4 Nov 2026), CNBC (3 Nov 2026, headline), BBC (4 Nov 2026); about $2.85bn frozen (Tether, Circle and others): The Block, CoinDesk, Decrypt, Gulf News, Elliptic; Binance covered losses: CoinDesk (Rodrigues, 19 Nov 2026), Decrypt (19 Nov 2026); FBI alert 31 Oct 2026 and North Korea's denial: CoinDesk (3 Nov 2026), Yahoo Finance (3 Nov 2026)",
    "18-19 Nov 2026: ADGM Courts' $6.5bn worldwide freezing order, can be served via the blockchain: The Block (18 Nov), Decrypt via Yahoo Finance (19 Nov), CoinDesk (19 Nov), Gulf News (19 Nov), Bloomberg (18 Nov, headline); laundering through about 27,000 wallets, $149m via coinjoins: Elliptic (20 Nov), The Block (Baird, 20 Nov), crypto.news (Roy, 19 Nov)"
   ]
+ },
+ {
+  "n": 12,
+  "slug": "012-bitcoin-front-door",
+  "title": "Bitcoin's Front Door",
+  "event": "US spot bitcoin ETFs (the funds that let people buy bitcoin like a stock) lose about $3.6 billion in November 2026 through 20 Nov (Farside), with BlackRock's IBIT posting its biggest one-day outflow ever, $541.1 million on 19 Nov; their average buyer paid more than $80,000 a coin and is now under water. Sat 21 Nov 2026: bitcoin falls to about $55,250, its lowest in two years (Reuters), then climbs back above $61,000 by Mon 23 Nov (CoinDesk)",
+  "story": "Bitcoin's November 2026 slide below $60,000",
+  "angle": "who is selling: the bitcoin ETF exodus (how a fund share is backed by real bitcoin, why outflows mean bitcoin leaving the vault, IBIT's record day, the average buyer under water) and the latest twist: the 21 Nov plunge to a two-year low and the bounce above $61,000 (the door opens both ways)",
+  "window": "14 days",
+  "keyword": "SELL/HOLD",
+  "made": "2026-11-23",
+  "posted": null,
+  "format": "v2",
+  "approved_by_keith": false
  }
 ]
