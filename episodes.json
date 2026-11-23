@@ -239,8 +239,18 @@
   "window": "14 days",
   "keyword": "SELL/HOLD",
   "made": "2026-11-23",
-  "posted": null,
+  "posted": "2026-11-23",
   "format": "v2",
-  "approved_by_keith": false
+  "approved_by_keith": false,
+  "permalink": "https://www.instagram.com/reel/DgFneVPod7D/",
+  "length_s": 53.2,
+  "wpm": 159,
+  "sources": [
+   "US spot bitcoin ETFs about $3.59bn net outflows in November through 20 Nov 2026 (Farside): StartupFortune (Elroy Fernandes, 23 Nov 2026), SecureShift (22 Nov 2026), CryptoSlate ($3.47bn through 19 Nov; record month June 2026, $4.51bn); CoinDesk (23 Nov 2026: $1.24bn out last week, SoSoValue via FxPro)",
+   "BlackRock's IBIT record one-day outflow $541.1m on Thu 19 Nov 2026 (previous record $528m, 30 Jan 2026): TFTC (20 Nov 2026), CryptoSlate, StartupFortune (Farside data); CoinDesk via Hespress (21 Nov 2026)",
+   "Sat 21 Nov 2026 low $55,251.60, lowest in two years: Reuters (Rajan, Khushi) via AOL and Investing.com; CoinDesk (Malwa, 23 Nov 2026: about $55,500, back above $61,000 by Monday); Bitcoin.com News (Hayward, 21 Nov 2026: lowest since September 2024); CoinGecko series and $61,129 (read 23 Nov 2026 13:40 UTC)",
+   "How fund outflows work (bitcoin leaves the fund, often sold): The Block Research, 'Bitcoin ETF Flows Explained' (26 Jun 2026, updated 14 Jul); crypto.news (Olivia Stephanie, 6 Jul 2026); TFTC (20 Nov 2026)",
+   "Average fund buyer paid more than $80,000 a coin and is under water: Phemex News (CryptoETF.today, $80,197, 20 Nov 2026), EdaFace (about $84,000, 22 Nov 2026), COINOTAG (Bitfinex Alpha, $80,070 for Aug-Sep buyers, 18 Nov 2026), SecureShift (Bitfinex/Glassnode, 22 Nov 2026)"
+  ]
  }
 ]
