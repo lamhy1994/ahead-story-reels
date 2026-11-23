@@ -206,5 +206,18 @@
    "Whole crypto market about $2.1 trillion: CoinGecko global data (22 Nov 2026, about 22:40 UTC: $2.075 tn); Bitcoin.com News (21 Nov 2026: about $2.02 tn)",
    "20 Nov 2026: -14.01% to $125.53 from $145.98, volume 633,336,951 shares: stockanalysis.com (S&P Global Market Intelligence data), Motley Fool (Joe Tenebruso, 20 Nov 2026: 633.4M), South Shore Press (24.1 bn shares), Fox Business via Yahoo Finance (about 14%)"
   ]
+ },
+ {
+  "n": 11,
+  "slug": "011-job-interview-heist",
+  "title": "The $6 Billion Job Interview",
+  "event": "29 Oct 2026: hackers took about $6.3 billion from Binance's hot wallets in under four hours, the biggest crypto theft on record. Binance says the way in was a fake job interview: fake recruiters won an engineer's trust and a fake 'CEO' sent a coding test that hid malware. About $2.85 billion was frozen; Binance says it covered customers' losses; the FBI attributes it to North Korea, which denies it. 18-19 Nov 2026: an Abu Dhabi court (ADGM) granted a $6.5 billion worldwide freezing order that can be served on the blockchain, while laundering through thousands of wallets ramps up",
+  "story": "The October 2026 Binance hack",
+  "angle": "how it happened (Binance's account: a fake job interview, a malware 'coding test', then the systems that approve payments) and the latest twist (an Abu Dhabi court's $6.5 billion worldwide freezing order that can be served to the thieves' wallets, 18 Nov 2026; laundering ramps up 17-20 Nov)",
+  "window": "14 days",
+  "keyword": "YES/NO",
+  "made": "2026-11-23",
+  "posted": null,
+  "format": "v2"
  }
 ]
