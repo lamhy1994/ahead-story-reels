@@ -288,7 +288,17 @@
   "window": "14 days",
   "keyword": "YES/NO",
   "made": "2026-11-24",
-  "posted": null,
-  "format": "v2"
+  "posted": "2026-11-24",
+  "format": "v2",
+  "approved_by_keith": false,
+  "permalink": "https://www.instagram.com/reel/DgHWgLPh9uy/",
+  "length_s": 55.2,
+  "wpm": 164,
+  "sources": [
+   "Short sellers' one-day paper loss, Mon 23 Nov 2026: Reuters (Shashwat Chauhan, 23 Nov 2026, via Euronext and Global Banking & Finance Review): ORTEX $12.2bn at $168.50, 'their biggest one-day hit since at least 2019', more than $10.5bn of last week's gains erased, still up about $14bn since 29 Oct; Korea Daily (citing MarketWatch/Reuters): ORTEX $11.2bn at the close; Stocktwits (Anan Ashraf, 23 Nov 2026): S3 Partners 'roughly $12 billion in a single session', nearly 90% of about $13.7bn made in the seven sessions after Huang quit, still up about $4bn in 2026; SBS (24 Nov 2026); Yahoo Finance (23 Nov 2026)",
+   "Leveraged funds betting against Nvidia: WSJ via PANews, ChainCatcher, Phemex, Korea Daily (23 Nov 2026): a 3x short Nvidia ETF listed in Europe 'plunged 91% shortly after the U.S. stock market opened and was subsequently halted'; Bloomberg data via ZeroHedge (Eric Balchunas: NV3S $0.30, -91.37%, London 'Automatic suspension'); Bloomberg markets wrap via swissinfo (24 Nov 2026): GraniteShares 2x Short NVDA Daily ETF (NVD) -63%; ETF Stream (headline, 23 Nov 2026); BigGo Finance (24 Nov 2026); Leverage Shares product page (-3x daily, airbag at 16.67%)",
+   "How a short sale works and why its losses have no ceiling: SEC Investor Bulletin 'An Introduction to Short Sales' (updated 9 Sep 2026)",
+   "Huang resigned 12 Nov and was reinstated 23 Nov 2026; Nvidia closes $173.73 (11 Nov) -> $125.53 (20 Nov, -28%) -> $165.05 (23 Nov, +31.5%): NVIDIA releases (12 and 23 Nov 2026), The Motley Fool, Kiplinger, 24/7 Wall St (23 Nov 2026), Bloomberg via swissinfo (24 Nov 2026), SBS (24 Nov 2026); episodes 4 and 13"
+  ]
  }
 ]
