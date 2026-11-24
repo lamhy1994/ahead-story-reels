@@ -329,14 +329,29 @@
   "n": 16,
   "slug": "016-safe-place-sank",
   "title": "The Safe Place That Sank",
-  "event": "Gold falls below $3,600 an ounce on Tue 24 Nov 2026, its lowest in more than a year and about a third below its record of nearly $5,600 on 29 Jan 2026, even through a year of war in the Gulf: about $13-14 trillion of paper value of all the world's above-ground gold gone since January. Why: oil spikes feed inflation, the Fed raised rates on 16 Sep 2026 and a December hike is nearly fully priced; gold pays no interest while US 10-year bonds pay about 4.9%; margin calls in the AI-stock sell-off forced traders to sell gold",
+  "event": "Gold falls to about $3,600 an ounce on Tue 24 Nov 2026 ($3,602, Kitco), its lowest in about 14 months and about a third below its record of nearly $5,600 on 29 Jan 2026 (Reuters), through a year of war in the Gulf (since Feb 2026, AP): about $14 trillion of paper value of all the world's above-ground gold gone since January (our estimate: World Gold Council 224,200 t x the fall). Why: gold pays no interest while US 10-year bonds pay about 5%; the war lifted oil and prices and the Fed raised rates on 16 Sep 2026 (next decision 9 Dec); margin calls in the AI-stock sell-off made some traders sell gold (Commerzbank, Capital.com); gold tended to fall when the fighting flared and rise when it eased",
   "story": "The 2026 gold and silver crash",
   "angle": "the mechanism: why the safe haven sank in a year of war (fighting lifts oil, oil lifts prices, the Fed raises rates; gold pays nothing while bonds pay almost 5%; margin calls in the AI-stock sell-off made traders sell gold) and the latest twist: gold below $3,600 on 24 Nov 2026, about $13 trillion of paper value gone since the January record",
   "window": "14 days",
   "keyword": "SELL/HOLD",
   "made": "2026-11-25",
-  "posted": null,
+  "posted": "2026-11-25",
   "format": "v2",
-  "approved_by_keith": false
+  "approved_by_keith": false,
+  "permalink": "https://www.instagram.com/reel/DgJDR77vUVK/",
+  "length_s": 56.2,
+  "wpm": 162,
+  "sources": [
+   "Record near $5,600 on 29 Jan 2026 (spot touched $5,594.82): Reuters via Kitco and BusinessDay (29 Jan 2026); TradingNEWS (19 Nov 2026, $5,598)",
+   "About $3,600 on 24 Nov 2026 ($3,602): Kitco (Neils Christensen, 24 Nov 2026), IndexBox, Eurasia Business News (24 Nov 2026), FXStreet headline (24 Nov 2026)",
+   "Lowest in about 14 months: Kitco (19 Nov 2026, fresh 14-month lows, $3,625.50), Reuters via NST (18 Nov 2026, lowest since September 2025), TradingNEWS (19 Nov 2026)",
+   "About $14 trillion of paper value (our estimate): World Gold Council above-ground stock 224,200 t, end-Q3 2026 (gold.org, 3 Nov 2026) x ($5,594.82 - $3,602); cross-checks: Speaks Media (22 Nov 2026, nearly $14.5tn), CEOWORLD via Speaks Media (about $15tn gold and silver)",
+   "Gold pays no interest, higher rates raise the cost of holding it: Reuters via NST (18 Nov 2026), NEWS.RO via SpotMedia (18 Nov 2026), TBS News (14 Jun 2026)",
+   "US 10-year yield about 5%: AP via BNN Bloomberg (4.91%, 24 Nov 2026), TradingNEWS (5.085%, 19 Nov 2026)",
+   "The war since Feb 2026, Brent $72-$114: AP (24 Nov 2026); Hormuz, energy prices, US inflation 4.2%: TBS News (14 Jun 2026)",
+   "Fed hike 16 Sep 2026 (25 bp to 3.75-4.00%, 12-0): Kitco (Ernest Hoffman, 16 Sep 2026); held 28 Oct (FXStreet, investingLive); Williams on more hikes: Reuters via NST (18 Nov 2026); Dec 8-9 meeting: Kitco (19 Nov 2026), Speaks Media (22 Nov 2026)",
+   "Gold fell on escalation, rose on easing: investingLive reporting a Commerzbank note (~2 Nov 2026); Reuters via Khaleej Times (12 Nov 2026, fading Middle East peace hopes); Kitco AM report (9 Nov 2026, Iran diplomacy); SCMP (Nov 2026, crude oil a headwind)",
+   "Margin calls / forced selling in the tech sell-off: Commerzbank via investingLive (Reuters and CNBC reported); Capital.com's Kyle Rodda via Speaks Media (22 Nov 2026); NEWS.RO via SpotMedia (18 Nov 2026)"
+  ]
  }
 ]

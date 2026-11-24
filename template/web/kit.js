@@ -598,3 +598,13 @@ export function pavilion(Wd = 11, Dp = 8, Ht = 3.6) {
   const glass = new THREE.Mesh(gl.geo(), GLASS_M); glass.renderOrder = 1; g.add(glass);
   g.userData = { floorY: 0.34, Wd, Dp, Ht }; return g;
 }
+// ───────── Gold in a year of war, November 2026 (episode 16): an oil barrel, an oil tanker, a seesaw
+// an oil barrel (dark blue drum with red hoops), origin at its centre, axis along y, 5.2 tall
+export function oilBarrel() { const g = new THREE.Group(), b = new GB(); b.cyl(2.6, 2.6, 5.2, 16, 0x24324A, 0, 0, 0); for (const y of [-1.7, 0, 1.7]) b.cyl(2.68, 2.68, 0.36, 16, 0xC8423A, 0, y, 0); b.cyl(2.3, 2.3, 0.1, 16, 0x1A2436, 0, 2.62, 0); b.cyl(0.4, 0.4, 0.2, 8, 0x8A8F96, 1.2, 2.7, 0.4); g.add(b.mesh()); return g; }
+// an oil tanker (for a Mesh with MAT): dark hull with a red waterline, white bridge at the stern (-x), bow toward +x; 46 long, origin at the waterline centre
+export const TANKER = (() => { const b = new GB(); b.box(46, 4.4, 9, 0x2E3B4E, 0, 2.2, 0); b.box(46.4, 0.5, 9.4, 0xC8423A, 0, 0.5, 0); b.box(44, 0.4, 8.4, 0x6A6E74, 0, 4.6, 0); b.box(7, 6, 8.4, 0xF1EDE4, -17, 7.6, 0); b.box(2, 3, 2, 0x2E3B4E, -18, 12, 0); b.cone(3.2, 6, 4, 0x2E3B4E, 23.5, 2.2, 0, 0, Math.PI / 4, -Math.PI / 2);
+  for (let k = 0; k < 5; k++) b.cyl(0.6, 0.6, 0.6, 8, 0xC9CED6, -8 + k * 6.5, 5.1, 0); return b.geo(); })();
+// a seesaw: a stone base and a three-sided fulcrum (one mesh) plus a plank group pivoting at userData.pivotY (rotate plank.rotation.z; +z lifts the +x end)
+export function seesaw(L = 15) { const g = new THREE.Group(), b = new GB(); b.add(new THREE.CylinderGeometry(0.01, 1.7, 2.6, 3, 1), 0x6A6E74, new THREE.Matrix4().makeTranslation(0, 1.3, 0).multiply(new THREE.Matrix4().makeRotationY(Math.PI / 2))); b.box(5, 0.3, 3, 0xD6CEBC, 0, 0.15, 0); g.add(b.mesh());
+  const plank = new THREE.Group(); plank.position.y = 2.75; const p = new GB(); p.box(L, 0.4, 2.6, 0xC9A27A, 0, 0, 0); p.box(L + 0.2, 0.1, 2.7, 0xB08A5A, 0, 0.24, 0); p.box(0.7, 0.6, 2.9, 0x8A6A4A, -L / 2 + 0.3, 0.4, 0); p.box(0.7, 0.6, 2.9, 0x8A6A4A, L / 2 - 0.3, 0.4, 0); plank.add(p.mesh()); g.add(plank);
+  g.userData = { plank, pivotY: 2.75, end: L / 2 - 1.9 }; return g; }
