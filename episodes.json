@@ -311,8 +311,18 @@
   "window": "14 days",
   "keyword": "YES/NO",
   "made": "2026-11-24",
-  "posted": null,
+  "posted": "2026-11-24",
   "format": "v2",
-  "approved_by_keith": false
+  "approved_by_keith": false,
+  "permalink": "https://www.instagram.com/reel/DgILzoRhflK/",
+  "length_s": 57.7,
+  "wpm": 160,
+  "sources": [
+   "US civil forfeiture action against more than $1.1bn of USDC (about $1.17bn in 36 addresses on 18 blockchains) stolen in the 29 Oct 2026 Binance hack, filed Mon 23 Nov 2026 in the U.S. District Court for the District of Columbia: Reuters (David Ljunggren, 23 Nov 2026, via MarketScreener), The Block (Yogita Khatri, The Daily, 24 Nov 2026), Fox Business (Louis Casiano, 23 Nov 2026), Gulf News (Nathaniel Lacsina, 24 Nov 2026), CoinDesk via cryptonews.net and crypto.news (24 Nov 2026), CoinCodex (24 Nov 2026)",
+   "Circle blocked the USDC but cannot transfer the original tokens; agreed to issue equivalent new USDC to the US if the court orders forfeiture: The Block (24 Nov 2026, from the complaint), Gulf News (24 Nov 2026), CoinCodex (24 Nov 2026)",
+   "Civil forfeiture is in rem: the property is the defendant, no criminal charge needed: US DOJ Asset Forfeiture Program 'Types of Federal Forfeiture'; FBI 'Asset Forfeiture'; Cornell LII Wex 'forfeiture'",
+   "$6.3bn stolen, the biggest crypto theft on record; FBI's $1.2bn seize-or-restrain order (12 Nov 2026): AP via BNN Bloomberg, The Block, Bloomberg Government (12 Nov 2026); episode 11 sources (CoinDesk, CNBC 29 Oct; FBI alert 31 Oct; North Korea's denial, CoinDesk 3 Nov)",
+   "Bitcoin and ether cannot be frozen; 27,000+ wallets on 16+ blockchains; home-made meme coins on NEAR; about $2.22bn still in theft-linked addresses: Elliptic (Tom Robinson, 3 Nov 2026, updated 23 Nov 2026), Cointelegraph (Christina Comben 30 Oct/17 Nov; Nate Kostar 9-10 Nov 2026), crypto.news (9 and 19 Nov 2026), Gulf News citing CoinDesk/Elliptic ($2.35bn), Onchain Lens via BeInCrypto/Mitrade ($2.85bn, 13 Nov 2026)"
+  ]
  }
 ]
