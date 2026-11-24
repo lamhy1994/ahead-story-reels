@@ -300,5 +300,19 @@
    "How a short sale works and why its losses have no ceiling: SEC Investor Bulletin 'An Introduction to Short Sales' (updated 9 Sep 2026)",
    "Huang resigned 12 Nov and was reinstated 23 Nov 2026; Nvidia closes $173.73 (11 Nov) -> $125.53 (20 Nov, -28%) -> $165.05 (23 Nov, +31.5%): NVIDIA releases (12 and 23 Nov 2026), The Motley Fool, Kiplinger, 24/7 Wall St (23 Nov 2026), Bloomberg via swissinfo (24 Nov 2026), SBS (24 Nov 2026); episodes 4 and 13"
   ]
+ },
+ {
+  "n": 15,
+  "slug": "015-money-on-trial",
+  "title": "The Money on Trial",
+  "event": "Mon 23 Nov 2026: the US Justice Department files a civil forfeiture complaint in a Washington, D.C., federal court against about $1.17bn of USDC stolen in the 29 Oct 2026 Binance hack (about $6.3bn, the biggest crypto theft on record; the FBI blames North Korea, which denies it). In such a case the money itself is the defendant and no one has to be charged. Circle has frozen the USDC but cannot move the original tokens, so it agreed to issue new USDC to the US if the court orders forfeiture. Bitcoin and ether cannot be frozen: the rest was scattered across 27,000+ wallets and even home-made meme coins; trackers say more than $2bn still sits in wallets tied to the theft (Elliptic, 23 Nov)",
+  "story": "The October 2026 Binance hack",
+  "angle": "the chase: why the US is suing the money itself (civil forfeiture of about $1.17bn of frozen USDC, filed 23 Nov 2026), how a frozen coin gets back (Circle issues new USDC if a judge orders it), and why bitcoin and ether can't be frozen (27,000+ wallets, home-made meme coins, more than $2bn still in theft-linked wallets)",
+  "window": "14 days",
+  "keyword": "YES/NO",
+  "made": "2026-11-24",
+  "posted": null,
+  "format": "v2",
+  "approved_by_keith": false
  }
 ]
