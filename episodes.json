@@ -379,5 +379,19 @@
    "UDN, NOWnews, CNA, Al Jazeera (25 Nov 2026): 24 Nov +8.99% record point gain; 25 Nov intraday -3,440.45, close -4.8%",
    "StockFeel, Pocket Securities, Business Weekly: Taiwan margin rules (60% loan, 130% call line, two days to top up)"
   ]
+ },
+ {
+  "n": 18,
+  "slug": "018-nervous-lenders",
+  "title": "The Nervous Lenders",
+  "event": "Tue 24 Nov 2026, the day after Nvidia jumped 31.5% on Jensen Huang's return: the cost of insuring AI companies' debt against default (five-year credit default swaps) hits records (Reuters, S&P Global Market Intelligence: Oracle, Alphabet, SpaceX, CoreWeave). Oracle 356 bps, about $3.56 a year to insure $100 of its debt (Reuters; CNBC 355.68); CoreWeave 1,314 bps (Reuters; FactSet 1,332; CNBC over 1,200), about $13 per $100, its 9.75% 2031 bond yielding over 17% (CNBC) after falling to 76.6 cents on the dollar (Bloomberg). Nvidia fell 5.9% that day (CNBC, Trefis). AI-related borrowing reached about $466 billion in Jan-Sep 2026, more than four times the $101 billion of a year earlier (Morgan Stanley data, reported by the FT and IO Fund); Microsoft, Amazon, Meta and Alphabet are on track to spend more on capital projects than their businesses generate in cash in 2026 and 2027 (Man Group via CNBC; company figures via TIKR/Yahoo Finance)",
+  "story": "The November 2026 AI stock sell-off",
+  "angle": "the debt behind the AI boom: about $466 billion borrowed for AI in Jan-Sep 2026, what a credit default swap is (insurance on a loan; the more people doubt the borrower, the higher the yearly fee), the record price of insuring Oracle's debt (about $3.56 a year per $100) and CoreWeave's (about $13; bond buyers want over 17%) on 24 Nov 2026, why (some giants now spend more on building than their business brings in, so they borrow), and the twist: it came the day after Nvidia's 31.5% comeback jump (stocks cheered, lenders didn't)",
+  "window": "14 days",
+  "keyword": "LEND/PASS",
+  "made": "2026-11-25",
+  "posted": null,
+  "format": "v2",
+  "approved_by_keith": false
  }
 ]
