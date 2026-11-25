@@ -6,7 +6,7 @@ from scipy.signal import resample_poly
 from num2words import num2words
 from faster_whisper import WhisperModel
 norm = lambda s: re.sub(r"[^a-z0-9]", "", s.lower())
-HOMO = [("2", "too"), ("two", "too"), ("to", "too"), ("collette", "colette"), ("dominos", "dominoes")]
+HOMO = [("2", "too"), ("two", "too"), ("to", "too"), ("collette", "colette"), ("dominos", "dominoes"), ("corweave", "coreweave"), ("corweaves", "coreweaves")]
 wav = sys.argv[1]; T = json.load(open(sys.argv[2] if len(sys.argv) > 2 else "audio/timing.json"))
 a, sr = sf.read(wav)
 if a.ndim > 1: a = a.mean(axis=1)
@@ -22,9 +22,16 @@ for s in segs:
         if ws and re.fullmatch(r"\.\d{1,2}[.,!?%]?", raw) and re.search(r"\d$", ws[-1][0]):
             ws[-1] = (ws[-1][0] + raw, ws[-1][1]); continue                           # … and "$115.8" into "$115" + ".8"
         ws.append((raw, w.start))
-for raw, st in ws:
+MULT = ("thousand", "million", "billion", "trillion")
+for j, (raw, st) in enumerate(ws):
     heard.append((norm(raw), st))
     digits = re.sub(r"[^0-9]", "", raw)
+    dm = re.search(r"(\d[\d,]*)\.(\d+)", raw)                     # "$3.5" is said "three and a half dollars" ("three point five")
+    if dm:
+        digits = dm.group(1).replace(",", "")
+        if dm.group(2).rstrip("0") == "5": heard.extend([("and", st), ("a", st), ("half", st)])
+        heard.append(("point", st)); heard.extend((num2words(int(d)), st) for d in dm.group(2))
+    if "$" in raw and j + 1 < len(ws) and norm(ws[j + 1][0]) in MULT: heard.append(("dollars", ws[j + 1][1] + 0.4))   # "$466 billion": "dollars" is said after "billion"
     if digits:                                                       # keep the digits and add the words (1720 also gives "one thousand …", which is harmless)
         n = int(digits)
         for x in re.sub(r"[^a-z ]", " ", num2words(n).replace("-", " ")).split():

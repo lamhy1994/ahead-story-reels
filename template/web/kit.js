@@ -625,3 +625,40 @@ export function stackTower(o = {}) {
   const ringM = new THREE.MeshLambertMaterial({ color: 0xFFE7B0, emissive: 0xFFC46A, emissiveIntensity: 0.2 }); const ring = new THREE.Mesh(lw.geo(), ringM); g.add(ring);
   g.userData = { h: y, ring: ringM }; return g;
 }
+// ───────── AI debt, November 2026 (episode 18): a tower crane, a windowless data centre, an umbrella (insurance)
+// a tower crane: lattice mast h tall, jib of length L along +x, counter-jib with weights on -x, cab; userData.top = the slewing part (rotate y), hook = the hook block (move y), hookX
+export function crane(h = 30, L = 22, col = 0xF2B233) {
+  const g = new THREE.Group(), b = new GB(), s = 1.2;
+  b.box(3.2, 0.8, 3.2, 0x8A8F96, 0, 0.4, 0);
+  for (const [x, z] of [[-s, -s], [s, -s], [-s, s], [s, s]]) b.box(0.22, h, 0.22, col, x * 0.5, h / 2 + 0.8, z * 0.5);
+  for (let y = 0.8; y < h; y += 2.4) { strut(b, [-0.6, y, -0.6], [0.6, y + 2.4, -0.6], 0.07, col, 4); strut(b, [-0.6, y, 0.6], [0.6, y + 2.4, 0.6], 0.07, col, 4); strut(b, [0.6, y, -0.6], [0.6, y + 2.4, 0.6], 0.07, col, 4); strut(b, [-0.6, y, -0.6], [-0.6, y + 2.4, 0.6], 0.07, col, 4); }
+  g.add(b.mesh());
+  const top = new THREE.Group(); top.position.y = h + 0.8; const t = new GB();
+  t.box(1.6, 1.6, 1.6, 0xE9E3D6, 0.9, 0.8, 0.9); t.box(1.2, 0.9, 1.0, 0x7FB2D0, 1.2, 0.95, 1.45);            // the cab
+  t.box(L, 0.5, 0.9, col, L / 2, 1.9, 0); t.box(L - 2, 0.12, 0.12, col, L / 2, 2.6, 0.38); t.box(L - 2, 0.12, 0.12, col, L / 2, 2.6, -0.38);   // the jib
+  for (let x = 1; x < L - 1; x += 1.6) strut(t, [x, 1.9, 0], [x + 0.8, 2.6, 0], 0.06, col, 4);
+  t.box(7, 0.6, 1.0, col, -3.5, 1.9, 0); t.box(2.2, 1.6, 1.4, 0x8A8F96, -5.6, 1.4, 0);                         // the counter-jib and its weights
+  t.cone(0.7, 3.4, 4, col, 0, 4.0, 0, 0, Math.PI / 4, 0); strut(t, [0, 5.6, 0], [L * 0.7, 2.2, 0], 0.05, 0x5A5F66, 4); strut(t, [0, 5.6, 0], [-6, 2.2, 0], 0.05, 0x5A5F66, 4);
+  top.add(t.mesh()); g.add(top);
+  const hb = new GB(); hb.box(0.05, 1, 0.05, 0x3A3F48, 0, 0.5, 0); const cable = new THREE.Mesh(hb.geo(), MAT); const hook = new THREE.Group(); const hk = new GB(); hk.box(0.7, 0.5, 0.5, 0xC8423A, 0, 0, 0); hk.cone(0.18, 0.5, 4, 0x3A3F48, 0, -0.45, 0, Math.PI, 0, 0); hook.add(new THREE.Mesh(hk.geo(), MAT));
+  top.add(cable, hook); g.userData = { top, hook, cable, hookX: L * 0.65, h }; return g;
+}
+// a data centre (front toward +z): a long windowless box with louvres, a blue status strip, rooftop cooling fans and two generators; userData: L, D, H, signY, signZ
+export function dataCenter(L = 30, D = 16, H = 7, o = {}) {
+  const b = new GB(), wall = o.wall ?? 0xE4E2DC, trim = 0xC9CCD0, dark = 0x3A3F48;
+  b.box(L, H, D, wall, 0, H / 2, 0); b.box(L + 0.4, 0.45, D + 0.4, trim, 0, H + 0.22, 0);
+  for (let x = -L / 2 + 2; x < L / 2 - 1; x += 2.2) { b.box(1.5, H * 0.5, 0.12, 0xBFC3C8, x, H * 0.45, D / 2 + 0.05); b.box(1.5, H * 0.5, 0.12, 0xBFC3C8, x, H * 0.45, -D / 2 - 0.05); }
+  b.box(L * 0.9, 0.3, 0.14, o.strip ?? 0x3E8FD0, 0, H * 0.85, D / 2 + 0.08);
+  for (let i = 0; i < Math.floor(L / 5); i++) for (const z of [-D / 4, D / 4]) { const x = -L / 2 + 2.6 + i * 5; b.box(3.6, 1.0, 3.6, 0xAEB3B8, x, H + 0.95, z); b.cyl(1.3, 1.3, 0.18, 12, dark, x, H + 1.5, z); b.box(2.4, 0.06, 0.2, 0x8A8F96, x, H + 1.62, z, 0, i * 0.7, 0); }
+  b.box(3.4, 2.4, 2.2, 0x6A7480, L / 2 + 2.4, 1.2, D / 4); b.box(3.4, 2.4, 2.2, 0x6A7480, L / 2 + 2.4, 1.2, -D / 4); b.cyl(0.25, 0.25, 1.4, 6, dark, L / 2 + 3.4, 3.1, D / 4); b.cyl(0.25, 0.25, 1.4, 6, dark, L / 2 + 3.4, 3.1, -D / 4);
+  b.box(4.4, 3.6, 0.2, 0x5A6470, -L / 2 + 4, 1.8, D / 2 + 0.06);
+  const m = b.mesh(); m.userData = { L, D, H, signY: H * 0.62, signZ: D / 2 + 0.12 }; return m;
+}
+// an umbrella (insurance): eight wedges in two colours, ribs, a pole and a hook handle; origin at the handle's bottom, canopy at y ~ 2.4*s
+export function umbrella(s = 1, c1 = 0xC8423A, c2 = 0xF6EFE2) {
+  const b = new GB(), R = 1.6 * s, h = 0.7 * s, y = 2.4 * s;
+  for (let k = 0; k < 8; k++) b.add(new THREE.ConeGeometry(R, h, 2, 1, false, k * Math.PI / 4, Math.PI / 4), k % 2 ? c2 : c1, M(0, y, 0));
+  b.cyl(0.035 * s, 0.035 * s, y + 0.5 * s, 5, 0x5A4A3A, 0, (y + 0.5 * s) / 2 - 0.1 * s, 0); b.ball(0.07 * s, 0, 0x5A4A3A, 0, y + h / 2 + 0.05 * s, 0);
+  b.add(new THREE.TorusGeometry(0.16 * s, 0.035 * s, 4, 10, Math.PI), 0x5A4A3A, M(0.16 * s, -0.1 * s, 0, 0, 0, Math.PI));
+  return b.mesh();
+}
