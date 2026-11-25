@@ -13,10 +13,12 @@ if a.ndim > 1: a = a.mean(axis=1)
 a = resample_poly(a, 16000, sr).astype(np.float32)
 wm = WhisperModel("small.en", device="cpu", compute_type="int8")
 segs, _ = wm.transcribe(a, language="en", beam_size=5, word_timestamps=True)
-heard = []; ws = []
+heard = []; ws = []; glued = []
 for s in segs:
     for w in s.words:
-        raw = w.word.strip().lower()
+        orig = w.word.strip()
+        if re.search(r"[a-z][A-Z]|[A-Z]{2}[a-z]", orig): glued += [(x.lower(), w.start) for x in re.findall(r"[A-Z]+(?![a-z])|[A-Z][a-z]+|[a-z]+|\d+", orig)]   # "AITheNext" -> ai, the, next
+        raw = orig.lower()
         if ws and re.fullmatch(r"[,.]?\d{3}[.,!?]?", raw) and re.search(r"\d$", ws[-1][0].rstrip(".,!?")):
             ws[-1] = (ws[-1][0].rstrip(".,!?") + raw, ws[-1][1]); continue           # Whisper splits "20,000" into "20" + ",000"
         if ws and re.fullmatch(r"\.\d{1,2}[.,!?%]?", raw) and re.search(r"\d$", ws[-1][0]):
@@ -44,6 +46,10 @@ for j, (raw, st) in enumerate(ws):
     if m: heard.append((norm(num2words(int(m.group(1)), to="ordinal")), st)); heard.append(("the", st))   # "November the twentieth" is written "November 20th"
     for a, b in HOMO:                                                         # same sound, other spelling ("too" heard as "2")
         if norm(raw) == a: heard.append((b, st))
+heard += [(norm(ws[j][0]) + norm(ws[j + 1][0]), ws[j][1]) for j in range(len(ws) - 1)]
+for raw, st in ws:                                                           # Whisper may glue words ("AI-the-next") or write "dot com" as ".com"
+    if re.search(r"[a-z][-.][a-z]", raw) or raw.startswith("."): heard.extend((norm(x), st) for x in re.split(r"[-.]", raw) if norm(x)); heard.extend([("dot", st), ("dotcom", st)] if ".com" in raw else [])   # a hyphenated caption word ("dot-com") is heard as two ("dot com")
+heard += glued
 print("HEARD:", " ".join(h[0] for h in heard))
 miss = [(w["t"], w["s"]) for w in T["words"] if not any(h[0] == norm(w["t"]) and abs(h[1] - w["s"]) < 1.5 for h in heard)]
 print("caption words not heard near their time:", miss)

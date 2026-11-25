@@ -401,13 +401,29 @@
   "n": 19,
   "slug": "019-twenty-five-year-wait",
   "title": "The 25-Year Wait",
-  "event": "Cisco and the dot-com crash, set against the November 2026 AI sell-off: on 27 Mar 2000 Cisco, which sold the equipment the internet ran on, became the world's most valuable company (about $555 billion); by October 2002 its stock had lost about 86-90% while the internet kept growing, and it only got back above its 2000 record on 10 Dec 2025, more than 25 years later (Bloomberg). Nvidia, which sells the chips the AI boom runs on, lost about $2.7 trillion between its 6 Oct 2026 record and 20 Nov 2026; status as of 25 Nov 2026 (details to be confirmed in sources.md)",
+  "event": "Cisco and the dot-com crash, set against the November 2026 AI sell-off. Cisco sold the routers and switches the internet ran on; on Mon 27 Mar 2000 it became the world's most valuable company, $555.5bn at the close vs Microsoft's $541.6bn (AP; Reuters: it had briefly topped Microsoft on 23 Mar), priced at about 200 times its yearly profit (AJ Bell: more than 200 times net income; Wccftech: P/E 201). When the boom ended it lost roughly $400bn of market value by Sep 2002 (CNN Money; Fortune: $425bn from its $557bn peak) and almost 90% of its share price ($80.06 record close on 27 Mar 2000 to a low of $8.12 in Oct 2002: AP, Sherwood, Crossing Wall Street, Benzinga). Its sales kept growing (about $18.9bn in fiscal 2002: CNN Money, YCharts; $56.7bn in fiscal 2025: Cisco, Macrotrends, YCharts), but its share price only closed back above $80.06 on Wed 10 Dec 2025, more than 25 years later (Bloomberg, Sherwood, MarketBeat via Nasdaq; price only, before dividends). Nvidia, which sells the chips the AI boom runs on, closed at $149.30 on Wed 25 Nov 2026, 37.6% below its $239.24 record close of 6 Oct 2026 (Yahoo Finance, Motley Fool, StockAnalysis); the sell-off draws dot-com comparisons (BNN Bloomberg, WSJ, 25 Nov 2026)",
   "story": "The November 2026 AI stock sell-off",
   "angle": "how it compares with a past event: Cisco in the dot-com crash (the company that sold the internet's tools became the world's most valuable, then lost most of its value while the internet kept growing, and needed more than 25 years to get back to its 2000 price), set against Nvidia in 2026: being right about a technology is not the same as being right about the price; no forecast",
   "window": "14 days",
   "keyword": "YES/NO",
   "made": "2026-11-26",
-  "posted": null,
-  "format": "v2"
+  "posted": "2026-11-26",
+  "format": "v2",
+  "permalink": "https://www.instagram.com/reel/DgLrU5hzhCR/",
+  "sources": [
+   "Cisco the most valuable company, Mon 27 Mar 2000: AP via Deseret News (2 Apr 2000: $555.5bn vs Microsoft $541.6bn at the close; all-time high $80 1/16); Reuters via ITWeb (24 Mar 2000: briefly topped Microsoft intraday); Cisco's history page ($569B at the 27 Mar high)",
+   "About 200 times its yearly profit: AJ Bell (Russ Mould, 5 Nov 2025: 'more than 200 times the net income it earned that year'); Wccftech (20 Jun 2024: P/E 201)",
+   "Roughly $400bn of market value lost: CNN Money (Adam Lashinsky, 4 Sep 2002: 'roughly $400 billion'); Fortune via CNN Money (2010 gallery: 'Loss: $425 billion', peak $557bn, March 2000)",
+   "Almost 90% of the share price, $80.06 (27 Mar 2000) to $8.12 (Oct 2002): Sherwood News (Matt Phillips, 11 Dec 2025: 'nearly 90%'); Yahoo Finance (16 Mar 2024: 'almost 90% by October'); Crossing Wall Street (2006: low $8.12, '90% drop'); Benzinga (2020: $8.12 in late 2002)",
+   "Sales about $18.9bn in fiscal 2002 (CNN Money 2002; YCharts 18.92B) and $56.7bn in fiscal 2025 (Cisco, 13 Aug 2025; Macrotrends $56.654B; YCharts 56.65B)",
+   "Back above the $80.06 record close on Wed 10 Dec 2025, more than 25 years later: Bloomberg (10 Dec 2025: 'Shares rose 0.9% to $80.25'); Sherwood News (11 Dec 2025); MarketBeat via Nasdaq (17 Dec 2025); price only (with dividends it passed in 2021: Yahoo Finance)",
+   "Nvidia $149.30 on Wed 25 Nov 2026 (-3.91%): Yahoo Finance live blog close widget; Motley Fool quote box; StockTitan. Record close $239.24 on 6 Oct 2026: StockAnalysis; Bitcoin.com News. 37.6% lower",
+   "Nvidia about $2.7 trillion lost, 6 Oct-20 Nov 2026: Yahoo Finance, Motley Fool, Beinsure, Bitcoin.com (episode 10); stock market $5 trillion below its AI peak: Fortune (23 Nov 2026)",
+   "Dot-com comparisons now: BNN Bloomberg (25 Nov 2026, 'AI stock sell-off draws dot-com comparisons'); WSJ analysis (25 Nov 2026, via Emergent); Gujarat Samachar (21 Nov 2026; Raymond James' Matt Orton: 'fundamentals are so diametrically different'); Business Insider (17 Nov 2025)",
+   "Full list with URLs: episodes/019-twenty-five-year-wait/sources.md"
+  ],
+  "length_s": 57.5,
+  "wpm": 158,
+  "approved_by_keith": false
  }
 ]
