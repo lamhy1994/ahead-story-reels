@@ -4,26 +4,27 @@ Format v1 = episodes 1-8 (60-90 s); v2 = from 22 Nov 2026 (hook card, 45-60 s, a
 
 | ep | title | fmt | len s | wpm | plays | avg watch s | watched % | skip % | age h |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | The King With Too Much Gold | v1 | 75.9 | 157 | 151 | 22.1 | 29.5 | 34.6 | 133 |
-| 2 | The Genius Who Bought the Top | v1 | 85.2 | 141 | 112 | 19.3 | 22.7 | 31.7 | 129 |
-| 3 | The Island of Stone Money | v1 | 82.3 | 152 | 162 | 25.0 | 30.5 | 32.4 | 125 |
-| 4 | The Day the Founder Left | v1 | 89.9 | 133 | 146 | 12.3 | 13.9 | 39.2 | 119 |
-| 5 | The Bitcoin Dominoes | v1 | 85.8 | 120 | 130 | 18.5 | 21.7 | 37.3 | 107 |
-| 6 | The Bitcoin Vault | v1 | 88.6 | 114 | 129 | 31.0 | 35.2 | 31.8 | 99 |
-| 7 | The Silver Slide | v1 | 89.2 | 128 | 1305 | 21.7 | 24.3 | 37.3 | 83 |
-| 8 | Silver Thursday | v1 | 88.7 | 123 | 134 | 18.0 | 20.5 | 37.2 | 75 |
-| 9 | The Heavy End | v2 | 59.2 | 159 | 153 | 15.5 | 26.3 | 38.6 | 72 |
-| 10 | Where Did the Money Go? | v2 | 58.8 | 160 | 122 | 13.2 | 22.7 | 51.3 | 55 |
-| 11 | The $6 Billion Job Interview | v2 | 58.0 | 160 | 117 | 14.0 | 24.2 | 37.4 | 47 |
-| 12 | Bitcoin's Front Door | v2 | 53.2 | 159 | 123 | 15.3 | 28.9 | 44.7 | 39 |
-| 13 | The Day the Founder Came Back | v2 | 55.7 | 163 | 149 | 26.4 | 47.9 | 40.3 | 31 |
-| 14 | The Doubters' Worst Day | v2 | 55.2 | 164 | 153 | 13.3 | 24.2 | 42.2 | 23 (too new) |
-| 15 | The Money on Trial | v2 | 57.7 | 160 | 133 | 17.1 | 30.1 | 45.5 | 15 (too new) |
-| 16 | The Safe Place That Sank | v2 | 56.2 | 162 | 39 | 17.1 | 30.6 | 32.4 | 7 (too new) |
+| 1 | The King With Too Much Gold | v1 | 75.9 | 157 | 151 | 22.1 | 29.5 | 34.6 | 141 |
+| 2 | The Genius Who Bought the Top | v1 | 85.2 | 141 | 112 | 19.3 | 22.7 | 31.7 | 137 |
+| 3 | The Island of Stone Money | v1 | 82.3 | 152 | 162 | 25.0 | 30.5 | 32.4 | 133 |
+| 4 | The Day the Founder Left | v1 | 89.9 | 133 | 146 | 12.3 | 13.9 | 39.2 | 127 |
+| 5 | The Bitcoin Dominoes | v1 | 85.8 | 120 | 130 | 18.5 | 21.7 | 37.3 | 115 |
+| 6 | The Bitcoin Vault | v1 | 88.6 | 114 | 129 | 31.0 | 35.2 | 31.8 | 107 |
+| 7 | The Silver Slide | v1 | 89.2 | 128 | 1305 | 21.7 | 24.3 | 37.3 | 91 |
+| 8 | Silver Thursday | v1 | 88.7 | 123 | 134 | 18.0 | 20.5 | 37.2 | 83 |
+| 9 | The Heavy End | v2 | 59.2 | 159 | 153 | 15.5 | 26.3 | 38.6 | 80 |
+| 10 | Where Did the Money Go? | v2 | 58.8 | 160 | 122 | 13.2 | 22.7 | 51.3 | 63 |
+| 11 | The $6 Billion Job Interview | v2 | 58.0 | 160 | 117 | 14.0 | 24.2 | 37.4 | 55 |
+| 12 | Bitcoin's Front Door | v2 | 53.2 | 159 | 123 | 15.3 | 28.9 | 44.7 | 47 |
+| 13 | The Day the Founder Came Back | v2 | 55.7 | 163 | 149 | 26.4 | 47.9 | 40.3 | 39 |
+| 14 | The Doubters' Worst Day | v2 | 55.2 | 164 | 153 | 13.3 | 24.2 | 42.2 | 31 |
+| 15 | The Money on Trial | v2 | 57.7 | 160 | 133 | 17.1 | 30.1 | 45.5 | 23 (too new) |
+| 16 | The Safe Place That Sank | v2 | 56.2 | 162 | 112 | 14.6 | 26.1 | 35.3 | 15 (too new) |
+| 17 | The Call Nobody Wants | v2 | 57.2 | 161 | 131 | 17.7 | 31.0 | 37.6 | 7 (too new) |
 
 | format | Reels counted | avg watch s | watched % | skip % | plays (median) |
 |---|---|---|---|---|---|
 | v1 | 8 | 21.0 | 24.8 | 35.2 | 146 |
-| v2 | 5 | 16.9 | 30.0 | 42.5 | 123 |
+| v2 | 6 | 16.3 | 29.0 | 42.4 | 149 |
 
-As of 25 Nov 2026 13:51 Malaysia time. Small samples: treat differences under ~5 s of watch time as noise until each format has 6+ Reels.
+As of 25 Nov 2026 21:51 Malaysia time. Small samples: treat differences under ~5 s of watch time as noise until each format has 6+ Reels.
