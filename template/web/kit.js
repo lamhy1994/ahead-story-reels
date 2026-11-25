@@ -608,3 +608,20 @@ export const TANKER = (() => { const b = new GB(); b.box(46, 4.4, 9, 0x2E3B4E, 0
 export function seesaw(L = 15) { const g = new THREE.Group(), b = new GB(); b.add(new THREE.CylinderGeometry(0.01, 1.7, 2.6, 3, 1), 0x6A6E74, new THREE.Matrix4().makeTranslation(0, 1.3, 0).multiply(new THREE.Matrix4().makeRotationY(Math.PI / 2))); b.box(5, 0.3, 3, 0xD6CEBC, 0, 0.15, 0); g.add(b.mesh());
   const plank = new THREE.Group(); plank.position.y = 2.75; const p = new GB(); p.box(L, 0.4, 2.6, 0xC9A27A, 0, 0, 0); p.box(L + 0.2, 0.1, 2.7, 0xB08A5A, 0, 0.24, 0); p.box(0.7, 0.6, 2.9, 0x8A6A4A, -L / 2 + 0.3, 0.4, 0); p.box(0.7, 0.6, 2.9, 0x8A6A4A, L / 2 - 0.3, 0.4, 0); plank.add(p.mesh()); g.add(plank);
   g.userData = { plank, pivotY: 2.75, end: L / 2 - 1.9 }; return g; }
+// ───────── Taiwan's stock crash, November 2026 (episode 17): a very tall tower of eight stacked, flared sections on a podium, a spire on top
+// (a generic stacked skyscraper; origin at ground centre; userData.h = height to the spire tip, userData.ring = the lit window bands' material)
+export function stackTower(o = {}) {
+  const g = new THREE.Group(), b = new GB(), lw = new GB(), glass = o.glass ?? 0x3E7F86, fr = o.frame ?? 0xD3E6E2, base = o.base ?? 0x5E8E8C, Q = Math.PI / 4;
+  b.box(26, 9, 26, base, 0, 4.5, 0); b.box(27, 0.6, 27, fr, 0, 9.3, 0);
+  b.cyl(7.6, 10.4, 26, 4, glass, 0, 9.6 + 13, 0, 0, Q, 0); b.cyl(8.0, 8.0, 0.6, 4, fr, 0, 9.6 + 26, 0, 0, Q, 0);
+  let y = 9.6 + 26.3; const n = o.n ?? 8, sh = o.sh ?? 9.4;
+  for (let i = 0; i < n; i++) {
+    b.cyl(9.0, 6.6, sh, 4, glass, 0, y + sh / 2, 0, 0, Q, 0); b.cyl(9.3, 9.3, 0.55, 4, fr, 0, y + sh - 0.2, 0, 0, Q, 0);
+    lw.cyl(8.1, 7.3, 0.7, 4, 0xFFFFFF, 0, y + sh * 0.62, 0, 0, Q, 0); lw.cyl(7.6, 7.0, 0.7, 4, 0xFFFFFF, 0, y + sh * 0.3, 0, 0, Q, 0);
+    y += sh;
+  }
+  b.cyl(5.2, 6.6, 6, 4, glass, 0, y + 3, 0, 0, Q, 0); y += 6; b.cyl(2.6, 3.4, 7, 8, fr, 0, y + 3.5, 0); y += 7; b.cyl(0.35, 1.0, 22, 6, 0xE6ECEA, 0, y + 11, 0); y += 22;
+  const body = b.mesh(); g.add(body);
+  const ringM = new THREE.MeshLambertMaterial({ color: 0xFFE7B0, emissive: 0xFFC46A, emissiveIntensity: 0.2 }); const ring = new THREE.Mesh(lw.geo(), ringM); g.add(ring);
+  g.userData = { h: y, ring: ringM }; return g;
+}

@@ -358,14 +358,26 @@
   "n": 17,
   "slug": "017-call-nobody-wants",
   "title": "The Call Nobody Wants",
-  "event": "Week to Fri 20 Nov 2026: Taiwan's TAIEX falls about 17.5% (7,641.83 points), its worst week in more than 30 years, wiping about NT$25 trillion (about US$760 billion) off listed shares (TWSE data via Taiwanese press); borrowed money made it worse: margin calls hit a record 6,462 accounts on 20 Nov (719 on 18 Nov) and margin loans fell by a record NT$49 billion in one day (Bloomberg data since 1996); regulators banned most short selling (19 and 21 Nov), the NT$500 billion stabilization fund bought shares, and brokers lowered the margin-call line from 130% to 120% (24 Nov); Tue 24 Nov the TAIEX had its biggest one-day point gain on record (+8.99%) after Huang's return to Nvidia, then on Wed 25 Nov its second-largest intraday point loss",
+  "event": "Week to Fri 20 Nov 2026: Taiwan's TAIEX falls 17.5% (7,641.83 points), its worst week in more than 30 years (Reuters: since 1990; Bloomberg: 35 years); the main board loses NT$24.97 trillion of market value (NT$143.07tn to NT$118.10tn, TWSE figures via Taiwanese press), about US$760 billion at NT$32.94 per US$ (Reuters/LSEG: US$1.12tn since the 6 Oct record). Many had bought with borrowed money (40% own, 60% lent; a margin call at 78% of the price, two business days to top up, then a forced sale): margin calls hit a record 6,462 accounts on 20 Nov (719 on 18 Nov), forced sales and the one-day fall in margin loans were records too. TWSE lowered the call line from 130% to 120% from Tue 24 Nov and cancelled earlier calls (FSC also curbed short selling; the NT$500bn fund bought shares). Tue 24 Nov, after Nvidia reinstated Jensen Huang: +8.99% (+3,310.46 points), the biggest one-day point gain on record; Wed 25 Nov: down as much as 3,440.45 points (8.6%), the second-largest intraday point loss, closing 4.8% lower at 38,195.43",
   "story": "The November 2026 AI stock sell-off",
   "angle": "Taiwan's crash and the mechanism of margin calls: how borrowed money turned a fall into the worst week in over 30 years (buy with 40 of your own and 60 borrowed, a fall of about a fifth brings the lender's call, pay within two days or it sells for you; forced selling feeds more calls), the record margin calls and record unwind of margin loans, the response (short-selling ban, state fund, brokers moving the margin-call line from 130% to 120%), and the latest twist (record one-day gain on 24 Nov, then another plunge on 25 Nov)",
   "window": "14 days",
   "keyword": "PAY/SELL",
   "made": "2026-11-25",
-  "posted": null,
+  "posted": "2026-11-25",
   "format": "v2",
-  "approved_by_keith": false
+  "approved_by_keith": false,
+  "permalink": "https://www.instagram.com/reel/DgJ5ltDBoPJ/",
+  "length_s": 57.2,
+  "wpm": 161,
+  "sources": [
+   "Reuters via Business Recorder and The Edge (20-21 Nov 2026): worst week since 1990, 17.5%, US$1.12tn lost since 6 Oct (LSEG)",
+   "Bloomberg via The Star (23 Nov 2026): worst weekly fall in 35 years, short-sale curbs, stabilization fund; Bloomberg margin-loan data via Lapaas Voice",
+   "CNA / Focus Taiwan (19, 21, 25 Nov 2026); CNA via UDN (23 Nov): TWSE lowers the call line to 120%, earlier calls cancelled; China Times, cnyes (24 Nov)",
+   "TWSE statistics via Next Apple, TVBS, Commercial Times (21-22 Nov 2026): NT$24.97tn lost in the week",
+   "BigGo Finance, TVBS, LTN, FTV (22-23 Nov 2026): record 6,462 margin-call accounts, record forced sales",
+   "UDN, NOWnews, CNA, Al Jazeera (25 Nov 2026): 24 Nov +8.99% record point gain; 25 Nov intraday -3,440.45, close -4.8%",
+   "StockFeel, Pocket Securities, Business Weekly: Taiwan margin rules (60% loan, 130% call line, two days to top up)"
+  ]
  }
 ]
