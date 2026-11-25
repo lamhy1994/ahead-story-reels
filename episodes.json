@@ -396,5 +396,18 @@
   "permalink": "https://www.instagram.com/reel/DgKw918N9zE/",
   "length_s": 58.9,
   "wpm": 159
+ },
+ {
+  "n": 19,
+  "slug": "019-twenty-five-year-wait",
+  "title": "The 25-Year Wait",
+  "event": "Cisco and the dot-com crash, set against the November 2026 AI sell-off: on 27 Mar 2000 Cisco, which sold the equipment the internet ran on, became the world's most valuable company (about $555 billion); by October 2002 its stock had lost about 86-90% while the internet kept growing, and it only got back above its 2000 record on 10 Dec 2025, more than 25 years later (Bloomberg). Nvidia, which sells the chips the AI boom runs on, lost about $2.7 trillion between its 6 Oct 2026 record and 20 Nov 2026; status as of 25 Nov 2026 (details to be confirmed in sources.md)",
+  "story": "The November 2026 AI stock sell-off",
+  "angle": "how it compares with a past event: Cisco in the dot-com crash (the company that sold the internet's tools became the world's most valuable, then lost most of its value while the internet kept growing, and needed more than 25 years to get back to its 2000 price), set against Nvidia in 2026: being right about a technology is not the same as being right about the price; no forecast",
+  "window": "14 days",
+  "keyword": "YES/NO",
+  "made": "2026-11-26",
+  "posted": null,
+  "format": "v2"
  }
 ]
