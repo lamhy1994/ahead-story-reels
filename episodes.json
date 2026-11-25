@@ -353,5 +353,19 @@
    "Gold fell on escalation, rose on easing: investingLive reporting a Commerzbank note (~2 Nov 2026); Reuters via Khaleej Times (12 Nov 2026, fading Middle East peace hopes); Kitco AM report (9 Nov 2026, Iran diplomacy); SCMP (Nov 2026, crude oil a headwind)",
    "Margin calls / forced selling in the tech sell-off: Commerzbank via investingLive (Reuters and CNBC reported); Capital.com's Kyle Rodda via Speaks Media (22 Nov 2026); NEWS.RO via SpotMedia (18 Nov 2026)"
   ]
+ },
+ {
+  "n": 17,
+  "slug": "017-call-nobody-wants",
+  "title": "The Call Nobody Wants",
+  "event": "Week to Fri 20 Nov 2026: Taiwan's TAIEX falls about 17.5% (7,641.83 points), its worst week in more than 30 years, wiping about NT$25 trillion (about US$760 billion) off listed shares (TWSE data via Taiwanese press); borrowed money made it worse: margin calls hit a record 6,462 accounts on 20 Nov (719 on 18 Nov) and margin loans fell by a record NT$49 billion in one day (Bloomberg data since 1996); regulators banned most short selling (19 and 21 Nov), the NT$500 billion stabilization fund bought shares, and brokers lowered the margin-call line from 130% to 120% (24 Nov); Tue 24 Nov the TAIEX had its biggest one-day point gain on record (+8.99%) after Huang's return to Nvidia, then on Wed 25 Nov its second-largest intraday point loss",
+  "story": "The November 2026 AI stock sell-off",
+  "angle": "Taiwan's crash and the mechanism of margin calls: how borrowed money turned a fall into the worst week in over 30 years (buy with 40 of your own and 60 borrowed, a fall of about a fifth brings the lender's call, pay within two days or it sells for you; forced selling feeds more calls), the record margin calls and record unwind of margin loans, the response (short-selling ban, state fund, brokers moving the margin-call line from 130% to 120%), and the latest twist (record one-day gain on 24 Nov, then another plunge on 25 Nov)",
+  "window": "14 days",
+  "keyword": "PAY/SELL",
+  "made": "2026-11-25",
+  "posted": null,
+  "format": "v2",
+  "approved_by_keith": false
  }
 ]
