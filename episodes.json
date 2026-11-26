@@ -475,5 +475,18 @@
    "Berkshire has paid one dividend (1967) and keeps its earnings: The Motley Fool (12 Sep 2026); Buffett's 2012 letter on dividends",
    "Berkshire per-share market value 19.9% a year 1965-2024, overall gain 5,502,284% 1964-2024 (Berkshire's 2024 letter, via ctol.digital and Seeking Alpha copies): $1,000 -> about $55 million; doubling about every 3.8 years (our arithmetic)"
   ]
+ },
+ {
+  "n": 22,
+  "slug": "022-day-everyone-ran",
+  "title": "The Day Everyone Ran",
+  "event": "Sun 1 Nov 2026, two days after the biggest crypto theft on record (about $6.3bn taken from Binance's hot wallets on 29 Oct 2026; the FBI blames North Korea, which denies it): Binance reopens withdrawals and customers pull out a net $3.64bn in about nine and a half hours (withdrawals $4.65bn, deposits $1.01bn, 6:00-15:30 UTC; Binance's figures via The Block and others), about 2.1% of the $171bn it held (28 Oct proof of reserves). Binance says it refilled the stolen assets with its own money (corporate treasury, user-protection fund, futures insurance fund). Thu 26 Nov 2026: Binance says its withdrawal recovery is complete and the hack-related withdrawal suspension is fully lifted (Reuters); the same day researchers say more than $600m of the loot has passed through THORChain (Chainalysis, Elliptic via Reuters); about $2.85bn was frozen, the rest is still moving. Set against Mt. Gox (halted withdrawals Feb 2014, bankrupt, about 850,000 bitcoins missing, customers repaid from July 2024) and FTX (halted withdrawals 8 Nov 2022, bankrupt 11 Nov 2022, an $8bn hole, repayments from 2025).",
+  "story": "The October 2026 Binance hack",
+  "angle": "the customers' side and how it compares with past events: the run when the doors reopened (a net $3.64bn out in under ten hours), why a run kills an exchange only when the vault is short (100 customers, 100 coins: if all are there a run is a long line, if only 60 are the last 40 get nothing), Mt. Gox and FTX, whose money wasn't there, and the latest twist: on 26 Nov 2026 Binance says the hack lock is fully lifted, while more than half the stolen money was never frozen and is still moving; no advice",
+  "window": "14 days",
+  "keyword": "PULL/WAIT",
+  "made": "2026-11-27",
+  "posted": null,
+  "format": "v2"
  }
 ]
