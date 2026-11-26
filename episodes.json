@@ -425,5 +425,18 @@
   "length_s": 57.5,
   "wpm": 158,
   "approved_by_keith": false
+ },
+ {
+  "n": 20,
+  "slug": "020-dice-nobody-rolled",
+  "title": "The Dice Nobody Rolled",
+  "event": "The Coldcard seed flaw: from firmware of March 2021 until 30 Jul 2026, Coinkite's Coldcard hardware wallets silently made their wallet secrets (seeds) with a predictable software generator instead of the chip's hardware random number generator; from 29-30 Jul 2026 thieves rebuilt the keys on their own computers and swept bitcoin from wallets that never went online (594 BTC in 25 minutes; over $100 million in all); Coinkite's 18-page postmortem (dated 23 Nov, published 24 Nov 2026) counts 1,778.84 BTC from 8,600+ addresses (Galaxy Research), 242 customer accounts reporting losses, at least 15 reviews that missed it, and no compensation decision yet",
+  "story": "The Coldcard bitcoin wallet seed flaw (2026)",
+  "angle": "the mechanism and the latest twist: how you rob a wallet that never goes online (its secret was supposed to come from pure chance, but for five years it came from a guessable recipe, so thieves rebuilt the secrets at home), why at least 15 reviews missed it (the checks confirmed the random-number hardware was there, never that the secrets used it), and the maker's postmortem of 24 Nov 2026 (about 1,779 BTC from 8,600+ addresses, 242 customers, no compensation decision yet); no advice",
+  "window": "14 days",
+  "keyword": "TRUST/DOUBT",
+  "made": "2026-11-26",
+  "posted": null,
+  "format": "v2"
  }
 ]
