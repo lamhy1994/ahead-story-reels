@@ -707,3 +707,26 @@ export function balance(s = 1) {
   const pans = [-1, 1].map(sx => { const pg = new THREE.Group(); pg.position.set(sx * 3.6 * s, 0, 0); const p = new GB(); for (const a of [0, 2.1, 4.2]) p.cyl(0.03 * s, 0.03 * s, 2.7 * s, 4, dk, Math.cos(a) * 0.55 * s, -1.35 * s, Math.sin(a) * 0.55 * s, Math.sin(a) * 0.2, 0, -Math.cos(a) * 0.2); p.cyl(1.15 * s, 0.85 * s, 0.26 * s, 14, br, 0, -2.75 * s, 0); pg.add(p.mesh()); beam.add(pg); return pg; });
   g.userData = { beam, pans }; return g;
 }
+// ───────── Warren Buffett's Thanksgiving gift, November 2026 (episode 21): a coin tower, a front porch, an autumn tree
+// coinTowerGeo(r, h, t): a stack of coins h tall (coins t thick, radius r, a slightly narrower groove between coins), white so the material sets the colour; origin at the bottom centre
+export function coinTowerGeo(r = 2.4, h = 10, t = 0.55) {
+  const b = new GB(), n = Math.max(1, Math.round(h / t)), th = h / n;
+  for (let i = 0; i < n; i++) { const y = th * (i + 0.5), j = ((i * 7) % 5 - 2) * 0.05 * r; b.cyl(r, r, th * 0.84, 18, 0xFFFFFF, j, y, -j * 0.6); b.cyl(r * 0.93, r * 0.93, th, 18, 0xC9BD9A, j, y, -j * 0.6); }
+  return b.geo();
+}
+// porch(w, d): a front porch for a house (floor, three steps toward +z, four posts, a flat roof with white trim, a railing); origin at ground centre, the house wall at z = -d/2
+export function porch(w = 7, d = 2.6, o = {}) {
+  const b = new GB(), wood = o.floor ?? 0x9A7A5A, trim = o.trim ?? 0xF6F1E6, roof = o.roof ?? 0x6A5A52, fh = 0.75;
+  b.box(w, fh, d, wood, 0, fh / 2, 0); for (let i = 0; i < 3; i++) b.box(2.0, fh * (3 - i) / 3, 0.42, 0xB8A88A, 0, fh * (3 - i) / 6, d / 2 + 0.21 + i * 0.42);
+  for (const x of [-w / 2 + 0.25, -1.3, 1.3, w / 2 - 0.25]) b.box(0.26, 2.7, 0.26, trim, x, fh + 1.35, d / 2 - 0.25);
+  b.box(w + 0.4, 0.26, d + 0.4, trim, 0, fh + 2.83, 0.05); b.box(w + 0.6, 0.18, d + 0.6, roof, 0, fh + 3.05, 0.05);
+  for (const s of [-1, 1]) { b.box(w / 2 - 1.6, 0.12, 0.12, trim, s * (w / 4 + 0.65), fh + 0.95, d / 2 - 0.25); for (let k = 0; k < 5; k++) b.box(0.08, 0.9, 0.08, trim, s * (1.75 + k * (w / 2 - 2.0) / 5), fh + 0.5, d / 2 - 0.25); }
+  return b.mesh();
+}
+// autumnTree(h, rand): a round broadleaf tree in autumn colours (or o.green for summer), origin at ground centre
+export function autumnTree(h = 6, rand = Math.random, o = {}) {
+  const b = new GB(), P = o.green ? [0x3F8F57, 0x4C9A62, 0x357F4C, 0x5AA86A] : [0xE08A2E, 0xD9622B, 0xF2B544, 0xC94F2E, 0xE9A23B];
+  b.cyl(0.2, 0.3, h * 0.55, 6, 0x6B4A30, 0, h * 0.27, 0); b.cyl(0.08, 0.1, h * 0.3, 5, 0x6B4A30, 0.35, h * 0.55, 0, 0, 0, -0.6);
+  for (let i = 0; i < 4; i++) b.ball(h * (0.22 + rand() * 0.08), 1, P[Math.floor(rand() * P.length)], (rand() - 0.5) * h * 0.4, h * (0.62 + rand() * 0.18), (rand() - 0.5) * h * 0.4);
+  return b.mesh();
+}
