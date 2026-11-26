@@ -436,7 +436,19 @@
   "window": "14 days",
   "keyword": "TRUST/DOUBT",
   "made": "2026-11-26",
-  "posted": null,
-  "format": "v2"
+  "posted": "2026-11-26",
+  "format": "v2",
+  "permalink": "https://www.instagram.com/reel/DgMfM6zpYxq/",
+  "length_s": 56.9,
+  "wpm": 158,
+  "sources": [
+   "1,778.84 BTC from more than 8,600 addresses (Galaxy Research's count in Coinkite's postmortem, dated 23 Nov, published 24 Nov 2026): Bitcoin Magazine (Micah Zimmerman, 24 Nov 2026, https://bitcoinmagazine.com/news/coldcard-postmortem-seed-flaw); Bitcoin.com News (Jamie Redman, 24 Nov 2026, https://news.bitcoin.com/featured/coldcard-bitcoin-heist-laid-bare-in-explosive-18-page-postmortem/); FinanceFeeds (Karthik Subramanian, 25 Nov 2026, https://financefeeds.com/coinkite-releases-coldcard-security-postmortem-as-1778-84-btc-stolen-from-over-8600-addresses/)",
+   "$108 million = 1,778.84 BTC x $60,743 (CoinGecko, 26 Nov 2026; The Block: $60,677 on 25 Nov 10:50 PM ET); Bitcoin Magazine: about $107 million at the 24 Nov price; Galaxy in August, at the prices when taken: about $112.7 million (FinanceFeeds), above $115 million (Bitcoin Magazine)",
+   "The flaw: firmware from March 2021 to 30 Jul 2026 silently used a predictable software generator (Yasmarang) instead of the chip's hardware random number generator for seeds; about 40 bits (Mk2/Mk3) and about 72 bits (Mk4/Mk5/Q) instead of 128: Bitcoin Magazine, Bitcoin.com, FinanceFeeds; CoinDesk (Francisco Rodrigues, 17 Aug 2026, https://www.coindesk.com/tech/2026/08/17/how-a-bug-in-coldcard-s-code-went-unnoticed-for-years-leading-to-usd100-million-in-hacked-funds); TRM Labs (5 Aug 2026, https://www.trmlabs.com/resources/blog/the-largest-hardware-wallet-exploit-of-2026-inside-the-usd-116-million-coldcard-hack)",
+   "Attack never touched the devices; keys brute-forced offline: CoinDesk (1 Aug 2026, headline); TRM Labs ('brute-forceable', no device access)",
+   "30 Jul 2026: about 594 BTC from about 500 wallets in 25 minutes: TRM Labs; CoinDesk (31 Jul 2026, 'Major bitcoin wallet flaw drains 594 BTC in 25-minute sweep', headline)",
+   "At least 15 reviews missed it; checks confirmed the hardware generator was present, never that seed generation used it; no decision yet on compensation: Bitcoin Magazine, Bitcoin.com, FinanceFeeds; Cryptopolitan (headline)",
+   "'Bitcoin's safest hiding place': Bloomberg, 3 Aug 2026 (headline via Claims Journal); coverage of the theft also by Fortune (3 and 10 Aug), The Block (31 Jul), CoinDesk (31 Jul-17 Aug)"
+  ]
  }
 ]

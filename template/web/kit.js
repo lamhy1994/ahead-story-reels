@@ -662,3 +662,48 @@ export function umbrella(s = 1, c1 = 0xC8423A, c2 = 0xF6EFE2) {
   b.add(new THREE.TorusGeometry(0.16 * s, 0.035 * s, 4, 10, Math.PI), 0x5A4A3A, M(0.16 * s, -0.1 * s, 0, 0, 0, Math.PI));
   return b.mesh();
 }
+// ───────── The Coldcard seed flaw, 2026 (episode 20): a hardware wallet, dice, a recipe book, a key, a balance scale
+// hwWallet(): a generic hardware wallet standing upright (a slab with a small screen and a 4×3 keypad, no brand), screen facing +z; origin at ground centre.
+// userData.screen = [x, y, z, w, h] of the screen in local space (put a canvas plane there)
+export function hwWallet(o = {}) {
+  const b = new GB(), body = o.body ?? 0x2B2F36, edge = o.edge ?? 0x434A56, key = o.key ?? 0xE9E4DA, W = 4.2, H = 7.2, D = 1.0;
+  b.box(W, H, D, body, 0, H / 2, 0); b.box(W + 0.16, 0.22, D + 0.16, edge, 0, H - 0.05, 0); b.box(W + 0.16, 0.22, D + 0.16, edge, 0, 0.11, 0);
+  b.box(0.16, H - 0.4, D + 0.12, edge, -W / 2, H / 2, 0); b.box(0.16, H - 0.4, D + 0.12, edge, W / 2, H / 2, 0);
+  b.box(W - 0.6, 2.2, 0.08, 0x15181D, 0, H - 1.6, D / 2 + 0.02);                                         // screen bezel (the screen is a canvas plane)
+  for (let r = 0; r < 4; r++) for (let c = 0; c < 3; c++) b.box(0.88, 0.6, 0.18, r === 3 && c !== 1 ? (c ? 0x5FB36A : 0xD9483B) : key, (c - 1) * 1.14, 3.5 - r * 0.84, D / 2 + 0.07);
+  b.box(0.7, 0.16, 0.22, 0x15181D, 1.2, H + 0.02, 0);                                                     // a card slot on top
+  const m = b.mesh(); m.userData = { screen: [0, H - 1.6, D / 2 + 0.075, W - 0.95, 1.85], W, H, D }; return m;
+}
+// die(s): a white die with dark round pips (1 on +y, 6 on -y, 2 on +x, 5 on -x, 3 on +z, 4 on -z); origin at its centre
+export function dieGeo(s = 1, o = {}) {
+  const b = new GB(), col = o.color ?? 0xF6F2EA, pip = o.pip ?? 0x22252C, h = s / 2, r = s * 0.085, P = s * 0.25, th = s * 0.05;
+  b.box(s, s * 0.86, s * 0.86, col, 0, 0, 0); b.box(s * 0.86, s, s * 0.86, col, 0, 0, 0); b.box(s * 0.86, s * 0.86, s, col, 0, 0, 0);   // a cube with bevelled edges
+  const F = { 1: [[0, 0]], 2: [[-1, -1], [1, 1]], 3: [[-1, -1], [0, 0], [1, 1]], 4: [[-1, -1], [1, -1], [-1, 1], [1, 1]], 5: [[-1, -1], [1, -1], [0, 0], [-1, 1], [1, 1]], 6: [[-1, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [1, 1]] };
+  for (const [u, v] of F[1]) b.cyl(r, r, th, 8, pip, u * P, h, v * P);
+  for (const [u, v] of F[6]) b.cyl(r, r, th, 8, pip, u * P, -h, v * P);
+  for (const [u, v] of F[2]) b.cyl(r, r, th, 8, pip, h, u * P, v * P, 0, 0, Math.PI / 2);
+  for (const [u, v] of F[5]) b.cyl(r, r, th, 8, pip, -h, u * P, v * P, 0, 0, Math.PI / 2);
+  for (const [u, v] of F[3]) b.cyl(r, r, th, 8, pip, u * P, v * P, h, Math.PI / 2, 0, 0);
+  for (const [u, v] of F[4]) b.cyl(r, r, th, 8, pip, u * P, v * P, -h, Math.PI / 2, 0, 0);
+  return b.geo();
+}
+// recipeBook(s): an open recipe book (cover, two pages with lines of text, a ribbon, a little pot drawn on the left page); origin at the bottom centre, spine along z
+export function recipeBook(s = 1) {
+  const b = new GB(), page = 0xFBF6E8, ink = 0xB9AE96;
+  b.box(3.6 * s, 0.14 * s, 2.5 * s, 0x8A3A2E, 0, 0.07 * s, 0);
+  for (const sx of [-1, 1]) { b.box(1.7 * s, 0.12 * s, 2.3 * s, page, sx * 0.88 * s, 0.2 * s, 0); for (let i = 0; i < 6; i++) if (!(sx < 0 && i < 3)) b.box((i % 2 ? 1.0 : 1.25) * s, 0.02 * s, 0.09 * s, ink, sx * 0.9 * s, 0.27 * s, (-0.85 + i * 0.32) * s); }
+  b.cyl(0.32 * s, 0.26 * s, 0.05 * s, 10, 0xD9483B, -0.88 * s, 0.28 * s, -0.55 * s); b.box(0.5 * s, 0.05 * s, 0.07 * s, 0x6B4226, -0.5 * s, 0.29 * s, -0.55 * s);   // a pot and its handle
+  b.box(0.12 * s, 0.03 * s, 1.6 * s, 0xD9A441, 0.05 * s, 0.28 * s, 0.6 * s);                                 // ribbon
+  return b.mesh();
+}
+// keyGeo(s): a key lying along +x (ring at the origin, teeth at the far end); use with a gold material
+export function keyGeo(s = 1) { const b = new GB(); b.add(new THREE.TorusGeometry(0.42 * s, 0.14 * s, 6, 14), 0xFFFFFF, M(0, 0, 0)); b.box(1.7 * s, 0.2 * s, 0.16 * s, 0xFFFFFF, 1.25 * s, 0, 0); b.box(0.18 * s, 0.42 * s, 0.16 * s, 0xFFFFFF, 1.85 * s, -0.24 * s, 0); b.box(0.16 * s, 0.3 * s, 0.16 * s, 0xFFFFFF, 1.5 * s, -0.18 * s, 0); return b.geo(); }
+// balance(s): a balance scale (base, post, beam, two pans hanging on three rods); userData.beam tips around z, userData.pans = [left, right]
+export function balance(s = 1) {
+  const g = new THREE.Group(), b = new GB(), br = 0xC9A23A, dk = 0x6A5530;
+  b.cyl(1.4 * s, 1.7 * s, 0.45 * s, 12, dk, 0, 0.22 * s, 0); b.cyl(0.2 * s, 0.26 * s, 6.2 * s, 8, br, 0, 3.3 * s, 0); b.ball(0.4 * s, 1, br, 0, 6.5 * s, 0); g.add(b.mesh());
+  const beam = new THREE.Group(); beam.position.y = 6.2 * s; g.add(beam);
+  const bb = new GB(); bb.box(7.4 * s, 0.24 * s, 0.24 * s, br, 0, 0, 0); bb.ball(0.2 * s, 0, br, -3.7 * s, 0, 0); bb.ball(0.2 * s, 0, br, 3.7 * s, 0, 0); beam.add(bb.mesh());
+  const pans = [-1, 1].map(sx => { const pg = new THREE.Group(); pg.position.set(sx * 3.6 * s, 0, 0); const p = new GB(); for (const a of [0, 2.1, 4.2]) p.cyl(0.03 * s, 0.03 * s, 2.7 * s, 4, dk, Math.cos(a) * 0.55 * s, -1.35 * s, Math.sin(a) * 0.55 * s, Math.sin(a) * 0.2, 0, -Math.cos(a) * 0.2); p.cyl(1.15 * s, 0.85 * s, 0.26 * s, 14, br, 0, -2.75 * s, 0); pg.add(p.mesh()); beam.add(pg); return pg; });
+  g.userData = { beam, pans }; return g;
+}
