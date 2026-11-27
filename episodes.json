@@ -501,5 +501,18 @@
    "FTX: withdrawals paused 8 Nov 2022, Chapter 11 on 11 Nov 2022, up to $8bn short after lending customer deposits to Alameda Research: The Block's timeline (Kristin Majcher, 11 Nov 2022, citing Bloomberg and the WSJ); ABC News via ABC7 (Max Zahn, 18 Nov 2022); repayments began 18 Feb 2025: Bloomberg Law (headline); Fortune (19 Feb 2025); Decrypt",
    "vidIQ outlier search 27 Nov 2026 (5 credits, trends/2026-11-27.md): Binance hack Reels 0.8M-7.3M views, outliers up to 585.9x; no short video on the run or the reopening"
   ]
+ },
+ {
+  "n": 23,
+  "slug": "023-twelve-second-trap",
+  "title": "The 12-Second Trap",
+  "event": "Mon 16 Nov 2026: US District Judge Jessica Clarke (Manhattan) grants a judgment of acquittal to MIT-educated brothers Anton and James Peraire-Bueno, closing the first US criminal case over MEV without a second trial. Prosecutors had said that in April 2023 the brothers took about $25 million of crypto from Ethereum 'sandwich' trading bots in about 12 seconds: bait trades lured the bots, then a flaw in MEV-Boost relay software showed the brothers the block before it was locked, and they swapped the bait for their own sells. Charged May 2024 (wire fraud, conspiracy, money laundering, up to 20 years each); first trial ended in a mistrial in Nov 2025 after the jury deadlocked. The judge found no material misrepresentation proven (Ethereum is 'a trustless, highly adversarial environment with no terms of use'; the question was 'not whether the Peraire-Buenos' conduct was right or moral').",
+  "story": "The Peraire-Bueno brothers' Ethereum MEV case (2023-2026)",
+  "angle": "what happened + the mechanism + the latest twist: how about $25 million moved from trading robots to two brothers in 12 seconds (sandwich bots that jump in front of other people's trades were baited, then a flaw in the software that seals each block showed the brothers the robots' orders early and they swapped in their own sells), why prosecutors called it fraud, and the twist: after a 2025 mistrial, Judge Jessica Clarke acquitted them on 16 Nov 2026 because no lie was proven ('no terms of use'; 'not whether ... right or moral'); case closed; no advice",
+  "window": "14 days",
+  "keyword": "CRIME/FAIR",
+  "made": "2026-11-27",
+  "posted": null,
+  "format": "v2"
  }
 ]
