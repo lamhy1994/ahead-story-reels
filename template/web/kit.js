@@ -814,3 +814,8 @@ export function policeCar(o = {}) {
 export const ENVELOPE = (() => { const b = new GB(); b.box(1.6, 1.0, 0.06, 0xF8F6F0, 0, 0, 0); b.box(0.98, 0.07, 0.07, 0xC9C2B0, -0.4, 0.2, 0.01, 0, 0, -0.56); b.box(0.98, 0.07, 0.07, 0xC9C2B0, 0.4, 0.2, 0.01, 0, 0, 0.56); b.box(0.22, 0.22, 0.08, 0xC8423A, 0, -0.02, 0.02); return b.geo(); })();
 // redCross(s): a white square sign with a red cross (a hospital), facing +z, origin at its centre
 export function redCross(s = 1) { const b = new GB(); b.box(3.0 * s, 3.0 * s, 0.25 * s, 0xF8F6F0, 0, 0, 0); b.box(2.1 * s, 0.7 * s, 0.3 * s, 0xD8302C, 0, 0, 0.02 * s); b.box(0.7 * s, 2.1 * s, 0.3 * s, 0xD8302C, 0, 0, 0.02 * s); return b.mesh(); }
+
+// ───────── Carl Icahn's fortune, Nov 2026 (episode 25): a chain link (white vertex colour: the material sets it) and a padlock, for pledged shares
+export const CHAIN_LINK = (() => { const b = new GB(); b.box(1.0, 0.3, 0.42, 0xFFFFFF, 0, 0, 0); b.box(0.42, 0.3, 0.16, 0xFFFFFF, 0, 0, 0); return b.geo(); })();
+export function padlock() { const g = new THREE.Group(), b = new GB(); b.box(5.2, 4.4, 1.4, 0xC9A24A, 0, 0, 0); b.box(4.6, 3.8, 1.5, 0xE2B24A, 0, 0, 0); b.cyl(0.42, 0.42, 1.6, 10, 0x3A2E24, 0, 0.4, 0, Math.PI / 2, 0, 0); b.box(0.36, 1.1, 1.62, 0x3A2E24, 0, -0.45, 0);
+  b.add(new THREE.TorusGeometry(1.75, 0.42, 8, 18, Math.PI), 0x9AA2AE, M(0, 2.2, 0)); b.cyl(0.42, 0.42, 0.9, 8, 0x9AA2AE, -1.75, 1.95, 0); b.cyl(0.42, 0.42, 0.9, 8, 0x9AA2AE, 1.75, 1.95, 0); g.add(b.mesh()); return g; }   // body centred on the origin, shackle on top, facing +z
