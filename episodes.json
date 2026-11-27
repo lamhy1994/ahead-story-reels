@@ -525,5 +525,18 @@
    "How it worked: sandwich bots buy just before and sell just after a big trade (Gizmodo; The Block 2025; Decrypt); months of planning and bait trades (DOJ; BleepingComputer; Decrypt; CoinDesk; The Block 2023); a flaw in MEV-Boost relay software showed the block before it was committed (BleepingComputer; Decrypt; The Block 2025; CoinDesk); the bait replaced with sells (The Block 2023; CoinDesk; Reuters 'high-speed bait-and-switch')",
    "A new Ethereum block every 12 seconds: ethereum.org 'Blocks' (page updated 29 Oct 2026, https://ethereum.org/en/developers/docs/blocks); Etherscan block numbers 23,886,341 to 23,893,472 over one day (about one block every 12.1 s)"
   ]
+ },
+ {
+  "n": 24,
+  "slug": "024-boss-who-wasnt-there",
+  "title": "The Boss Who Wasn't There",
+  "event": "Thu 5 Nov 2026 (US time): Manhattan federal prosecutors unseal an indictment charging Jacob Soall (41), Sharon Hazan (54) and Guy Sheetrit (42), arrested in Spain (17 Jun, 5 Aug 2026) and the UK (7 Sep 2026), with wire fraud, aggravated identity theft and money laundering. Prosecutors say that between July 2024 and February 2026 they used AI to mimic companies' CEOs (the voice, sometimes the face) on calls about a 'confidential financial transaction', then posed as lawyers at large international law firms (a 'Lawyer Call' script told staff not to discuss it with colleagues), getting finance staff to wire at least $129 million to bank accounts in nine countries, then turned it into crypto. Victims include hospital systems in Missouri and California, a Rhode Island bank, a UK fintech (about $11.6 million), a Massachusetts mutual fund company and a Florida pet food company. The charges are accusations; the men are presumed innocent (Sheetrit's lawyers say he had no involvement). Extradition pending.",
+  "story": "The $129 million AI CEO-impersonation case (2024-2026)",
+  "angle": "what happened + the mechanism: how a fake boss and a fake lawyer got finance staff to wire millions (an AI copy of the CEO's voice and sometimes face, a 'confidential deal', a lawyer from a big law firm who was fake too, a script telling them to keep it from colleagues, money to accounts in nine countries, then crypto) and where it stands (three men arrested June-Sept 2026, charges unsealed in New York 5 Nov 2026, presumed innocent, extradition pending); no advice",
+  "window": "1 month",
+  "keyword": "YES/NO",
+  "made": "2026-11-27",
+  "posted": null,
+  "format": "v2"
  }
 ]
