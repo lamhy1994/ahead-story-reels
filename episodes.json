@@ -536,7 +536,16 @@
   "window": "1 month",
   "keyword": "YES/NO",
   "made": "2026-11-27",
-  "posted": null,
-  "format": "v2"
+  "posted": "2026-11-27",
+  "format": "v2",
+  "permalink": "https://www.instagram.com/reel/DgP7tjpBg1z/",
+  "length_s": 58.8,
+  "wpm": 162,
+  "sources": [
+   "About $129 million; charges made public Thu 5 Nov 2026; three men arrested in Spain (17 Jun, 5 Aug 2026) and the UK (7 Sep 2026); wire fraud, aggravated identity theft, money laundering, up to 20 years per count; presumed innocent: US Justice Dept SDNY press release 26-317 'Three Foreign Nationals Arrested And Charged With Scheme To Use Super Intelligence To Defraud Companies Of $129 Million' (updated 6 Nov 2026, https://www.justice.gov/usao-sdny/pr/three-foreign-nationals-arrested-and-charged-scheme-use-super-intelligence-defraud); AP via ITV News (6 Nov 2026, https://www.itv.com/news/2026-11-06/3-charged-in-scheme-to-use-ai-to-mimic-ceos-to-steal-129-million) and KSAT; CyberScoop (Matt Kapko, 6 Nov 2026, https://cyberscoop.com/ai-deepfakes-impersonate-ceo-lawyer-defraud-companies/); SCMP (https://www.scmp.com/news/world/united-states-canada/article/3373511/us-accuses-trio-using-ai-impersonate-ceos-and-lawyers-steal-us129-million)",
+   "Thousands of companies targeted, July 2024 - Feb 2026: AP; CyberScoop (court records); American Banker (Carter Pape, 9 Nov 2026, https://www.americanbanker.com/news/how-an-alleged-fake-ceo-scheme-took-2-7m-from-r-i-bank); DOJ ('between 2024 and 2026')",
+   "How it worked: an email from 'the CEO' about a 'confidential financial transaction' (AP; CyberScoop, with an NDA; American Banker; DOJ), a call where AI mimicked the CEO's voice and sometimes the image (AP; DOJ 'voice and/or image'; CyberScoop), a fake lawyer at a big international law firm who gave the wiring instructions (DOJ; AP; CyberScoop), a handwritten 'Lawyer Call' script meant to keep staff from discussing it with colleagues (DOJ; American Banker summary)",
+   "Victims: hospital systems in Missouri and California, a Rhode Island bank, a UK fintech ($11,578,474), a Massachusetts mutual fund company, a Florida pet food company (DOJ; CyberScoop; AP); money to accounts in the US, Spain, Portugal, Greece, UAE, Singapore, Austria, Slovakia and China (DOJ; CyberScoop), then converted to crypto (DOJ; AP; CyberScoop)"
+  ]
  }
 ]

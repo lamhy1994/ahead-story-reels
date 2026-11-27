@@ -780,3 +780,37 @@ export const CHAIR = (() => { const b = new GB(); b.box(0.9, 0.14, 0.9, 0xFFFFFF
 // a judge's gavel (head along y at the origin, handle along +x) and its round sounding block (origin at the ground)
 export function gavelHead(s = 1) { const g = new THREE.Group(), b = new GB(); b.cyl(1.2 * s, 1.2 * s, 4.6 * s, 16, 0x6B3F22, 0, 0, 0); for (const y of [-1.85, 1.85]) b.cyl(1.3 * s, 1.3 * s, 0.55 * s, 16, 0xC9A23A, 0, y * s, 0); b.cyl(0.3 * s, 0.36 * s, 7.8 * s, 10, 0x7A4A28, 5.1 * s, 0, 0, 0, 0, Math.PI / 2); g.add(b.mesh()); return g; }
 export function gavelBlock(s = 1) { const b = new GB(); b.cyl(2.6 * s, 2.8 * s, 1.6 * s, 18, 0x6B3F22, 0, 0.8 * s, 0); b.cyl(2.7 * s, 2.7 * s, 0.2 * s, 18, 0xC9A23A, 0, 1.6 * s, 0); return b.mesh(); }
+
+// ───────── The boss who wasn't there, 2024-2026 (episode 24): a call screen on a stand, a face mask on a stick, a police car, an envelope, a red-cross sign
+// callScreen(w, h, y0): a big screen on a stand (dark bezel, a post and a foot), the glass facing +z; origin at ground centre; userData.screen = [x, y, z, w, h] of the glass (put a canvas plane there)
+export function callScreen(w = 7.2, h = 4.2, y0 = 3.2) {
+  const b = new GB(); b.box(w + 0.5, h + 0.5, 0.3, 0x1A1D24, 0, y0 + h / 2, 0); b.box(0.42, y0, 0.42, 0x3A3F48, 0, y0 / 2, -0.12); b.box(2.8, 0.2, 1.6, 0x2A2E36, 0, 0.1, 0);
+  b.box(w + 0.5, 0.12, 0.34, 0x2E333C, 0, y0 - 0.02, 0);
+  const m = b.mesh(); m.userData = { screen: [0, y0 + h / 2, 0.17, w, h] }; return m;
+}
+// faceMask(o): a flat cartoon face on a stick (generic, nobody's likeness): skin disc, hair band, eyes, brows, nose, a smile; o.glasses adds round glasses;
+// the face looks toward +z; origin at the bottom of the stick; the face's centre at y = 1.6 * s
+export function faceMask(o = {}) {
+  const s = o.s ?? 1, b = new GB(), skin = o.skin ?? 0xE0B48C, hair = o.hair ?? 0x3A2A1E, dk = 0x1E2229, y = 1.6 * s;
+  b.cyl(0.05 * s, 0.05 * s, 1.1 * s, 5, 0x6A4A2A, 0, 0.55 * s, -0.06 * s);
+  b.cyl(0.62 * s, 0.62 * s, 0.08 * s, 22, skin, 0, y, 0, Math.PI / 2, 0, 0);
+  b.box(1.08 * s, 0.3 * s, 0.1 * s, hair, 0, y + 0.47 * s, 0.01 * s); b.box(0.2 * s, 0.5 * s, 0.1 * s, hair, -0.52 * s, y + 0.2 * s, 0.01 * s); b.box(0.2 * s, 0.5 * s, 0.1 * s, hair, 0.52 * s, y + 0.2 * s, 0.01 * s);
+  for (const x of [-0.21, 0.21]) { b.cyl(0.07 * s, 0.07 * s, 0.06 * s, 10, dk, x * s, y + 0.08 * s, 0.05 * s, Math.PI / 2, 0, 0); b.box(0.2 * s, 0.04 * s, 0.05 * s, hair, x * s, y + 0.22 * s, 0.05 * s); }
+  b.box(0.08 * s, 0.18 * s, 0.06 * s, 0xC9966E, 0, y - 0.06 * s, 0.06 * s);
+  b.box(0.3 * s, 0.05 * s, 0.05 * s, 0x9A3A3A, 0, y - 0.28 * s, 0.05 * s); b.box(0.08 * s, 0.05 * s, 0.05 * s, 0x9A3A3A, -0.17 * s, y - 0.25 * s, 0.05 * s, 0, 0, -0.5); b.box(0.08 * s, 0.05 * s, 0.05 * s, 0x9A3A3A, 0.17 * s, y - 0.25 * s, 0.05 * s, 0, 0, 0.5);
+  if (o.glasses) { for (const x of [-0.21, 0.21]) b.add(new THREE.TorusGeometry(0.13 * s, 0.025 * s, 6, 14), dk, M(x * s, y + 0.08 * s, 0.07 * s)); b.box(0.16 * s, 0.03 * s, 0.03 * s, dk, 0, y + 0.1 * s, 0.07 * s); }
+  return b.mesh();
+}
+// policeCar(o): a white car with a blue side stripe; the light bar's two lamps are separate meshes (userData.red, userData.blue) so the scene can flash them; bow toward +x
+export function policeCar(o = {}) {
+  const g = new THREE.Group(); g.add(car(o.color ?? 0xF2F2F2)); const b = new GB();
+  b.box(4.34, 0.18, 1.86, 0x1E3A8A, 0, 0.64, 0); b.box(0.5, 0.12, 1.2, 0x2A2E36, -0.2, 1.74, 0);
+  g.add(b.mesh()); const lamp = new THREE.BoxGeometry(0.42, 0.18, 0.5);
+  const red = new THREE.Mesh(lamp, o.redMat ?? new THREE.MeshBasicMaterial({ color: 0xFF3A30, toneMapped: false })); red.position.set(-0.2, 1.88, 0.32); g.add(red);
+  const blue = new THREE.Mesh(lamp, o.blueMat ?? new THREE.MeshBasicMaterial({ color: 0x3A6AFF, toneMapped: false })); blue.position.set(-0.2, 1.88, -0.32); g.add(blue);
+  g.userData = { red, blue }; return g;
+}
+// ENVELOPE: a closed letter (for a single Mesh with MAT): white body, a pale flap drawn as a V, 1.6 x 1.0, facing +z, origin at its centre
+export const ENVELOPE = (() => { const b = new GB(); b.box(1.6, 1.0, 0.06, 0xF8F6F0, 0, 0, 0); b.box(0.98, 0.07, 0.07, 0xC9C2B0, -0.4, 0.2, 0.01, 0, 0, -0.56); b.box(0.98, 0.07, 0.07, 0xC9C2B0, 0.4, 0.2, 0.01, 0, 0, 0.56); b.box(0.22, 0.22, 0.08, 0xC8423A, 0, -0.02, 0.02); return b.geo(); })();
+// redCross(s): a white square sign with a red cross (a hospital), facing +z, origin at its centre
+export function redCross(s = 1) { const b = new GB(); b.box(3.0 * s, 3.0 * s, 0.25 * s, 0xF8F6F0, 0, 0, 0); b.box(2.1 * s, 0.7 * s, 0.3 * s, 0xD8302C, 0, 0, 0.02 * s); b.box(0.7 * s, 2.1 * s, 0.3 * s, 0xD8302C, 0, 0, 0.02 * s); return b.mesh(); }
