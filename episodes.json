@@ -547,5 +547,18 @@
    "How it worked: an email from 'the CEO' about a 'confidential financial transaction' (AP; CyberScoop, with an NDA; American Banker; DOJ), a call where AI mimicked the CEO's voice and sometimes the image (AP; DOJ 'voice and/or image'; CyberScoop), a fake lawyer at a big international law firm who gave the wiring instructions (DOJ; AP; CyberScoop), a handwritten 'Lawyer Call' script meant to keep staff from discussing it with colleagues (DOJ; American Banker summary)",
    "Victims: hospital systems in Missouri and California, a Rhode Island bank, a UK fintech ($11,578,474), a Massachusetts mutual fund company, a Florida pet food company (DOJ; CyberScoop; AP); money to accounts in the US, Spain, Portugal, Greece, UAE, Singapore, Austria, Slovakia and China (DOJ; CyberScoop), then converted to crypto (DOJ; AP; CyberScoop)"
   ]
+ },
+ {
+  "n": 25,
+  "slug": "025-crash-that-never-came",
+  "title": "The Crash That Never Came",
+  "event": "Tue 24 - Wed 25 Nov 2026: Bloomberg (his fortune down to about $1.3bn, a record low, as debt pressures rise) and the New York Post (Forbes data: from $24.6bn in 2021 to about $1.7bn, about 93% or about $23bn gone, the lowest since 1997) report that Carl Icahn, 90, has lost most of his fortune in five years while US stocks rose: his funds' bets against the market and energy stocks lost money (down 43.8% in the first nine months of 2026), Icahn Enterprises units fell to about $2.57 (25 Nov 2026), he has pledged units for about $1.3bn of personal loans, and the company warned (10-Q, 4 Nov 2026) that there is no assurance it can refinance about $1.4bn of notes due May 2027.",
+  "story": "Carl Icahn's fortune falls about 93% in five years (2021-2026)",
+  "angle": "what happened + the mechanism: how one of Wall Street's most feared investors lost about $23bn in five years while stocks rose (bets on a crash that never came, almost all his money in one company whose units he borrowed against, the 2023 short-seller report and dividend cuts, 2026's hedge losses and the warning on $1.4bn of notes due May 2027); where it stands today; no advice",
+  "window": "14 days",
+  "keyword": "YES/NO",
+  "made": "2026-11-28",
+  "posted": null,
+  "format": "v2"
  }
 ]
