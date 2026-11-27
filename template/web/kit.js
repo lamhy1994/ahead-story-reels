@@ -730,3 +730,53 @@ export function autumnTree(h = 6, rand = Math.random, o = {}) {
   for (let i = 0; i < 4; i++) b.ball(h * (0.22 + rand() * 0.08), 1, P[Math.floor(rand() * P.length)], (rand() - 0.5) * h * 0.4, h * (0.62 + rand() * 0.18), (rand() - 0.5) * h * 0.4);
   return b.mesh();
 }
+
+// ───────── The 12-second trap, Ethereum 2023-2026 (episode 23): trading robots, block cars on rails, a sealing gantry, a trader's desk, chairs, a gavel
+// a trading robot (facing +x): tracked base, boxy body, head with a dark visor; the eyes are a second mesh (userData.eyes) with a glowing material; o.body/o.trim/o.acc colours
+export function robot(o = {}) {
+  const g = new THREE.Group(), b = new GB(), e = new GB(), body = o.body ?? 0xB8C0CC, trim = o.trim ?? 0x3E4A5A, acc = o.acc ?? 0xE0A23A;
+  for (const s of [-1, 1]) { b.box(1.3, 0.4, 0.34, 0x2A2E36, 0, 0.2, s * 0.42); for (const x of [-0.55, 0.55]) b.cyl(0.2, 0.2, 0.36, 8, 0x4A505A, x, 0.2, s * 0.42, Math.PI / 2, 0, 0); }
+  b.box(0.9, 0.16, 0.7, trim, 0, 0.47, 0); b.box(0.85, 1.0, 0.95, body, 0, 1.05, 0); b.box(0.06, 0.5, 0.6, acc, 0.44, 1.1, 0);
+  b.cyl(0.12, 0.14, 0.2, 6, trim, 0, 1.64, 0); b.box(0.75, 0.6, 0.85, body, 0, 2.0, 0); b.box(0.06, 0.36, 0.72, 0x141821, 0.39, 2.02, 0);
+  b.cyl(0.025, 0.025, 0.5, 4, trim, -0.1, 2.55, 0); b.ball(0.09, 0, acc, -0.1, 2.83, 0);
+  for (const s of [-1, 1]) { b.box(0.22, 0.22, 0.22, trim, 0, 1.4, s * 0.58); b.box(0.6, 0.16, 0.16, body, 0.26, 1.24, s * 0.6, 0, 0, -0.55); b.box(0.18, 0.2, 0.24, trim, 0.54, 1.05, s * 0.6); }
+  e.box(0.05, 0.15, 0.15, 0xFFFFFF, 0.43, 2.05, 0.18); e.box(0.05, 0.15, 0.15, 0xFFFFFF, 0.43, 2.05, -0.18);
+  g.add(b.mesh()); const eyes = new THREE.Mesh(e.geo(), o.eyeMat ?? new THREE.MeshBasicMaterial({ color: 0x7FE8FF, toneMapped: false })); g.add(eyes);
+  g.userData = { eyes }; return g;
+}
+// a block car on rails (along x): chassis on four wheels and an open-topped frame for crates; floor top at userData.floor; o.frame = frame colour
+export function blockCar(L = 6.4, Wd = 3.4, Hc = 2.4, o = {}) {
+  const b = new GB(), fr = o.frame ?? 0x6B7BF0, dk = 0x24272E, y0 = 1.06;
+  b.box(L, 0.4, Wd - 0.3, 0x3A3F4A, 0, 0.75, 0);
+  for (const x of [-L / 2 + 1.0, L / 2 - 1.0]) for (const z of [-Wd / 2 + 0.3, Wd / 2 - 0.3]) b.cyl(0.42, 0.42, 0.24, 12, dk, x, 0.42, z, Math.PI / 2, 0, 0);
+  b.box(L, 0.12, Wd, 0x5A6070, 0, y0 - 0.06, 0);
+  for (const x of [-L / 2, L / 2]) for (const z of [-Wd / 2, Wd / 2]) b.box(0.18, Hc, 0.18, fr, x, y0 + Hc / 2, z);
+  for (const z of [-Wd / 2, Wd / 2]) { b.box(L, 0.16, 0.16, fr, 0, y0 + Hc, z); b.box(L, 0.12, 0.12, fr, 0, y0 + 0.12, z); }
+  for (const x of [-L / 2, L / 2]) { b.box(0.16, 0.16, Wd, fr, x, y0 + Hc, 0); b.box(0.12, 0.12, Wd, fr, x, y0 + 0.12, 0); }
+  for (const s of [-1, 1]) b.box(0.6, 0.2, 0.34, dk, s * (L / 2 + 0.3), 0.8, 0);
+  const m = b.mesh(); m.userData = { L, Wd, Hc, floor: y0 }; return m;
+}
+// rails along x: sleepers and two steel rails, gauge = distance between the rails
+export function rails(L, gauge = 2.8) { const b = new GB(); for (let x = -L / 2 + 0.6; x < L / 2; x += 1.25) b.box(0.42, 0.14, gauge + 1.1, 0x6A5848, x, 0.07, 0); for (const s of [-1, 1]) b.box(L, 0.2, 0.16, 0xA8AEB8, 0, 0.24, s * gauge / 2); return b.mesh(); }
+// the sealing gantry over a track along x: two posts, a top beam with a black-and-amber stripe (the press head is separate)
+export function gantry(span = 7.6, h = 7, o = {}) {   // o.one: a single post on the -z side (the beam reaches out over the track)
+  const b = new GB(), st = 0x3A4250, acc = 0xF2B233;
+  for (const s of (o.one ? [-1] : [-1, 1])) { b.box(0.8, h, 0.8, st, 0, h / 2, s * span / 2); b.box(1.4, 0.3, 1.4, 0x2A2E36, 0, 0.15, s * span / 2); }
+  if (o.one) { b.box(0.5, 2.6, 0.5, st, 0, h - 1.2, -span / 2 + 1.4, -0.75, 0, 0); }
+  b.box(1.6, 1.1, span + 0.8, st, 0, h + 0.55, 0);
+  for (let i = 0; i < 10; i++) b.box(1.62, 0.32, (span + 0.8) / 10 * 0.98, i % 2 ? acc : 0x1A1C20, 0, h + 0.1, -(span + 0.8) / 2 + (i + 0.5) * (span + 0.8) / 10);
+  return b.mesh();
+}
+// a trader's desk (front toward +z) with two monitors; the screens are a second mesh (userData.screens) with a glowing material (plain, no app)
+export function deskMonitors() {
+  const g = new THREE.Group(), b = new GB(), s = new GB();
+  b.box(3.6, 0.14, 1.5, 0x5A4030, 0, 1.0, 0); for (const x of [-1.6, 1.6]) for (const z of [-0.6, 0.6]) b.box(0.12, 1.0, 0.12, 0x3A3F48, x, 0.5, z);
+  for (const x of [-0.85, 0.85]) { const ry = x < 0 ? 0.22 : -0.22; b.box(1.4, 0.86, 0.1, 0x1E2229, x, 1.72, -0.35, 0, ry, 0); b.box(0.12, 0.42, 0.12, 0x3A3F48, x, 1.22, -0.4); b.box(0.6, 0.06, 0.4, 0x3A3F48, x, 1.08, -0.4); s.box(1.22, 0.7, 0.04, 0xFFFFFF, x, 1.72, -0.28, 0, ry, 0); }
+  b.box(1.1, 0.05, 0.4, 0x2A2E36, 0, 1.09, 0.35);
+  g.add(b.mesh()); const scr = new THREE.Mesh(s.geo(), new THREE.MeshBasicMaterial({ color: 0x8FDCFF, toneMapped: false })); g.add(scr); g.userData = { screens: scr }; return g;
+}
+// a plain chair (white, so an instance colour sets it), seat at y 0.9, back toward -x (faces +x)
+export const CHAIR = (() => { const b = new GB(); b.box(0.9, 0.14, 0.9, 0xFFFFFF, 0, 0.9, 0); b.box(0.14, 1.1, 0.9, 0xFFFFFF, -0.4, 1.5, 0); for (const x of [-0.36, 0.36]) for (const z of [-0.36, 0.36]) b.box(0.09, 0.85, 0.09, 0xFFFFFF, x, 0.43, z); return b.geo(); })();
+// a judge's gavel (head along y at the origin, handle along +x) and its round sounding block (origin at the ground)
+export function gavelHead(s = 1) { const g = new THREE.Group(), b = new GB(); b.cyl(1.2 * s, 1.2 * s, 4.6 * s, 16, 0x6B3F22, 0, 0, 0); for (const y of [-1.85, 1.85]) b.cyl(1.3 * s, 1.3 * s, 0.55 * s, 16, 0xC9A23A, 0, y * s, 0); b.cyl(0.3 * s, 0.36 * s, 7.8 * s, 10, 0x7A4A28, 5.1 * s, 0, 0, 0, 0, Math.PI / 2); g.add(b.mesh()); return g; }
+export function gavelBlock(s = 1) { const b = new GB(); b.cyl(2.6 * s, 2.8 * s, 1.6 * s, 18, 0x6B3F22, 0, 0.8 * s, 0); b.cyl(2.7 * s, 2.7 * s, 0.2 * s, 18, 0xC9A23A, 0, 1.6 * s, 0); return b.mesh(); }

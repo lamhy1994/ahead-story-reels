@@ -512,7 +512,18 @@
   "window": "14 days",
   "keyword": "CRIME/FAIR",
   "made": "2026-11-27",
-  "posted": null,
-  "format": "v2"
+  "posted": "2026-11-27",
+  "format": "v2",
+  "permalink": "https://www.instagram.com/reel/DgPEO5kK4qu/",
+  "length_s": 59.5,
+  "wpm": 160,
+  "sources": [
+   "About $25m from Ethereum sandwich trading bots in about 12 seconds, April 2023 (prosecutors' account): US DOJ press release via IRS-CI (15 May 2024, https://www.irs.gov/compliance/criminal-investigation/two-brothers-arrested-for-attacking-the-ethereum-blockchain-and-stealing-25-million-in-cryptocurrency); Reuters via The Star (Nate Raymond, 8 Nov 2025, https://www.thestar.com.my/tech/tech-news/2025/11/08/mistrial-declared-for-mit-educated-brothers-accused-of-25-million-cryptocurrency-heist); The Block (11 Nov 2025, https://www.theblock.co/post/378414/prosecutors-seek-new-trial-mit-brothers-25-million-ethereum-fraud-case-ends-mistrial); The Block (Vishal Chawla, 3 Apr 2023, https://theblock.co/post/224482/ethereum-mev-bots-lose-over-25-million-in-sophisticated-attack); Decrypt (17 Nov 2026); CoinDesk (18 Nov 2026)",
+   "First criminal case of its kind; charged May 2024 with wire fraud, conspiracy, money laundering, up to 20 years each: US DOJ (15 May 2024); CoinDesk (18 Nov 2026, 'first criminal case over the practice known as MEV'); Decrypt (17 Nov 2026); BleepingComputer (Sergiu Gatlan, 17 Nov 2026)",
+   "Mon 16 Nov 2026: Judge Jessica Clarke grants a judgment of acquittal on all three counts; the government failed to prove 'any material misrepresentations'; 'not whether the Peraire-Buenos' conduct was right or moral'; Ethereum is 'a trustless, highly adversarial environment with no terms of use'; case closed with no second trial: The Block (Jason Shubnell, 16 Nov 2026, https://theblock.co/news/regulation/2026-11-16-peraire-bueno-brothers-acquitted-ethereum-mev-wire-fraud-441425); Decrypt (17 Nov 2026, https://decrypt.co/383408/judge-acquits-mit-brothers-in-25m-ethereum-mev-case-ending-prosecution); CoinDesk (Shaurya Malwa, 18 Nov 2026, https://www.coindesk.com/policy/2026/11/18/u-s-judge-says-ethereum-has-no-terms-of-use-clears-mit-brothers-of-usd25-million-fraud); BleepingComputer (17 Nov 2026, https://bleepingcomputer.com/news/security/court-clears-brothers-of-25-million-ethereum-crypto-heist-charges); Gizmodo (Mike Pearl, 17 Nov 2026, https://gizmodo.com/the-crypto-bros-whose-2025-mistrial-made-a-jury-cry-have-now-been-acquitted-2000840869); Cointelegraph (17 Nov 2026); Bitcoin.com News (17 Nov 2026); Bloomberg headline (16 Nov 2026); Reuters (16 Nov 2026)",
+   "Mistrial Fri 7 Nov 2025 after the jury deadlocked; prosecutors sought a retrial: Reuters via The Star (8 Nov 2025); The Block (16 Nov 2026; 11 Nov 2025, Jay Clayton's letter); Decrypt; Cointelegraph",
+   "How it worked: sandwich bots buy just before and sell just after a big trade (Gizmodo; The Block 2025; Decrypt); months of planning and bait trades (DOJ; BleepingComputer; Decrypt; CoinDesk; The Block 2023); a flaw in MEV-Boost relay software showed the block before it was committed (BleepingComputer; Decrypt; The Block 2025; CoinDesk); the bait replaced with sells (The Block 2023; CoinDesk; Reuters 'high-speed bait-and-switch')",
+   "A new Ethereum block every 12 seconds: ethereum.org 'Blocks' (page updated 29 Oct 2026, https://ethereum.org/en/developers/docs/blocks); Etherscan block numbers 23,886,341 to 23,893,472 over one day (about one block every 12.1 s)"
+  ]
  }
 ]
