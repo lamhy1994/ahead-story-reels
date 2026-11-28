@@ -221,7 +221,7 @@ for (const l of LANES) {
 // ───────────────────────── the wall of thousands: every tile is a line you could be standing in
 const NCOL = 50, NROW = 40, TW = 2.4, TH = 1.75, WX = 19.6, WY0 = 7.6;
 const wall = new THREE.InstancedMesh(new THREE.BoxGeometry(0.3, TH * 0.84, TW * 0.9), new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false }), NCOL * NROW); wall.frustumCulled = false; scene.add(wall);
-const TILE = []; for (let r = 0; r < NROW; r++) for (let c = 0; c < NCOL; c++) TILE.push({ r, c, y: WY0 + r * TH, z: (c - (NCOL - 1) / 2) * TW, ph: R(), rate: 0.7 + R() * 1.5, tin: T.arent + 0.05 + r * 0.045 + Math.abs(c - 25) * 0.007 });
+const TILE = []; for (let r = 0; r < NROW; r++) for (let c = 0; c < NCOL; c++) TILE.push({ r, c, y: WY0 + r * TH, z: (c - (NCOL - 1) / 2) * TW, ph: R(), rate: 0.7 + R() * 1.5, tin: T.b5 + 0.15 + r * 0.05 + Math.abs(c - 25) * 0.007 });
 const wallBack = new THREE.Mesh(new THREE.BoxGeometry(0.5, NROW * TH + 1.0, NCOL * TW + 1.2), new THREE.MeshBasicMaterial({ color: 0x0E1220, toneMapped: false })); scene.add(wallBack);
 const MINE = 14 * NCOL + 25;                                                           // your tile: it sits still while others flash
 const HOT = []; { const rr = rng(77); for (let t = T.b6 + 0.1, k = 0; t < T.b7 - 0.7; t += 0.34, k++) { let i; do { i = (9 + Math.floor(rr() * 14)) * NCOL + 18 + Math.floor(rr() * 15); } while (i === MINE || HOT.some(h => h.i === i)); HOT.push({ i, t0: t }); } }
@@ -243,13 +243,13 @@ const CAM = [
   { t: T.why + 0.4, tg: [-0.2, 0, 0], d: 35, az: -90, el: 58, dn: 3.5, mv: 3 },                        // "here's why": straight above the three lines
   { t: T.fastest, tg: [-0.2, 0, 0], d: 33.5, az: -90, el: 58, dn: 3.5 },
   { t: T.one + 0.25, tg: [-0.2, 0, 0.8], d: 30, az: -89, el: 57, dn: 3.5, mv: 3 },                     // "one time in three": closer
-  { t: T.b5 - 0.05, tg: [-0.2, 0, 0.8], d: 29.5, az: -89, el: 57, dn: 3.5 },
-  { t: T.arent + 0.2, tg: [WX, 15, 0], d: 62, az: -90, el: 3, up: 0.04, mv: 1 },                        // tilt up: the wall rises
+  { t: T.b5 - 0.3, tg: [-0.2, 0, 0.8], d: 29.5, az: -89, el: 57, dn: 3.5 },
+  { t: T.arent + 0.4, tg: [WX, 15, 0], d: 62, az: -90, el: 3, up: 0.04, mv: 1 },                        // tilt up: the wall rises
   { t: T.thousands + 0.7, tg: [WX, 40, 0], d: 124, az: -90, el: -6, up: 0.0, mv: 1 },                   // "thousands": the whole wall
   { t: T.b6, tg: [WX, 38, 0], d: 112, az: -91, el: -6, up: 0.0 },
   { t: T.always + 0.2, tg: [WX, 33, 0.5], d: 72, az: -90, el: -5, up: 0.0, mv: 3 },                     // "always moving faster": closer, tiles flashing all round yours
-  { t: T.b7 - 0.15, tg: [WX, 32.5, 0.8], d: 64, az: -88, el: -5, up: 0.0 },
-  { t: T.b7 + 0.3, tg: [-2.6, 0.8, 0], d: 28, az: -84, el: 24, dn: 4, mv: 3 },                          // back down: all three lines, and you switch twice
+  { t: T.b7 - 0.55, tg: [WX, 32.5, 0.8], d: 64, az: -88, el: -5, up: 0.0 },
+  { t: T.b7 + 0.5, tg: [-2.6, 0.8, 0], d: 28, az: -84, el: 24, dn: 4, mv: 1 },                          // back down in one sweep (no cut): all three lines, and you switch twice
   { t: T.sw2 + 0.9, tg: [-2.8, 0.8, -0.6], d: 26, az: -88, el: 23, dn: 4 },
   { t: T.back + 0.45, tg: youTg(0.5, 0.9, 0), d: 11.5, az: -100, el: 14, dn: 4, mv: 3 },                // "the back of a new line"
   { t: T.rehook - 0.05, tg: youTg(0.5, 0.9, 0), d: 10.8, az: -103, el: 14, dn: 4 },
@@ -406,7 +406,7 @@ function renderAt(t) {
       const h = 0.3; c.mat.color.copy(k.up ? GREEN : RED); c.body.scale.set(1, h * sc, 1); c.body.position.y = YB + (k.v0 + k.v1) / 2; c.wick.scale.set(1, (h + 0.26) * sc, 1); c.wick.position.y = YB + (k.v0 + k.v1) / 2; });
   }
   // the wall of thousands
-  { const on = t > T.arent, k = eo(seg(t, T.arent, T.arent + 1.9)); wallBack.visible = on; wall.visible = on;
+  { const on = t > T.b5 + 0.1, k = eo(seg(t, T.b5 + 0.1, T.b5 + 2.1)); wallBack.visible = on; wall.visible = on;
     if (on) { const hh = NROW * TH + 1.0; wallBack.scale.y = Math.max(0.001, k); wallBack.position.set(WX + 0.45, WY0 - TH / 2 - 0.3 + k * hh / 2, 0);
       const dim = 1 - 0.72 * night, hot = {}; for (const h of HOT) { const a = win(t, h.t0, h.t0 + 0.8, 0.08, 0.3); if (a > 0.01) hot[h.i] = a; }
       for (let i = 0; i < TILE.length; i++) { const tl = TILE[i], sc = t < tl.tin ? 0 : back(seg(t, tl.tin, tl.tin + 0.3)), a = hot[i] || 0; _p.set(WX, tl.y, tl.z - 0); _s.set(1 + 2 * a, sc * (1 + 0.5 * a), sc * (1 + 0.5 * a)); if (i === MINE) _s.set(2.4, sc * 1.25, sc * 1.25); wall.setMatrixAt(i, _m4.compose(_p, _q, _s));

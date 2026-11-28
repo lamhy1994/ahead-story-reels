@@ -164,8 +164,8 @@ sfx(whoosh(0.6, 400, 3200), T["why"] + 0.1, 0, db(-25)); cue("above the three li
 for k, tr in enumerate(CU["rounds"]): sfx(ding([[784, 1174.7], [880, 1318.5], [1174.7, 1760, 2349]][k], 0.8 if k < 2 else 1.2), tr, [-0.4, 0.0, 0.4][k], db(-25 if k < 2 else -22))
 cue("one time in three", CU["rounds"][2])
 # the wall of thousands
-sfx(whoosh(2.3, 120, 1800), T["arent"] - 0.1, 0, db(-21)); sfx(noise_bed(T["b7"] - T["arent"], 90, 420, 0.2, 0.5, 1.2), T["arent"], 0, db(-33)); cue("the wall rises", T["arent"])
-for k in range(26): sfx(tick(1500 + k * 90, 0.014, 0.5), T["arent"] + 0.1 + k * 0.07, 0.6 * np.sin(k), db(-31))
+sfx(whoosh(2.3, 120, 1800), T["b5"] + 0.05, 0, db(-21)); sfx(noise_bed(T["b7"] - T["b5"], 90, 420, 0.2, 0.5, 1.2), T["b5"] + 0.1, 0, db(-33)); cue("the wall rises", T["b5"] + 0.1)
+for k in range(28): sfx(tick(1500 + k * 90, 0.014, 0.5), T["b5"] + 0.25 + k * 0.07, 0.6 * np.sin(k), db(-31))
 sfx(thud(58, 30, 0.8), T["thousands"] + 0.05, 0, db(-17)); sfx(ding([587.3, 880, 1174.7], 1.4), T["thousands"] + 0.1, 0, db(-25)); cue("thousands", T["thousands"])
 for k, th in enumerate(CU["hot"]): sfx(blip([1568, 1760, 2093, 1975.5][k % 4], 0.07), th, rng.uniform(-0.7, 0.7), db(-28))
 sfx(whoosh(0.6, 3000, 400), T["b7"] + 0.05, 0, db(-25))
