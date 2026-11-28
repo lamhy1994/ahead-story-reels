@@ -1,6 +1,6 @@
 # Hook lab: which opening keeps people to 10 seconds
 
-As of 28 Nov 2026 19:41 Malaysia time. 17 Reels scored (2 made by the lab, 2 different openings tried out of 2,016).
+As of 28 Nov 2026 21:53 Malaysia time. 17 Reels scored (2 made by the lab, 2 different openings tried out of 2,016).
 
 **Goal: 60% of viewers still watching at 10 s, averaged over the last 10 scored Reels. Now: 37%** (estimated; 61% get past 3 s, measured).
 
@@ -84,7 +84,7 @@ K = "Comment WORD and I'll reply with the cheat sheet" (even episodes). O = the 
 |---|---|---|---|---|---|
 | K | 0 | | | | |
 | O | 0 | | | | |
-| N (turn format: no CTA) | 2 | 1314 | 0 | 0.00 | 2 |
+| N (turn format: no CTA) | 2 | 1315 | 0 | 0.00 | 2 |
 | before (one-word poll) | 25 | 134 | 1 | 0.22 | 13 |
 
 The K and O test is paused: since 2026-11-28 every episode is made in the turn format, which has no CTA (Keith). Compare the N row with the rows above.
@@ -93,7 +93,7 @@ Likes, comments, shares and saves are 0 for Reels whose row in insights.csv has 
 
 ## The long road
 
-- Views so far: 6,066 of 100,000,000. Followers: 9 of 100,000.
+- Views so far: 6,069 of 100,000,000. Followers: 9 of 100,000.
 - Typical Reel now: 136 plays (median of the 9 Reels before the newest 3). Steps to pass: 150 → 500 → 2,000 → 10,000 → 100,000 plays a Reel. Passed: 0 of 5.
 - At 3 Reels a day, 100 million views in a year needs about 91,000 views a Reel. So the job is not more Reels: it is Reels that Instagram keeps showing, and that starts with the first 10 seconds.
 
@@ -121,8 +121,8 @@ Likes, comments, shares and saves are 0 for Reels whose row in insights.csv has 
 | 22* | contrast | card | ? | dark | stakes |  | 136 | 62% | 35% |
 | 23* | number | card | place | dark | stakes |  | 136 | 72% | 48% |
 | 24* | contrast | card | person | dark | stakes |  | 146 | 70% | 23% |
-| 25* | contrast | card | ? | dark | stakes |  | 114 | 60% | 41% |
-| 26 | you | banner | action | event | turn | N | 1314 | too new | |
+| 25* | contrast | card | ? | dark | stakes |  | 116 | 59% | 40% |
+| 26 | you | banner | action | event | turn | N | 1315 | too new | |
 | 27 | question | banner | object | event | turn | N | 134 | too new | |
 
 \* labelled by hand afterwards (hooklab/labels.json): a hint, not a test.
