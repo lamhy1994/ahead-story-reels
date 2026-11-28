@@ -45,7 +45,7 @@
 - 第 26 集的数字出处：3 条一样快的队，你那条最快的机会 1/3（Bill Hammack；Wired 2014；自己模拟 33.5%）。胜率 60%、每笔独立：20 笔内连亏 3 次的机会 56.2%，50 笔内 88.6%（自己算，`odds.py`）。
 
 ## 4. 东西在哪里
-GitHub：`lamhy1994/ahead-story-reels`，main 在 `571839c`（写这个文件之前）。本地的 `origin/main` 记号有时是旧的，推送后用 `git ls-remote origin main` 核对。
+GitHub：`lamhy1994/ahead-story-reels`，main 在 `571839c`（写这个文件之前；之后只多了这个文件）。本地的 `origin/main` 记号有时是旧的，推送后用 `git ls-remote origin main` 核对。
 
 | 文件 | 用途 |
 |---|---|
