@@ -602,5 +602,26 @@
    "Exchanges in WFE data list over 49,054 companies (World Federation of Exchanges, 27 Feb 2026)",
    "A 60% win rate with independent trades: a run of three losses within 20 trades 56.2%, within 50 trades 88.6% (own exact calculation, odds.py)"
   ]
+ },
+ {
+  "n": 27,
+  "slug": "027-long-queue",
+  "title": "The Long Queue",
+  "event": "Evergreen (no news event): why you join the long queue when the restaurant next door is empty, and what that has to do with buying what is already going up.",
+  "story": "you join the long restaurant queue when the place next door is empty",
+  "angle": "buying what is rising because other buyers look like information: once two go in, the next ignores her own hunch; a hundred people can carry the opinion of one (information cascades)",
+  "window": "evergreen",
+  "keyword": null,
+  "made": "2026-11-28",
+  "posted": null,
+  "format": "turn",
+  "open": {
+   "words": "question",
+   "text": "banner",
+   "picture": "object",
+   "beat2": "event",
+   "lock": "turn"
+  },
+  "cta": "N"
  }
 ]

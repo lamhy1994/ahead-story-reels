@@ -42,7 +42,7 @@ One line each: the everyday thing → the trading behaviour · the mechanism bot
 - The shortcut every map app suggests becomes the jam → the crowded trade · an edge everyone uses stops being one · Braess's paradox (1968); Khandani and Lo on August 2007
 - You finish a bad film because you paid for the ticket → holding a loser to get back to even · the price you paid is not information · Arkes and Blumer 1985; Odean 1998 (winners sold more readily than losers: check the figures)
 - Fold a sheet of paper 42 times and it reaches the moon → compounding, both ways · growth on growth · 0.1 mm x 2^42 is about 440,000 km; a 50% loss needs a 100% gain
-- The restaurant with a queue outside must be good → buying because it is going up · copying looks like information · Bikhchandani, Hirshleifer and Welch 1992 (information cascades)
+- (taken: episode 27) The restaurant with a queue outside must be good → buying because it is going up · copying looks like information · Bikhchandani, Hirshleifer and Welch 1992 (information cascades)
 - The shower that is always too hot or too cold → overtrading after every candle · reacting to a delayed signal makes it worse · Milton Friedman's "fool in the shower"; find a study on overreaction
 - Three doors, one prize: switching wins 2 times in 3 → when changing your mind is right · new information is not the same as noise · the Monty Hall problem (the other side of episode 26)
 - The planes that came back full of holes → the success stories you copy · you only see the ones that survived · Abraham Wald's wartime memo (check what he really wrote: retellings embellish)
