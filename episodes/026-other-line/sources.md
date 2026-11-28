@@ -1,4 +1,4 @@
-# The Other Line: sample of the "turn" format (28 Nov 2026, not posted)
+# The Other Line: the first episode in the turn format (episode 26, 28 Nov 2026)
 
 Keith, 28 Nov 2026, about the Reel instagram.com/reel/DgMKBJJMeMP (a bullet fired into a round tube comes back; then trading psychology):
 "可不可以做成这样，先用现实普通人会遇到的比较特别的东西做hook，然后很没逻辑的link 到trading，然后把逻辑联合起来，然后最后给人家emotional".
@@ -6,13 +6,10 @@ The shape, taken from that Reel (its structure only, none of its words or pictur
 that makes no sense yet → the logic that joins the two → an ending that is felt. No CTA. `research/hook-study-2026-11-28.md` has the notes (X2).
 
 ## What this folder is
-One sample built for Keith to judge, in our own low-poly look. Nothing in the daily runs uses it yet.
-- `script.py` (FORMAT = "turn", CTA_ARM = "N", TAIL, LESSON_LABEL), `scene.js`, `audio_build.py`: the three story files, as in an episode folder.
-- `tts_build.py`, `index.html`: the two engine files this sample changed. If Keith adopts the format, fold these changes into `template/`:
-  tts_build.py: FORMAT "turn" (PARTS without cta, CTA_ARM "N", no SHEET, its own WARN lines), TAIL (a longer hold after the last word, left out of the pace), LESSON_LABEL;
-  index.html: `.tag.gr`, `.pips i.lo`, `.strip` (the row of 20 trades, the two rows of ten).
-- `odds.py`: the calculation behind the numbers on screen.
-- To rebuild: copy `template/` to a work folder, put these files over it (scene.js and index.html into web/), then tts.sh → vo_proc.sh → cues.mjs → audio_build.py → master.sh → render_full.sh → finish.sh.
+The worked example of the turn format (SKILL.md §0): episode 26, posted on 28 Nov 2026 (instagram.com/reel/DgRZTWRzNq7). `./new_episode.sh NNN-slug` copies
+`template/` (the engine) and then these files over it: `script.py`, `audio_build.py`, `sources.md`, `odds.py`, and `scene.js` into web/.
+Keep the engine parts of scene.js (basics, sky, camera keys with `dn`, overlay, captions, banner, the last card); rebuild the world, the story clock and the sound for your own idea.
+`odds.py` is the calculation behind the numbers on screen: every episode that shows a number we worked out ourselves keeps its own.
 
 ## Facts
 1. "With three lines, yours is the fastest only one time in three." Three lines that are equally fast on average: each is the quickest one time in three, so two times in three another line beats yours.
@@ -28,5 +25,5 @@ One sample built for Keith to judge, in our own low-poly look. Nothing in the da
 5. The last two lines ("ten minutes to buy milk ... ten trades", "Maybe you were never in the wrong line") are the ending, not facts. "Ten trades" is a figure of speech; the card under it asks only "has it had enough trades to judge?". No advice to buy, sell or hold, no promise, no prediction, no Bybit.
 
 ## Not sure
-- Whether this shape holds viewers better than our story Reels: unknown until some are posted and scored. In the 143-post list it is rare (2 posts) but one of them is the most-viewed of all.
+- Whether this shape holds viewers better than our story Reels: unknown until several are posted and scored (trends/hooklab.md). In the 143-post list it is rare (2 posts) but one of them is the most-viewed of all.
 - The voice is our narrator at his usual pace; the reference is slower and heavier over loud music. Keith decides whether to go further that way.

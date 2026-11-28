@@ -1,6 +1,6 @@
 # Hook lab: which opening keeps people to 10 seconds
 
-As of 28 Nov 2026 09:04 Malaysia time. 15 Reels scored (0 made by the lab, 0 different openings tried out of 1,764).
+As of 28 Nov 2026 09:04 Malaysia time. 15 Reels scored (1 made by the lab, 1 different openings tried out of 2,016).
 
 **Goal: 60% of viewers still watching at 10 s, averaged over the last 10 scored Reels. Now: 38%** (estimated; 59% get past 3 s, measured).
 
@@ -12,7 +12,7 @@ As of 28 Nov 2026 09:04 Malaysia time. 15 Reels scored (0 made by the lab, 0 dif
 | text | still testing | | | 1 of 3 levels have 3+ scored Reels |
 | picture | still testing | | | 1 of 4 levels have 3+ scored Reels |
 | beat2 | still testing | | | 1 of 3 levels have 3+ scored Reels |
-| lock | still testing | | | 1 of 7 levels have 3+ scored Reels |
+| lock | still testing | | | 1 of 8 levels have 3+ scored Reels |
 
 A lead under about 5 points with fewer than 6 Reels a level is still mostly luck: each Reel is shown to only about 130 people.
 
@@ -25,7 +25,7 @@ What the hook says: the card text (if there is a card) and the first spoken sent
 | contrast | -2 | 15 | 13 | 38% | 57% | -0.9 | 9% |  |
 | number | +3 | 2 | 2 | 45% | 72% | +5.8 | 91% |  |
 | question | +2 | 0 | 0 | – | – | – | – |  |
-| you | +2 | 0 | 0 | – | – | – | – |  |
+| you | +2 | 1 | 0 | – | – | – | – |  |
 | scene | +0 | 0 | 0 | – | – | – | – |  |
 | whatif | +3 | 0 | 0 | – | – | – | – |  |
 | mystery | +2 | 0 | 0 | – | – | – | – |  |
@@ -38,7 +38,7 @@ What is written on the first frame (it is also the cover).
 |---|---|---|---|---|---|---|---|---|
 | card | -3 | 17 | 15 | 39% | 59% | +0.0 | – |  |
 | captions | +0 | 0 | 0 | – | – | – | – |  |
-| banner | +4 | 0 | 0 | – | – | – | – |  |
+| banner | +4 | 1 | 0 | – | – | – | – |  |
 
 ## picture
 
@@ -47,7 +47,7 @@ What the camera shows from frame 0 to 1.5 s. Whatever the level, something moves
 | level | study guess | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
 |---|---|---|---|---|---|---|---|---|
 | place | -2 | 11 | 11 | 39% | 57% | +0.3 | 15% |  |
-| action | +2 | 1 | 1 | 41% | 72% | +2.5 | 47% |  |
+| action | +2 | 2 | 1 | 41% | 72% | +2.5 | 47% |  |
 | object | +2 | 1 | 1 | 40% | 65% | +0.9 | 38% |  |
 | person | +1 | 1 | 0 | – | – | – | – |  |
 
@@ -59,7 +59,7 @@ What happens at 1.5-3 s.
 |---|---|---|---|---|---|---|---|---|
 | dark | -2 | 16 | 14 | 39% | 59% | -0.1 | – |  |
 | world | +1 | 0 | 0 | – | – | – | – |  |
-| event | +1 | 0 | 0 | – | – | – | – |  |
+| event | +1 | 1 | 0 | – | – | – | – |  |
 
 ## lock
 
@@ -74,6 +74,7 @@ The lock-in, 3-10 s (sentences 2-3): why the rest is worth watching. It ends on 
 | proof | +0 | 0 | 0 | – | – | – | – |  |
 | yours | +3 | 0 | 0 | – | – | – | – |  |
 | tease | +2 | 0 | 0 | – | – | – | – |  |
+| turn | +0 | 1 | 0 | – | – | – | – |  |
 
 ## CTA test (Keith, 28 Nov 2026: alternate the two for about two weeks)
 
@@ -83,7 +84,10 @@ K = "Comment WORD and I'll reply with the cheat sheet" (even episodes). O = the 
 |---|---|---|---|---|---|
 | K | 0 | | | | |
 | O | 0 | | | | |
+| N (turn format: no CTA) | 0 | | | | |
 | before (one-word poll) | 25 | 134 | 1 | 0.22 | 13 |
+
+The K and O test is paused: since 2026-11-28 every episode is made in the turn format, which has no CTA (Keith). Compare the N row with the rows above.
 
 Likes, comments, shares and saves are 0 for Reels whose row in insights.csv has no such columns yet.
 
@@ -118,6 +122,7 @@ Likes, comments, shares and saves are 0 for Reels whose row in insights.csv has 
 | 23* | number | card | place | dark | stakes |  | 136 | 72% | 48% |
 | 24* | contrast | card | person | dark | stakes |  | 137 | too new | |
 | 25* | contrast | card | ? | dark | stakes |  | 45 | too new | |
+| 26 | you | banner | action | event | turn | N |  | too new | |
 
 \* labelled by hand afterwards (hooklab/labels.json): a hint, not a test.
 

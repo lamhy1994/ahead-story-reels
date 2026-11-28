@@ -1,9 +1,10 @@
-# The Other Line  (sample of the "turn" format, 28 Nov 2026: something odd from ordinary life -> a jump to trading -> the logic that joins them -> an ending that is felt)
+# The Other Line  (episode 26, the worked example of the turn format, SKILL.md §0; something odd from ordinary life -> a jump to trading -> the logic that joins them -> an ending that is felt)
 # Keith, 28 Nov 2026, about the Reel instagram.com/reel/DgMKBJJMeMP: "先用现实普通人会遇到的比较特别的东西做hook，然后很没逻辑的link 到trading，然后把逻辑联合起来，然后最后给人家emotional"
 # Each sentence: (spoken text for the voice, keywords shown in an amber box in the captions)
 
+# `python3 ../../hooklab.py pick` prints FORMAT, OPEN and CTA_ARM for the next episode.
 FORMAT = "turn"        # no CTA: the video ends on its last line (CTA_ARM "N"); the last card carries the closing line, not "The lesson: ..."
-OPEN = {"words": "you", "text": "banner", "picture": "action", "beat2": "event", "lock": "yours"}
+OPEN = {"words": "you", "text": "banner", "picture": "action", "beat2": "event", "lock": "turn"}
 CTA_ARM = "N"
 
 S = [

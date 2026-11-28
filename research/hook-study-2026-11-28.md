@@ -100,7 +100,7 @@ X2 the bullet and the round tube · Instagram DgMKBJJMeMP (poster not shown) · 
 - Keith, 09:53: "可不可以做成这样，先用现实普通人会遇到的比较特别的东西做hook，然后很没逻辑的link 到trading，然后把逻辑联合起来，然后最后给人家emotional". The shape, in his words: (1) something odd from ordinary life as the hook, (2) a jump to trading that makes no sense yet, (3) the logic that joins the two, (4) an ending that is felt.
 - Why it may travel further than a news story: the hook needs no interest in money, so the first audience is everybody; the turn opens a question (how is that like trading?) just when a viewer would leave; the ending is about the viewer.
 - In the 143-post list this shape is rare but it is at the very top: krish__pahuja23 (29.7M, the most-viewed of all 143) is an unrelated clip under one line that links it to trading, and dropp845 (3.5M) is a skit under "This is how trading works". Two posts are no proof.
-- What we did with it: one sample in our own look, "the other line always moves faster" (`samples/other-line/`), built for Keith to judge before anything changes in the daily runs.
+- What we did with it: one sample in our own look, "the other line always moves faster". Keith watched it the same morning, had it posted as episode 26 (instagram.com/reel/DgRZTWRzNq7) and chose this format for all three daily videos (SKILL.md §0; the worked example is `formats/turn/`). He said no to a second voice for character lines.
 
 ## The 10 tutorials
 | | video | likes | views |

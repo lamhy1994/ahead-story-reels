@@ -20,3 +20,4 @@ episodes/*/*
 !episodes/*/audio_build.py
 !episodes/*/sources.md
 !episodes/*/caption.txt
+!episodes/*/odds.py

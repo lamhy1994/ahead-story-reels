@@ -572,5 +572,35 @@
    "Icahn and affiliates own about 87% of IEP (IEP investor presentation, Nov 2026, SEC exhibit); Investment Funds -43.8% Jan-Sep 2026 (IEP Q3 report via Institutional Investor, 5 Nov 2026; NY Post); IEP Q3 release 3 Nov 2026 (https://www.sec.gov/Archives/edgar/data/0000813762/000110465926121660/tm2628850d1_ex99-1.htm)",
    "IEP units $7.55 (end 2025) to $2.57 (close 25 Nov 2026), new 52-week low; 10-Q (4 Nov 2026): 'There can be no assurance that we will be able to refinance the 2027 Notes on acceptable terms or at all' (about $1.4bn due May 2027), and 'sufficient liquidity' for the next 12 months: 24/7 Wall St., 27 Nov 2026 (https://247wallst.com/investing/2026/11/27/icahn-enterprises-warns-it-may-not-be-able-to-refinance-1-4-billion-due-in-may/); MarketBeat 25 Nov 2026; Bloomberg via briefs.co (-64% this year; refinancing 'may prove unworkable'); NY Post"
   ]
+ },
+ {
+  "n": 26,
+  "slug": "026-other-line",
+  "title": "The Other Line",
+  "event": "Evergreen (no news event): why the other checkout line always seems to move faster, and what that has to do with switching strategies.",
+  "story": "the other checkout line always moves faster",
+  "angle": "strategy hopping: every switch sends you to the back of a new line; three losses in a row prove nothing",
+  "window": "evergreen",
+  "keyword": null,
+  "made": "2026-11-28",
+  "posted": "2026-11-28",
+  "format": "turn",
+  "open": {
+   "words": "you",
+   "text": "banner",
+   "picture": "action",
+   "beat2": "event",
+   "lock": "turn"
+  },
+  "cta": "N",
+  "permalink": "https://www.instagram.com/reel/DgRZTWRzNq7/",
+  "length_s": 47.9,
+  "wpm": 161,
+  "lesson": "It was never the wrong line. You just never stayed. Before you switch: has it had enough trades to judge?",
+  "sources": [
+   "Three equally fast lines: yours is the fastest 1 time in 3 (Bill Hammack, engineerguy.com/comm/4022.htm; Adam Mann, Wired 2014, via Quartz and Gizmodo; own simulation 33.5%)",
+   "Exchanges in WFE data list over 49,054 companies (World Federation of Exchanges, 27 Feb 2026)",
+   "A 60% win rate with independent trades: a run of three losses within 20 trades 56.2%, within 50 trades 88.6% (own exact calculation, odds.py)"
+  ]
  }
 ]

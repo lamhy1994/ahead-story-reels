@@ -11,7 +11,9 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))      # works from the repo 
 
 LIB = json.load(open("hooklab/library.json")); OLD = json.load(open("hooklab/labels.json"))["episodes"]
 FACTORS = list(LIB["factors"]); K_SHAPE = 0.7; MIN_AGE_H = 12; MIN_PLAYS = 60
-def arm_for(n):  # the CTA arm: even episodes K, odd O, until Keith picks one ("cta": {"arm": "K" or "O"} in library.json)
+FMT = LIB.get("format", "v3"); FSET = LIB.get("formats", {}).get(FMT, {})      # the format every new episode is made in (Keith, 28 Nov 2026: "turn" for all three daily videos)
+def arm_for(n):  # the CTA arm: even episodes K, odd O, until Keith picks one ("cta": {"arm": "K" or "O"} in library.json). The turn format has no CTA: N.
+    if FSET.get("cta"): return FSET["cta"]
     a = LIB.get("cta", {}).get("arm", "alternate"); return a if a in ("K", "O") else ("K" if n % 2 == 0 else "O")
 P = lambda s: dt.datetime.fromisoformat(s.replace("Z", "+00:00"))
 num = lambda r, k, d=0.0: float(r[k]) if r.get(k) not in (None, "") else d
@@ -64,6 +66,8 @@ def centred(rows):
     return sc, allm, max(4.0, sd)
 
 def active(f): return [l["id"] for l in LIB["factors"][f]["levels"] if l.get("status", "active") == "active"]
+def allowed(f):   # the active levels of part f that the current format can build (library.json formats.<format>.levels; no entry there: every active level)
+    a = FSET.get("levels", {}).get(f); act = active(f); return [l for l in act if l in a] if a else [l for l in act if l != "turn"]
 def prior(f, l):
     """The starting guess for a level (library.json "prior", points at 10 s against the average; from the hook study). It counts as one scored Reel."""
     return float(next((x.get("prior", 0) for x in LIB["factors"][f]["levels"] if x["id"] == l), 0))
@@ -88,7 +92,7 @@ def stats(rows):
 def pick(n, rows, st):
     rnd = random.Random(20261128 + 7919 * n); out = {}; why = {}
     for f in FACTORS:
-        act = active(f); low = [l for l in act if st[f][l]["tried"] < LIB["min_tries"]]
+        act = allowed(f); low = [l for l in act if st[f][l]["tried"] < LIB["min_tries"]]
         if low:
             out[f] = rnd.choices(low, weights=[(LIB["min_tries"] - st[f][l]["tried"]) ** 2 * math.exp(prior(f, l) / 3) for l in low])[0]; why[f] = f"new: tried {st[f][out[f]]['tried']} time(s) so far; the study's guess for it is {prior(f, out[f]):+.0f} pts"
         else:
@@ -101,12 +105,13 @@ def cmd_pick(argv):
     have = next((e for e in eps if e.get("n") == n and e.get("open")), None)
     if have: op, why, arm = have["open"], {f: "already claimed" for f in FACTORS}, have.get("cta") or arm_for(n)
     else: (op, why), arm = pick(n, [r for r in rows if r["n"] != n], st), arm_for(n)
-    print(f"EPISODE {n}: build the first 10 seconds like this (SKILL.md §3.1). Put these two lines in script.py and the same values in the episode's episodes.json entry (open, cta):")
+    print(f"EPISODE {n}: build the first 10 seconds like this (SKILL.md §3.1). Put these lines in script.py and the same values in the episode's episodes.json entry (format, open, cta):")
+    if FMT != "v3": print(f'FORMAT = "{FMT}"')
     print("OPEN = " + json.dumps(op)); print(f'CTA_ARM = "{arm}"'); print()
     for f in FACTORS:
         lv = next(l for l in LIB["factors"][f]["levels"] if l["id"] == op[f])
         print(f"- {f} = {op[f]}  ({why[f]})\n    {LIB['factors'][f]['what']}\n    How: {lv['how']}" + (f"\n    Example: {lv['example']}" if lv.get("example") else "") + (f"\n    Checked: {lv['check']}" if lv.get("check") else ""))
-    print(f"- CTA arm {arm}: " + ("keyword. \"Comment WORD and I'll reply with <the cheat sheet>.\" (SKILL.md §4)" if arm == "K" else "no keyword. \"<The cheat sheet> is in the comments.\" + one open question about the lesson (SKILL.md §4)"))
+    print(f"- CTA arm {arm}: " + ("no CTA: the video ends on its last line and the last card (SKILL.md §0)." if arm == "N" else "keyword. \"Comment WORD and I'll reply with <the cheat sheet>.\" (SKILL.md §4)" if arm == "K" else "no keyword. \"<The cheat sheet> is in the comments.\" + one open question about the lesson (SKILL.md §4)"))
     print("\nIf one level truly cannot fit this story, change that one part to another active level, say why in sources.md, and record what you really built.")
 
 def cmd_report():
@@ -134,13 +139,15 @@ def cmd_report():
         L.append("")
     L += ["## CTA test (Keith, 28 Nov 2026: alternate the two for about two weeks)", "", "K = \"Comment WORD and I'll reply with the cheat sheet\" (even episodes). O = the cheat sheet is our own first comment + an open question (odd episodes).", "",
           "| arm | Reels | plays (median) | comments | per 1,000 plays | shares + saves |", "|---|---|---|---|---|---|"]
-    for arm in ("K", "O", None):
+    NAME = {"N": "N (turn format: no CTA)", None: "before (one-word poll)"}
+    for arm in ("K", "O", "N", None):
         v = [r for r in every if r.get("cta") == arm and "plays" in r] if arm else [r for r in every if not r.get("cta") and "plays" in r]
-        if not v: L.append(f"| {arm or 'before (one-word poll)'} | 0 | | | | |"); continue
+        if not v: L.append(f"| {NAME.get(arm, arm)} | 0 | | | | |"); continue
         pl = sorted(r["plays"] for r in v); tot = sum(pl); cm = sum(r["comments"] for r in v)
-        L.append(f"| {arm or 'before (one-word poll)'} | {len(v)} | {pl[len(pl) // 2]} | {cm:.0f} | {1000 * cm / tot:.2f} | {sum(r['shares'] + r['saves'] for r in v):.0f} |")
+        L.append(f"| {NAME.get(arm, arm)} | {len(v)} | {pl[len(pl) // 2]} | {cm:.0f} | {1000 * cm / tot:.2f} | {sum(r['shares'] + r['saves'] for r in v):.0f} |")
     c = LIB.get("cta", {})
-    if c.get("arm") in ("K", "O"): L += ["", f"Keith picked arm {c['arm']}: every episode uses it now."]
+    if FSET.get("cta") == "N": L += ["", f"The K and O test is paused: since {FSET.get('since', '28 Nov 2026')} every episode is made in the {FMT} format, which has no CTA (Keith). Compare the N row with the rows above."]
+    elif c.get("arm") in ("K", "O"): L += ["", f"Keith picked arm {c['arm']}: every episode uses it now."]
     elif c.get("decide_from") and asof.date() >= dt.date.fromisoformat(c["decide_from"]):
         L += ["", f"**Time to decide** (the two weeks ended on {c['decide_from']}): put the K and O rows above in the report to Keith in one line and say he can pick K, O or two more weeks. Keep alternating until he picks; then set \"cta\": {{\"arm\": \"K\"}} or \"O\" in hooklab/library.json."]
     L += ["", "Likes, comments, shares and saves are 0 for Reels whose row in insights.csv has no such columns yet.", ""]
