@@ -117,3 +117,13 @@ GitHub：`lamhy1994/ahead-story-reels`，main 在 `571839c`（写这个文件之
 2. 新工作区是空的：要做影片先跑 `./setup.sh`（装旁白用的环境，几分钟）。
 3. 先看自动任务最近一次的结果（第 27 集有没有发、Keith 觉得怎样），再做第 6 节的事。
 4. 改规则时改 repo 的 SKILL.md（自动任务以它为准）；要改自动任务的指令，整份重写再更新，不要只改一半。
+
+## 11. 28 Nov 下午到傍晚的更新（接手的新聊天写）
+- **第 26 集**：发后 6 小时 1,314 播放（平时约 133），前 3 秒离开 24.9%，平均观看 17.2 秒，22 赞，之后停住。**第 27 集**（第一支自动 turn，The Long Queue，2:50pm 发）：134 播放，前 3 秒离开 39.5%，和故事片一样。各只有 1 支：格式本身不保证播放，差别在前 3 秒。
+- **第 0 帧硬规则（Keith，28 Nov）**：第一帧（也是封面）必须看得到场景、至少三个人和「你」，不能是单个物件或脸的特写，也不能是暗画面。写在 SKILL.md §0；hook lab 里 turn 格式的 picture 只剩 place 和 action，所以开头从 32 种变成 16 种。对比图 `ahead_ep26_vs_ep27_first3s.jpg` 只发在聊天里。
+- **题库**：`ideas.md` 加了 16 个，现在 30 个可用。这 16 个是凭记忆写的线索，出处和数字标了 check，制作时照旧要查证。
+- **已保存的技能** ahead-story-video：改成「指向 repo」的短版，Keith 已保存。早上那张 22 处修改的卡当时也有保存。以后规则只改 repo 的 SKILL.md。
+- **Instagram 主页**（Keith 已改，后台已确认）：Name「Ahead | Trading Psychology」；bio 四行，最后一行「👇 Your first trade, step by step」；Link `aheadlearn.app/ig`。影片和帖文仍然不提 link、不提 Bybit。bio 和网站一样不写 free。
+- **aheadlearn.app/ig**（repo `lamhy1994/aheadlearn-site`，页面 /ig/，规则见那边的 CLAUDE.md）：新手六步开第一单，下面是「影片背后的数字」（第 26、27 集）。有值得列的新影片，可以在那一节加一段。
+- **后台数字**（28 Nov 18:20）：30 天 6,025 views，触及 5,211，主页访问 9（可能有延迟），粉丝 9。vidIQ 余额 672（看 bio 用了 40 点）。
+- **还欠**：第 26、27 集的 12 小时分数（29 Nov 凌晨起算得出）；Keith 29 Nov 在 Instagram 的 Account Status 看推荐资格；/ig 页等 Keith 看完提意见；第 6 节的 2、5、6、7 项照旧。
