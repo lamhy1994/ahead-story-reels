@@ -137,4 +137,7 @@ GitHub：`lamhy1994/ahead-story-reels`，main 在 `571839c`（写这个文件之
   - 实测只有 Instagram App 里的 Retention 图（Reel → View insights）。已请 Keith 截第 26 集的图；收到后照 `trends/retention.md` 记录，三支在同一类时刻掉人就写成规则，并用它校正 `hooklab.py` 的曲线（`K_SHAPE`）。
 - 第 26 集 19:40：1,314 播放、前 3 秒离开 24.8%、平均 17.2 秒、22 赞；第 27 集：134 播放、40.2%、14.3 秒。
 - YouTube 频道「Keith | AI Trading」（@aheadlearn，52 订阅、145 支、约 1.7 万观看）已连 vidIQ，这个项目目前不发到那里；要不要同步发 Shorts 等 Keith 决定。
+- **提 link 测试**（Keith 28 Nov 晚同意，29 Nov–12 Dec）：单数日（马来西亚日期）的 caption 第一行加「Your first trade, step by step: link in profile.」，双数日不加；影片本身不变。规则和停止条件在 SKILL.md §0「The pointer test」，每集在 episodes.json 记 `pointer`。原因：过去 30 天触及 5,215、主页访问 9、点 link 0。13 Dec 起自动停，由每周复盘读结果。
+- **新增两个自动任务**（Keith 同意）：「Ahead 每周增长复盘」周一 11:23am；「Ahead 网站增长」周三、周六 6:20am。两个都照网站 repo 的 `GROWTH.md` 做，不改影片任务。
+- **网站有了自己的计数器**（28 Nov 上线）：每页浏览、Bybit 按钮点击、复制 23956 的次数、来源网站、国家。读法：网站 repo 里 `python3 -I tools/stats.py 7`。/ig/ 来自 Instagram 的访问就看这里。
 
