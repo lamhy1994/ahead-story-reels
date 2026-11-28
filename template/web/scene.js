@@ -16,22 +16,32 @@ const back = x => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x 
 const seg = (t, a, b) => c01((t - a) / (b - a));
 const win = (t, a, b, fi = .25, fo = .25) => Math.min(seg(t, a, a + fi), 1 - seg(t, b, b + fo));
 const R = rng(13240719);
+// The first 10 seconds come from the hook lab (script.py OPEN → timing.json): words · text (card | captions) · picture (place | action | object | person)
+// · beat2 (dark | world | event) · lock. The CTA has two arms (script.py CTA_ARM): K = comment a keyword, we reply; O = the cheat sheet is in the comments.
+const OPEN = Object.assign({ words: 'contrast', text: 'card', picture: 'place', beat2: 'dark', lock: 'stakes' }, TIM.open || {});
+const CTA = Object.assign({ arm: 'K', word: 'GOLD', get: '', ask: '' }, TIM.cta || {}), ARM = CTA.arm;
 
 // ───────────────────────── story clock (everything hangs off the narration)
 const T = {
-  hookEnd: TIM.big ? 1.5 : TIM.hook ? E(1) + 0.15 : 0,  // the hook card (script.py HOOK): 0-1.5 s when there is a big number, else until the hook sentence ends
-  bigIn: TIM.big ? 1.5 : 0, bigOut: TIM.big ? 3.0 : 0,   // the big number (script.py BIG): 1.5-3 s (Keith, 22 Nov 2026)
+  hookEnd: TIM.hook ? (TIM.big ? 1.5 : Math.min(E(1) + 0.15, 3.0)) : 0,   // the hook card (text: card): 0-1.5 s when a big number follows, else until the hook sentence ends (3 s at most)
+  bigIn: TIM.big ? 1.5 : 0, bigOut: TIM.big ? 3.0 : 0,      // the big number (beat2: dark or world): 1.5-3 s (Keith, 22 Nov 2026)
+  beat2: 1.5,                                               // beat2: event → the second thing that happens in the world, instead of a number
   wipe1: S(2) - 0.42, name: wt(2, 'Mansa') - 0.12, rich: wt(2, 'richest') - 0.15,
-  b3: S(3) - 0.1, gold3: wt(3, 'gold') - 0.35,
-  b4: S(4) - 0.1, days: wt(4, 'three') - 0.1, wipe2: wt(4, 'entered') - 0.42,
-  b5: S(5) - 0.05, months: wt(5, 'three') - 0.1, generous: wt(5, 'generous') - 0.2, freely: wt(5, 'freely') - 0.6, markets: wt(5, 'markets') - 0.7, official: wt(5, 'official') - 0.3,
-  b6: S(6) - 0.05, fills: wt(6, 'fills') - 0.3, piece: wt(6, 'piece') - 0.2, less: wt(6, 'less') - 0.15,
-  b7: S(7) - 0.05, price: wt(7, 'price') - 0.2, tenth: wt(7, 'tenth') - 0.2, twelve: wt(7, 'twelve') - 0.15,
-  wipe3: S(8) - 0.42, home: wt(8, 'home') - 0.2, ran: wt(8, 'ran') - 0.1,
-  b9: S(9) - 0.05, borrowed: wt(9, 'borrowed'), interest: wt(9, 'interest') - 0.2, never: wt(9, 'never') - 0.15,
-  b10: S(10) - 0.05, story: wt(10, 'story') - 0.2, even: wt(10, 'Even') - 0.15, cta: S(11) - 0.1,
-  ctaC: wt(11, 'comment') - 0.15, gold: wt(11, 'GOLD') - 0.3, rain0: wt(11, 'someone') - 0.15, rain1: wt(11, 'Just') - 0.05, notToo: wt(11, 'too', 0) - 0.1,
+  lock: S(3) - 0.05, yours: wt(3, 'your') - 0.15,           // the lock-in: what the viewer gets from staying
+  b3: S(4) - 0.1, gold3: wt(4, 'gold') - 0.35,
+  b4: S(5) - 0.1, days: wt(5, 'three') - 0.1, wipe2: wt(5, 'entered') - 0.42,
+  b5: S(6) - 0.05, months: wt(6, 'three') - 0.1, generous: wt(6, 'generous') - 0.2, freely: wt(6, 'freely') - 0.6, markets: wt(6, 'markets') - 0.7, official: wt(6, 'official') - 0.3,
+  b6: S(7) - 0.05, fills: wt(7, 'fills') - 0.3, piece: wt(7, 'piece') - 0.2, less: wt(7, 'less') - 0.15,
+  b7: S(8) - 0.05, price: wt(8, 'price') - 0.2, tenth: wt(8, 'tenth') - 0.2,
+  rehook: S(9) - 0.05, twelve: wt(10, 'Twelve') - 0.15,     // the rehook: the picture changes scale and a sound lands on it
+  wipe3: S(11) - 0.42, home: wt(11, 'home') - 0.2, ran: wt(11, 'ran') - 0.1,
+  b9: S(12) - 0.05, borrowed: wt(12, 'borrowed'), interest: wt(12, 'interest') - 0.2, never: wt(12, 'never') - 0.15,
+  b10: S(13) - 0.05, lesson: wt(13, 'lesson:') - 0.2, even: wt(13, 'Even') - 0.15, use: S(14) - 0.05,   // the lesson card, then the check the viewer can use
+  cta: S(15) - 0.1,
 };
+if (ARM === 'K') Object.assign(T, { ctaC: wt(15, 'Comment') - 0.15, gold: wt(15, 'GOLD') - 0.3, reply: wt(15, 'reply') - 0.2 });
+else Object.assign(T, { ctaC: wt(15, 'comments') - 0.55, ask: wt(15, "What's") - 0.1 });
+T.rain0 = (ARM === 'K' ? T.reply + 0.35 : T.ctaC + 0.3); T.rain1 = DUR - 0.15;      // a little gold rain when the answer arrives
 window.T = T;
 
 // ───────────────────────── renderer, sky, light
@@ -57,7 +67,7 @@ const PRE = {
   SUNSET: P(0x2E2F72, 0xE0707A, 0xFFB25E, 0xEE9A6A, 0xFF9050, 2.6, 0xA98AC0, 0x8A5A44, 1.2, 0.12, 0.55, 262, 8, 0xFFB060, 50),
   DUSK: P(0x141A4C, 0x4A3F86, 0xC06A78, 0x6A4A78, 0x93A4F4, 1.6, 0x5A62B0, 0x3A2A40, 1.1, 0.65, 0.9, 296, 36, 0xFFF4D6, 30),
 };
-const SKY = [[0, 'NG'], [T.wipe1 + 0.1, 'NG'], [T.wipe1 + 1.2, 'DAWN'], [11.4, 'MORN'], [S(3) + 0.6, 'DAY'], [T.b4 - 0.4, 'DAY'], [T.b4 + 1.0, 'SUNSET'], [T.days + 0.9, 'NIGHT'], [T.wipe2, 'NIGHT'], [T.wipe2 + 0.75, 'MORN'],
+const SKY = [[0, 'NG'], [T.wipe1 + 0.1, 'NG'], [T.wipe1 + 1.2, 'DAWN'], [T.lock + 1.2, 'MORN'], [S(4) + 0.6, 'DAY'], [T.b4 - 0.4, 'DAY'], [T.b4 + 1.0, 'SUNSET'], [T.days + 0.9, 'NIGHT'], [T.wipe2, 'NIGHT'], [T.wipe2 + 0.75, 'MORN'],
   [T.b5 + 1.5, 'DAY'], [T.b6, 'DAY'], [T.b7 + 0.8, 'GOLDEN'], [T.wipe3, 'GOLDEN'], [T.wipe3 + 0.8, 'SUNSET'], [T.b9 + 0.3, 'SUNSET'], [T.b9 + 3.8, 'DUSK'], [T.b10 + 0.2, 'NIGHT'], [DUR + 1, 'NIGHT']];
 const sky = {};
 function skyAt(t) {
@@ -271,8 +281,9 @@ for (let i = 0; i < 175; i++) {   // flash-forward: the king throws gold over th
   addF(t0, d, [22 + (R() - .5), 3.6, (R() - .5) * 0.6], hit ? [c.x, 1.3, c.z] : [3 + R() * 37, 0.08, (R() - 0.5) * 8.4], 3 + R() * 3.6); if (hit) c.hops.push(t0 + d);
 }
 for (const c of CIT) { const tk = tAtKingX(c.x - 2.6); for (let j = 0; j < 2; j++) { const t0 = tk + j * 0.32 + R() * 0.1, d = 0.62 + R() * 0.2, k = kingAt(t0); addF(t0, d, [k[0], k[1] + 3.5, k[2]], [c.x, 1.3, c.z], 2.2 + R() * 1.4); c.hops.push(t0 + d); } }
+if (OPEN.beat2 === 'event') { const R2 = rng(1500); for (let i = 0; i < 120; i++) { const a = R2() * 6.28, r = 4 + R2() * 17; addF(T.beat2 + R2() * 0.3, 1.0 + R2() * 0.45, [22, 3.6, 0], [22 + Math.cos(a) * r, 0.1, Math.sin(a) * r * 0.5], 7 + R2() * 6, 1.9, R2); } }   // beat2 "event": at 1.5 s the gold bursts over the whole street
 const RAIN = [];
-{ const R = rng(70412); for (let i = 0; i < 230; i++) { const t0 = T.rain0 + (T.rain1 - T.rain0 - 0.9) * R(), x = 4 + R() * 38, z = (R() - 0.5) * 22, d = 1.0 + R() * 0.5; addF(t0, d, [x, 26 + R() * 6, z], [x + (R() - .5), 0.15, z + (R() - .5)], 0, 2.1 + R() * 0.7, R); RAIN.push(+(t0 + d).toFixed(3)); } }   // own random stream: the rest of the world keeps its layout
+{ const R = rng(70412); for (let i = 0; i < 120; i++) { const t0 = T.rain0 + (T.rain1 - T.rain0 - 0.9) * R(), x = 4 + R() * 38, z = (R() - 0.5) * 22, d = 1.0 + R() * 0.5; addF(t0, d, [x, 26 + R() * 6, z], [x + (R() - .5), 0.15, z + (R() - .5)], 0, 2.1 + R() * 0.7, R); RAIN.push(+(t0 + d).toFixed(3)); } }   // own random stream: the rest of the world keeps its layout
 const PILE = [];
 for (const s of STALLS) {
   const t0 = T.markets + 0.05 + (s.x - 7) / 27.5 * 1.15, px = s.x + (s.bakery ? 1.75 : 0.2), pz = s.z - s.sd * 1.35;
@@ -291,6 +302,14 @@ let NPC = 0; for (const p of PILE) { p.i0 = NPC; p.c = []; for (let k = 0; k < p
 const pileMesh = new THREE.InstancedMesh(COIN, GOLD, NPC); pileMesh.frustumCulled = false; scene.add(pileMesh);
 const flyMesh = new THREE.InstancedMesh(COIN, GOLD, 420); flyMesh.frustumCulled = false; scene.add(flyMesh);
 const _m4 = new THREE.Matrix4(), _q = new THREE.Quaternion(), _e = new THREE.Euler(), _p = new THREE.Vector3(), _s = new THREE.Vector3();
+// picture "object": one giant gold coin hangs over the night street for the opening shot
+const heroCoin = OPEN.picture === 'object' ? new THREE.Group() : null;
+if (heroCoin) {
+  const g = new GB(), RIM = 0xD98E00, FACE = 0xF7B500, HI = 0xFFD35A;
+  g.cyl(2.3, 2.3, 0.42, 36, RIM, 0, 0, 0, 0, 0, Math.PI / 2);
+  for (const sx of [-1, 1]) { g.cyl(2.0, 2.0, 0.08, 36, FACE, sx * 0.22, 0, 0, 0, 0, Math.PI / 2); g.cyl(1.05, 1.05, 0.1, 6, HI, sx * 0.27, 0, 0, 0, 0, Math.PI / 2); for (let i = 0; i < 12; i++) { const a = i / 12 * 6.283; g.box(0.1, 0.2, 0.2, HI, sx * 0.27, Math.cos(a) * 1.6, Math.sin(a) * 1.6); } }
+  const m = g.mesh(); m.material = GOLD.clone(); m.material.vertexColors = true; m.material.color.set(0xffffff); m.material.emissive.set(0x7A4A00); heroCoin.add(m); heroCoin.position.set(22, 7.4, 0); scene.add(heroCoin);
+}
 // gift sacks for the officials + loan sacks from the merchants
 const gifts = OFF.map(o => { const m = new THREE.Mesh(SACKG, SACK); m.castShadow = true; scene.add(m); return m; });
 const loans = MER.map(() => { const m = new THREE.Mesh(SACKG, SACK); m.castShadow = true; scene.add(m); return m; });
@@ -322,15 +341,22 @@ function updateBirds(t) {
 }
 
 // ───────────────────────── camera path (spherical keys around a target; `up` tilts the view so the subject sits lower in the frame)
-const CTA_U = (T.cta - (T.b10 + 2.3)) / (73.72 - (T.b10 + 2.3));   // 73.72 = end of the first cut; keeps every frame before the call to action unchanged
+// The first shot comes from the hook lab (OPEN.picture): the same night street, four ways to open on it. Each ends on its own key at the first
+// sky wipe, so the camera never has to swing through a building to get there. Keep the hook card (y 560-790) over sky or a dark part of the picture.
+const FIRST = {
+  place: [{ t: 0, tg: [24, 3, 0], d: 108, az: -90, el: 18, up: 0.17 }, { t: 3.3, tg: [23, 2.6, 0], d: 60, az: -80, el: 27, up: 0.1, mv: 1 }, { t: T.wipe1, tg: [22, 2.2, 0], d: 31, az: -60, el: 16 }],            // wide: the whole city, pushing in
+  action: [{ t: 0, tg: [24, 2.4, 0], d: 20, az: -82, el: 13, up: 0.07 }, { t: 3.3, tg: [23, 2.4, 0], d: 17, az: -72, el: 16, up: 0.06, mv: 1 }, { t: T.wipe1, tg: [22, 3.2, 0], d: 19, az: -66, el: 26 }],        // in the street: gold already flying over the crowd
+  object: [{ t: 0, tg: [22, 7.4, 0], d: 15.5, az: -78, el: 3, up: 0.1 }, { t: 3.3, tg: [22, 7.4, 0], d: 13.8, az: -64, el: 5, up: 0.09, mv: 1 }, { t: T.wipe1, tg: [22, 7.4, 0], d: 18, az: -58, el: 14, up: 0.08 }],   // one giant gold coin under the card, the city behind it
+  person: [{ t: 0, tg: K(0, 3.0, 0), d: 8.4, az: 90, el: 4, up: 0.03 }, { t: 3.3, tg: K(0, 2.9, 0), d: 10.5, az: 100, el: 8, up: 0.04, mv: 1 }, { t: T.wipe1, tg: K(0, 4, 0), d: 14, az: 96, el: 26 }],            // the king on his camel, close, from the front (between his two heralds)
+};
 const CAM = [
-  { t: 0, tg: [24, 3, 0], d: 108, az: -90, el: 18, up: 0.17 },
-  { t: 3.3, tg: [23, 2.6, 0], d: 60, az: -80, el: 27, up: 0.1, mv: 1 },
-  { t: T.wipe1, tg: [22, 2.2, 0], d: 31, az: -60, el: 16 },
+  ...(FIRST[OPEN.picture] || FIRST.place),
   { t: T.wipe1 + 0.5, tg: [-45, 80, 0], d: 40, az: -10, el: -40, up: 0, mv: 1 },
   { t: T.wipe1 + 1.35, tg: K(0, 2.6, 0), d: 15, az: 60, el: 8, mv: 1 },
   { t: T.rich - 0.2, tg: K(0, 2.6, 0), d: 17, az: 30, el: 10 },
-  { t: T.b3, tg: K(-8, 2.0, 0), d: 38, az: 76, el: 20, up: 0.06, mv: 1 },
+  { t: T.lock + 0.3, tg: K(0, 2.6, 0), d: 13, az: 44, el: 9 },                        // lock-in: closer to the king while the promise is made
+  { t: T.b3 - 0.5, tg: K(-2, 2.4, 0), d: 16, az: 60, el: 11 },
+  { t: T.b3 + 0.9, tg: K(-8, 2.0, 0), d: 38, az: 76, el: 20, up: 0.06, mv: 1 },
   { t: T.gold3 - 0.3, tg: K(-13, 1.0, 0), d: 60, az: 84, el: 27, up: 0.055 },
   { t: T.gold3 + 0.5, tg: EN(3, 0, 2.1, 0), d: 12, az: 26, el: 11, mv: 1 },
   { t: T.b4, tg: EN(3, 0, 2.1, 0), d: 10.5, az: 14, el: 11 },
@@ -352,6 +378,9 @@ const CAM = [
   { t: T.b7 + 0.36, tg: [30, 4, 4], d: 14, az: -10, el: 42, up: 0.03, mv: 2 },                // lift over the roofs…
   { t: T.b7 + 0.9, tg: [33.2, 7.5, 10.8], d: 12.5, az: -34, el: 11, mv: 3 },                    // …and settle on the writer's roof
   { t: T.tenth, tg: [33.2, 7.5, 10.8], d: 12.5, az: -8, el: 10 },
+  { t: T.rehook + 0.1, tg: [33.2, 7.5, 10.8], d: 12.2, az: -4, el: 10 },
+  { t: T.rehook + 0.55, tg: [33.2, 7.75, 10.8], d: 8.0, az: 3, el: 8, mv: 3 },        // rehook: punch in on the writer
+  { t: T.twelve, tg: [33.2, 7.7, 10.8], d: 8.8, az: 7, el: 9 },
   { t: T.wipe3, tg: [32, 7.6, 9], d: 25, az: 16, el: 15 },
   { t: T.wipe3 + 0.3, tg: [10, 80, 0], d: 40, az: 0, el: -40, up: 0, mv: 1 },
   { t: T.wipe3 + 0.78, tg: [-7, 3, 0], d: 27, az: -22, el: 12, mv: 1 },
@@ -362,8 +391,8 @@ const CAM = [
   { t: T.b10 - 0.1, tg: [-7.0, 1.5, 3.4], d: 27, az: 9, el: 11, up: 0.03 },
   { t: T.b10 + 0.55, tg: [-6, 1.5, 3], d: 36, az: 16, el: 24, up: 0.05, mv: 2 },               // rise clear of the wall first
   { t: T.b10 + 2.3, tg: [4, 0, -6], d: 150, az: 57, el: 25, up: 0.2, mv: 3 },
-  { t: T.cta, tg: [lerp(4, 2, CTA_U), 0, lerp(-6, -8, CTA_U)], d: lerp(150, 172, CTA_U), az: lerp(57, 50, CTA_U), el: lerp(25, 26, CTA_U), up: 0.2 },   // exactly where the old path was at this moment
-  { t: T.rain0 + 0.4, tg: [21, 2, 0], d: 68, az: 80, el: 39, up: 0.06, mv: 1 },
+  { t: T.cta, tg: [2.6, 0, -7.4], d: 166, az: 52, el: 25.7, up: 0.2 },                 // a slow drift over the whole city while the lesson card is up
+  { t: T.rain0 + 0.9, tg: [21, 2, 0], d: 68, az: 80, el: 39, up: 0.06, mv: 1 },
   { t: DUR + 0.5, tg: [22, 2, 0], d: 61, az: 86, el: 37, up: 0.06 },
 ];
 const tgOf = (k, t) => typeof k.tg === 'function' ? k.tg(t) : k.tg;
@@ -389,7 +418,8 @@ const chunks = [];
 {
   let clause = []; let si = 0;
   const flush = () => { const n = clause.length; if (!n) return; const k = Math.ceil(n / 3); let i = 0; for (let c = 0; c < k; c++) { const size = Math.ceil((n - i) / (k - c)); chunks.push({ ws: clause.slice(i, i + size) }); i += size; } clause = []; };
-  for (const w of TIM.words) { if (TIM.hook && w.si === 1) continue; if (w.si !== si) { flush(); si = w.si; } clause.push(w); if (/[.,?!]$/.test(w.t)) flush(); }   // the hook card shows sentence 1
+  const capFrom = TIM.hook ? (TIM.big ? T.bigOut - 0.1 : T.hookEnd - 0.1) : -1;   // the hook card shows sentence 1; its words said after the card (and the number) have gone still get captions
+  for (const w of TIM.words) { if (w.si === 1 && w.s < capFrom) continue; if (w.si !== si) { flush(); si = w.si; } clause.push(w); if (/[.,?!:]$/.test(w.t)) flush(); }
   flush();
   chunks.forEach(c => { c.s = c.ws[0].s - 0.07; c.e = c.ws[c.ws.length - 1].e; });
   if (!TIM.hook) chunks[0].s = -1;
@@ -397,18 +427,25 @@ const chunks = [];
 }
 const capEl = document.getElementById('cap'); let capIdx = -2;
 function updateCaption(t) {
-  capEl.style.opacity = TIM.big ? seg(t, T.bigOut - 0.05, T.bigOut + 0.2).toFixed(3) : '1';
+  capEl.style.opacity = TIM.big && !WORLD ? (1 - win(t, T.bigIn - 0.12, T.bigOut - 0.05, 0.12, 0.25)).toFixed(3) : '1';   // hidden only while the dark number card is up
   let idx = -1; for (let i = 0; i < chunks.length; i++) if (t >= chunks[i].s && t < chunks[i].hide) { idx = i; break; }
   if (idx !== capIdx) { capIdx = idx; capEl.innerHTML = idx < 0 ? '' : chunks[idx].ws.map(w => `<span class="w${w.kw ? ' kw' : ''}">${w.t.replace(/&/g, '&amp;')}</span>`).join(''); }
   if (idx < 0) return;
   const c = chunks[idx], spans = capEl.children;
-  c.ws.forEach((w, i) => { const nx = c.ws[i + 1]; const st = t < w.s - 0.05 ? 'fut' : (nx && t >= nx.s - 0.05) ? 'said' : 'cur'; const cl = 'w' + (w.kw ? ' kw' : '') + (st === 'cur' ? '' : ' ' + st); if (spans[i].className !== cl) spans[i].className = cl; });
+  const cover = idx === 0 && !TIM.hook && t < c.ws[0].s - 0.05;      // text: captions → the cover frame already shows the first words
+  c.ws.forEach((w, i) => { const nx = c.ws[i + 1]; const st = cover ? 'cur' : t < w.s - 0.05 ? 'fut' : (nx && t >= nx.s - 0.05) ? 'said' : 'cur'; const cl = 'w' + (w.kw ? ' kw' : '') + (st === 'cur' ? '' : ' ' + st); if (spans[i].className !== cl) spans[i].className = cl; });
 }
 // hook card: on the very first frame (it is also the Reel's cover) until the hook sentence ends; lines from script.py HOOK, *word* = amber
 const HK = TIM.hook, hookEl = HK ? mk('hook', `<div class="n">${HK.lines.map(l => l.replace(/\*([^*]+)\*/g, '<em>$1</em>')).join('\n')}</div>` + (HK.sub ? `<div class="s">${HK.sub}</div>` : '')) : null;
-function fitHook() { if (!hookEl) return; const n = hookEl.querySelector('.n'), w = n.scrollWidth; if (w > 940) n.style.fontSize = (112 * 940 / w).toFixed(1) + 'px'; if (bigEl) { const v = bigEl.querySelector('.v'), bw = v.scrollWidth; if (bw > 960) v.style.fontSize = (172 * 960 / bw).toFixed(1) + 'px'; } }
-// big number: 1.5-3 s, the most shocking number of the story counting up over a dark screen, a chart line diving (or climbing) behind it
-const BG = TIM.big, bigBg = BG ? mk('bigbg', '') : null, bigEl = BG ? mk('big' + (/^[^\d]*[−-]/.test(BG.value) || BG.dir === 'down' ? '' : ' up'), '') : null, BIGN = {};
+function fitHook() {
+  if (hookEl) { const n = hookEl.querySelector('.n'), w = n.scrollWidth; if (w > 940) n.style.fontSize = (112 * 940 / w).toFixed(1) + 'px'; }
+  if (bigEl) { const v = bigEl.querySelector('.v'), bw = v.scrollWidth, lim = WORLD ? 820 : 960, base = WORLD ? 150 : 172; setHTML(BIGN.v, bigText(1)); const w1 = v.scrollWidth; if (Math.max(bw, w1) > lim) v.style.fontSize = (base * lim / Math.max(bw, w1)).toFixed(1) + 'px'; }
+  if (lcard) { const n = lcard.querySelector('.n'); if (n.scrollWidth > 812) n.style.fontSize = (80 * 812 / n.scrollWidth).toFixed(1) + 'px'; if (lUse && lUse.scrollWidth > 812) lUse.style.fontSize = (38 * 812 / lUse.scrollWidth).toFixed(1) + 'px'; }
+  for (const e of [reply, getChip]) if (e && e.offsetWidth > 940) { e.style.transformOrigin = '50% 50%'; e.dataset.k = (940 / e.offsetWidth).toFixed(3); }
+}
+// big number: 1.5-3 s, the most shocking number of the story counting up, a chart line diving (or climbing) behind it.
+// beat2 "dark": over a darkened screen. beat2 "world": on a small plate, the world stays bright and keeps moving. beat2 "event": no number (TIM.big is absent).
+const BG = TIM.big, WORLD = OPEN.beat2 === 'world', bigBg = BG && !WORLD ? mk('bigbg', '') : null, bigEl = BG ? mk('big' + (/^[^\d]*[−-]/.test(BG.value) || BG.dir === 'down' ? '' : ' up') + (WORLD ? ' world' : ''), '') : null, BIGN = {};
 if (BG) { const m = BG.value.match(/^([^\d]*)(\d[\d,]*(?:\.\d+)?)(.*)$/) || ['', '', '0', BG.value]; Object.assign(BIGN, { pre: m[1], num: parseFloat(m[2].replace(/,/g, '')), dec: (m[2].split('.')[1] || '').length, comma: m[2].includes(','), post: m[3] });
   const down = !bigEl.classList.contains('up'), pts = (down ? [[0, 20], [90, 34], [160, 18], [240, 60], [320, 48], [420, 100], [520, 86], [620, 140], [760, 160]] : [[0, 160], [90, 140], [170, 150], [260, 104], [350, 116], [450, 66], [540, 80], [640, 30], [760, 12]]);
   BIGN.len = pts.slice(1).reduce((a, q, i) => a + Math.hypot(q[0] - pts[i][0], q[1] - pts[i][1]), 0);
@@ -430,11 +467,15 @@ const emptyTag = mk('tag grey', 'gold: <b style="color:#fff">0</b>');
 const meter = mk('meter', '<span>gold left</span><div class="bar"><div class="fill"></div></div>'); const meterFill = meter.querySelector('.fill');
 const iou = MER.map(() => mk('tag am', 'loan'));
 const intTag = mk('chip', 'borrowed · at <b>high</b> interest');
-const title = mk('title', '<div class="s">THE STORY OF</div><div class="n">The King With\n<em>Too Much Gold</em></div>');
-const lesson = mk('lesson', 'Too much of anything, <em>even gold</em>,\nand each piece is worth less.');
-const legend = mk('chip', 'an old Cairo legend');
-const cbox = mk('cbox', '<span class="in"></span><span class="post">Post</span>'); const cIn = cbox.querySelector('.in'), cPost = cbox.querySelector('.post');
-const quip = mk('tag am', 'just not too rich');
+const subChip = !TIM.hook && TIM.sub ? mk('chip', TIM.sub) : null;
+const rehookChip = mk('chip am', 'the part nobody expects');
+// the lesson card (script.py LESSON, LESSON_USE): up while the lesson is spoken; the line the viewer can use fades in under it. Built to be screenshotted.
+const LS = TIM.lesson, lcard = LS ? mk('lcard', `<div class="k">The lesson</div><div class="n">${LS.lines.map(l => l.replace(/\*([^*]+)\*/g, '<em>$1</em>')).join('\n')}</div>` + (LS.use ? `<div class="u">${LS.use}</div>` : '')) : null, lUse = lcard ? lcard.querySelector('.u') : null;
+// the CTA (script.py CTA_ARM, CTA). K: the keyword is typed into a comment box and our reply pops up. O: the cheat sheet is in the comments, then one open question.
+const getChip = mk('chip am', (ARM === 'K' ? 'you get · ' : 'in the comments · ') + CTA.get);
+const cbox = ARM === 'K' ? mk('cbox', '<span class="in"></span><span class="post">Post</span>') : null, cIn = cbox && cbox.querySelector('.in'), cPost = cbox && cbox.querySelector('.post');
+const reply = ARM === 'K' ? mk('reply', `<span class="av">A</span><span><small>ahead.learn replied</small>${CTA.get}</span>`) : null;
+const askq = ARM === 'O' ? mk('askq', CTA.ask) : null;
 const shoot = mk('shoot', '');
 const foot = document.getElementById('foot');
 foot.textContent = 'Told from 14th-century accounts (al-Umari, Ibn Khaldun) · gold: 25 → 22 dirhams per mithqal\nHistorians debate how big and how long the price drop was. Not financial advice.';
@@ -448,14 +489,15 @@ function updateUI(t) {
   // 1 — the hook card: full from frame 0, a slow push-in while the hook is spoken, then it lifts away
   if (hookEl) { const out = seg(t, T.hookEnd, T.hookEnd + (TIM.big ? 0.22 : 0.3)); put(hookEl, W / 2, 640 - 40 * eo(out), 1 - out, 1 + 0.035 * seg(t, 0, T.hookEnd) + 0.06 * out); }
   if (bigEl) { const o = win(t, T.bigIn, T.bigOut - 0.05, 0.15, 0.25), u = eo(seg(t, T.bigIn + 0.05, T.bigIn + 0.7)), land = seg(t, T.bigIn + 0.7, T.bigIn + 1.0), sh = (1 - land) * (land > 0 ? 1 : 0);
-    bigBg.style.opacity = (0.92 * o).toFixed(3); setHTML(BIGN.v, bigText(u)); BIGN.line.style.strokeDashoffset = (BIGN.len * (1 - eo(seg(t, T.bigIn, T.bigIn + 0.9)))).toFixed(1);
-    put(bigEl, W / 2 + Math.sin(t * 90) * 7 * sh, 860 + Math.cos(t * 77) * 5 * sh, o, pop(t, T.bigIn, 0.4) * (1 + 0.05 * Math.sin(Math.PI * land))); }
+    if (bigBg) bigBg.style.opacity = (0.92 * o).toFixed(3); setHTML(BIGN.v, bigText(u)); BIGN.line.style.strokeDashoffset = (BIGN.len * (1 - eo(seg(t, T.bigIn, T.bigIn + 0.9)))).toFixed(1);
+    put(bigEl, W / 2 + Math.sin(t * 90) * 7 * sh, (WORLD ? 900 : 860) + Math.cos(t * 77) * 5 * sh, o, pop(t, T.bigIn, 0.4) * (1 + 0.05 * Math.sin(Math.PI * land))); }
+  if (subChip) put(subChip, W / 2, 472, win(t, -1, 2.7, 0.01, 0.3), 1);                 // text: captions → subject and date as a small chip instead of the card
   // 2 — the king
-  { const k = kingAt(t), p = proj(k[0], k[1] + 6.6, k[2]); put(nameEl, c01((p[0] - 250) / 580) * 580 + 250, Math.max(585, p[1]), win(t, T.name, T.b3 - 0.25, 0.3, 0.3), pop(t, T.name)); }
-  put(chip2, W / 2, 472, 0);
+  { const k = kingAt(t), p = proj(k[0], k[1] + 6.6, k[2]); put(nameEl, c01((p[0] - 250) / 580) * 580 + 250, Math.max(585, p[1]), win(t, T.name, T.lock - 0.05, 0.3, 0.3), pop(t, T.name)); }
+  setTxt(chip2, 'it can still happen to your money'); put(chip2, W / 2, 472, win(t, T.lock + 0.35, T.b3 - 0.25, 0.22, 0.22), pop(t, T.lock + 0.35));     // lock-in: the promise, on screen as it is said
   // chips (one line at the top that says where we are)
   let ct = '', co = 0, cp = 0;
-  const CH = [[T.rich, T.b3 - 0.15, '“the richest man in history”'], [T.b4 + 0.25, T.wipe2 - 0.05, 'July 1324 · by the pyramids'], [T.wipe2 + 0.55, T.months - 0.25, '19 July 1324 · Cairo'], [T.freely + 0.35, T.markets + 0.55, 'gifts of gold'], [T.markets + 0.7, T.official - 0.05, 'gold in every market'], [T.official + 0.1, T.b6 - 0.15, 'a load of gold for every official'], [T.fills, T.piece + 0.3, 'a city full of gold'], [S(8) + 0.05, T.b9 - 0.1, 'the way home'], [T.never + 0.25, T.b10 - 0.2, 'never fully repaid?']];
+  const CH = [[T.rich, T.lock - 0.1, '“the richest man in history”'], [T.b4 + 0.25, T.wipe2 - 0.05, 'July 1324 · by the pyramids'], [T.wipe2 + 0.55, T.months - 0.25, '19 July 1324 · Cairo'], [T.freely + 0.35, T.markets + 0.55, 'gifts of gold'], [T.markets + 0.7, T.official - 0.05, 'gold in every market'], [T.official + 0.1, T.b6 - 0.15, 'a load of gold for every official'], [T.fills, T.piece + 0.3, 'a city full of gold'], [S(11) + 0.05, T.b9 - 0.1, 'the way home'], [T.never + 0.25, T.b10 - 0.2, 'never fully repaid?']];
   for (const [a, b, s] of CH) { const o = win(t, a, b, 0.22, 0.22); if (o > co) { co = o; ct = s; cp = pop(t, a); } }
   if (ct) setTxt(chip, ct); put(chip, W / 2, 472, co, cp);
   // 3 — the route
@@ -472,19 +514,22 @@ function updateUI(t) {
     boardY.style.opacity = seg(t, T.twelve - 0.1, T.twelve + 0.2).toFixed(2); const n = Math.floor(c01((t - T.twelve) / 1.7) * 12.001); [...boardY.querySelectorAll('i')].forEach((e, i) => { const c = i < n ? 'on' : ''; if (e.className !== c) e.className = c; });
     put(board, W / 2, 650, o, pop(t, T.price - 0.15));
     const p = proj(33.2, 8.9, 10.6); put(writerTag, c01((p[0] - 270) / 540) * 540 + 270, Math.max(900, p[1]), win(t, T.b7 + 0.9, T.wipe3 - 0.1, 0.25, 0.25), pop(t, T.b7 + 0.9)); }
-  { const u = 1 - seg(t, T.home - 0.2, T.ran + 0.25); meterFill.style.width = (300 * u * 0.42).toFixed(1) + 'px'; meterFill.style.background = u < 0.02 ? '#888' : '#F7A600'; put(meter, W / 2, 552, win(t, S(8) + 0.3, T.b9 + 0.4, 0.25, 0.25), 1); }
+  { const u = 1 - seg(t, T.home - 0.2, T.ran + 0.25); meterFill.style.width = (300 * u * 0.42).toFixed(1) + 'px'; meterFill.style.background = u < 0.02 ? '#888' : '#F7A600'; put(meter, W / 2, 552, win(t, S(11) + 0.3, T.b9 + 0.4, 0.25, 0.25), 1); }
   // 8 — empty; 9 — loans
   { const k = kingAt(t), p = proj(k[0] + 1.5, k[1] + 3.9, k[2]); put(emptyTag, p[0], p[1], win(t, T.ran + 0.3, T.b9 + 0.5, 0.2, 0.25), pop(t, T.ran + 0.3), '0%', '-50%'); }
   MER.forEach((m, j) => { const tl = loanT(j), p = proj(m.m.position.x, m.m.position.y + 2.55, m.m.position.z); const late = t > T.never + 0.2; setTxt(iou[j], late ? 'unpaid?' : 'loan'); const cl = 'abs tag ' + (late ? 'grey' : 'am'); if (iou[j].className !== cl) iou[j].className = cl; put(iou[j], p[0], p[1], p[2] ? win(t, tl, T.b10 - 0.2, 0.2, 0.25) : 0, pop(t, tl) * (late ? pop(t, T.never + 0.2) : 1)); });
   put(intTag, W / 2, 472, win(t, T.interest, T.never + 0.1, 0.22, 0.22), pop(t, T.interest));
-  // 10 — title and lesson; 11 — like
-  put(title, W / 2, 610, win(t, T.story, T.cta - 0.1, 0.4, 0.3), 0.94 + 0.06 * eo(seg(t, T.story, T.story + 0.6)));
-  put(lesson, W / 2, 1150, win(t, T.even, T.cta - 0.15, 0.3, 0.25), pop(t, T.even));
-  put(legend, W / 2, 472, seg(t, T.cta + 0.1, T.cta + 0.4), pop(t, T.cta + 0.1));
-  { const n = Math.min(4, Math.floor(c01((t - T.gold) / 0.48) * 4.001)), typed = 'GOLD'.slice(0, n), caret = (n < 4 || Math.floor(t * 2.4) % 2) && t < T.rain0 ? '<i></i>' : '';
-    setHTML(cIn, typed ? `<b>${typed}</b>${caret}` : `<em>Add a comment…</em>${caret}`); const sent = t > T.rain0 - 0.25; const pc = sent ? 'post on sent' : n === 4 ? 'post on' : 'post'; if (cPost.className !== pc) cPost.className = pc; setTxt(cPost, sent ? 'Posted ✓' : 'Post');
-    put(cbox, W / 2, 1210, seg(t, T.ctaC, T.ctaC + 0.3), pop(t, T.ctaC) * (1 + 0.06 * win(t, T.rain0 - 0.25, T.rain0 + 0.05, 0.08, 0.2))); }
-  put(quip, W / 2, 1330, seg(t, T.notToo, T.notToo + 0.2), pop(t, T.notToo));
+  // 9 — the rehook; 13-14 — the lesson card; 15 — the CTA
+  put(rehookChip, W / 2, 412, win(t, T.rehook + 0.15, T.twelve - 0.1, 0.18, 0.2), pop(t, T.rehook + 0.15));
+  if (lcard) { if (lUse) { const u = seg(t, T.use, T.use + 0.3); lUse.style.opacity = u.toFixed(3); lUse.style.transform = `translateY(${((1 - eo(u)) * 16).toFixed(1)}px)`; } put(lcard, W / 2, 960, win(t, T.lesson, T.cta - 0.2, 0.3, 0.25), pop(t, T.lesson)); }
+  const kf = e => +(e.dataset.k || 1);
+  put(getChip, W / 2, 890, seg(t, T.cta + 0.1, T.cta + 0.4), pop(t, T.cta + 0.1) * kf(getChip));
+  if (ARM === 'K') {
+    const KW = CTA.word, n = Math.min(KW.length, Math.floor(c01((t - T.gold) / (0.12 * KW.length)) * (KW.length + 0.001))), typed = KW.slice(0, n), sent = t > T.reply - 0.1, caret = (n < KW.length || Math.floor(t * 2.4) % 2) && !sent ? '<i></i>' : '';
+    setHTML(cIn, typed ? `<b>${typed}</b>${caret}` : `<em>Add a comment…</em>${caret}`); const pc = sent ? 'post on sent' : n === KW.length ? 'post on' : 'post'; if (cPost.className !== pc) cPost.className = pc; setTxt(cPost, sent ? 'Posted ✓' : 'Post');
+    put(cbox, W / 2, 1040, seg(t, T.ctaC, T.ctaC + 0.3), pop(t, T.ctaC) * (1 + 0.06 * win(t, T.reply - 0.1, T.reply + 0.2, 0.08, 0.2)));
+    put(reply, W / 2, 1200, seg(t, T.reply + 0.3, T.reply + 0.55), pop(t, T.reply + 0.3) * kf(reply));
+  } else put(askq, W / 2, 1100, seg(t, T.ask, T.ask + 0.3), pop(t, T.ask));
 }
 
 // ───────────────────────── one frame
@@ -528,6 +573,7 @@ function renderAt(t) {
   for (const b of boats) { b.position.z = b.userData.z + b.userData.dir * t * 0.75; b.position.y = -0.62 + Math.sin(t * 1.4 + b.userData.ph) * 0.06; b.rotation.x = Math.sin(t * 1.1 + b.userData.ph) * 0.04; }
   for (const c of clouds) { c.position.x = c.userData.x0 + t * 1.1; c.material.opacity = 0.9 - 0.62 * night; c.material.color.setRGB(lerp(s.hor[0], 1, 0.55) * (0.45 + 0.55 * (1 - night * 0.75)), lerp(s.hor[1], 1, 0.55) * (0.45 + 0.55 * (1 - night * 0.75)), lerp(s.hor[2], 1, 0.55) * (0.5 + 0.5 * (1 - night * 0.6))); }
   for (const g of glints) { g.position.set(g.userData.x, -0.69, ((g.userData.z + t * g.userData.v * 2 + 75) % 150) - 75); g.scale.x = 0.5 + 0.5 * Math.abs(Math.sin(t * 1.7 + g.userData.z)); }
+  if (heroCoin) { heroCoin.visible = t < T.wipe1 + 0.5; heroCoin.rotation.y = 0.42 + Math.sin(t * 1.1) * 0.4; heroCoin.rotation.z = Math.sin(t * 0.7) * 0.08; heroCoin.position.y = 7.4 + Math.sin(t * 1.6) * 0.15; }
   // flying coins
   let n = 0;
   for (const f of FL) { const u = (t - f.t0) / f.d; if (u <= 0 || u >= 1 || n >= 420) continue; _p.set(lerp(f.a[0], f.b[0], u), lerp(f.a[1], f.b[1], u) + f.h * 4 * u * (1 - u), lerp(f.a[2], f.b[2], u)); _e.set(f.sp + t * f.w, f.sp * 2, t * f.w * 0.7); _q.setFromEuler(_e); _s.setScalar(f.sc); flyMesh.setMatrixAt(n++, _m4.compose(_p, _q, _s)); }
@@ -577,5 +623,5 @@ window.camCheck = () => {
   return out.map(([a, b, n]) => `${(a / 30).toFixed(2)}-${(b / 30).toFixed(2)}s ${n}`);
 };
 window.renderAt = renderAt;
-window.CUES = { T, DUR, rain: RAIN.sort((a, b) => a - b), typing: [0, 1, 2, 3].map(i => +(T.gold + (i + 0.5) * 0.12).toFixed(3)), land: FL.map(f => +(f.t0 + f.d).toFixed(3)), gifts: OFF.map(o => +(o.t + 0.75).toFixed(3)), loans: MER.map((m, j) => +(loanT(j) + 0.75).toFixed(3)), tents: tents.map((m, i) => +(T.b4 + 0.75 + i * 0.16).toFixed(3)), heaps: HEAP.map(h => +h.t0.toFixed(3)).sort((a, b) => a - b), sent: TIM.sentences.map(s => s.s) };
-document.fonts.ready.then(() => Promise.all(['700 64px Figtree', '900 190px Fraunces', '800 30px JBM', '700 22px Inter', '700 78px Fraunces', '800 54px Figtree', '600 34px Figtree', '500 18px Inter'].map(f => document.fonts.load(f)))).then(() => { fitHook(); renderAt(0); window.__ready = true; });
+window.CUES = { T, DUR, rain: RAIN.sort((a, b) => a - b), typing: ARM === 'K' ? [...CTA.word].map((_, i) => +(T.gold + (i + 0.5) * 0.12).toFixed(3)) : [], open: OPEN, arm: ARM, land: FL.map(f => +(f.t0 + f.d).toFixed(3)), gifts: OFF.map(o => +(o.t + 0.75).toFixed(3)), loans: MER.map((m, j) => +(loanT(j) + 0.75).toFixed(3)), tents: tents.map((m, i) => +(T.b4 + 0.75 + i * 0.16).toFixed(3)), heaps: HEAP.map(h => +h.t0.toFixed(3)).sort((a, b) => a - b), sent: TIM.sentences.map(s => s.s) };
+document.fonts.ready.then(() => Promise.all(['700 64px Figtree', '900 190px Fraunces', '800 30px JBM', '700 22px Inter', '700 78px Fraunces', '800 54px Figtree', '600 34px Figtree', '500 18px Inter', '900 80px Fraunces', '700 38px Figtree', '700 62px Fraunces'].map(f => document.fonts.load(f)))).then(() => { fitHook(); renderAt(0); window.__ready = true; });

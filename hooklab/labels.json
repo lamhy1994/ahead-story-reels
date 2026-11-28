@@ -1,0 +1,22 @@
+{
+  "about": "Openings of episodes made before the hook lab (9-25), labelled by hand on 28 Nov 2026 from their scripts and cover frames. They were not picked at random, so they count only as a first hint. null = unclear, not counted. Episodes from 26 on carry their opening in episodes.json (open).",
+  "episodes": {
+    "9":  {"words": "contrast", "text": "card", "picture": "place",  "beat2": null,   "lock": "stakes"},
+    "10": {"words": "contrast", "text": "card", "picture": "place",  "beat2": "dark", "lock": "stakes"},
+    "11": {"words": "contrast", "text": "card", "picture": "place",  "beat2": "dark", "lock": "stakes"},
+    "12": {"words": "contrast", "text": "card", "picture": "place",  "beat2": "dark", "lock": "stakes"},
+    "13": {"words": "contrast", "text": "card", "picture": "place",  "beat2": "dark", "lock": "stakes"},
+    "14": {"words": "contrast", "text": "card", "picture": null,     "beat2": "dark", "lock": "stakes"},
+    "15": {"words": "contrast", "text": "card", "picture": "place",  "beat2": "dark", "lock": "stakes"},
+    "16": {"words": "contrast", "text": "card", "picture": "object", "beat2": "dark", "lock": "stakes"},
+    "17": {"words": "contrast", "text": "card", "picture": "place",  "beat2": "dark", "lock": "stakes"},
+    "18": {"words": "contrast", "text": "card", "picture": "place",  "beat2": "dark", "lock": "stakes"},
+    "19": {"words": "contrast", "text": "card", "picture": "place",  "beat2": "dark", "lock": "stakes"},
+    "20": {"words": "contrast", "text": "card", "picture": "place",  "beat2": "dark", "lock": "stakes"},
+    "21": {"words": "number",   "text": "card", "picture": "action", "beat2": "dark", "lock": "stakes"},
+    "22": {"words": "contrast", "text": "card", "picture": null,     "beat2": "dark", "lock": "stakes"},
+    "23": {"words": "number",   "text": "card", "picture": "place",  "beat2": "dark", "lock": "stakes"},
+    "24": {"words": "contrast", "text": "card", "picture": "person", "beat2": "dark", "lock": "stakes"},
+    "25": {"words": "contrast", "text": "card", "picture": null,     "beat2": "dark", "lock": "stakes"}
+  }
+}

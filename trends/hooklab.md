@@ -1,0 +1,119 @@
+# Hook lab: which opening keeps people to 10 seconds
+
+As of 28 Nov 2026 09:04 Malaysia time. 15 Reels scored (0 made by the lab, 0 different openings tried out of 600).
+
+**Goal: 60% of viewers still watching at 10 s, averaged over the last 10 scored Reels. Now: 38%** (estimated; 59% get past 3 s, measured).
+
+## The formula so far
+
+| part | best so far | est. at 10 s | lead over the average | sure? |
+|---|---|---|---|---|
+| words | still testing | | | 1 of 5 levels have 3+ scored Reels |
+| text | still testing | | | 1 of 2 levels have 3+ scored Reels |
+| picture | still testing | | | 1 of 4 levels have 3+ scored Reels |
+| beat2 | still testing | | | 1 of 3 levels have 3+ scored Reels |
+| lock | still testing | | | 1 of 5 levels have 3+ scored Reels |
+
+A lead under about 5 points with fewer than 6 Reels a level is still mostly luck: each Reel is shown to only about 130 people.
+
+## words
+
+What the hook says: the card text (if there is a card) and the first spoken sentence. At most 14 spoken words, no date or name in front.
+
+| level | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
+|---|---|---|---|---|---|---|---|
+| contrast | 15 | 13 | 38% | 57% | -0.9 | 13% |  |
+| number | 2 | 2 | 45% | 72% | +5.8 | 87% |  |
+| question | 0 | 0 | – | – | – | – |  |
+| you | 0 | 0 | – | – | – | – |  |
+| scene | 0 | 0 | – | – | – | – |  |
+
+## text
+
+What is written on the first frame (it is also the cover).
+
+| level | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
+|---|---|---|---|---|---|---|---|
+| card | 17 | 15 | 39% | 59% | +0.0 | – |  |
+| captions | 0 | 0 | – | – | – | – |  |
+
+## picture
+
+What the camera shows from frame 0 to 1.5 s. Whatever the level, something moves in the first half second.
+
+| level | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
+|---|---|---|---|---|---|---|---|
+| place | 11 | 11 | 39% | 57% | +0.3 | 23% |  |
+| action | 1 | 1 | 41% | 72% | +2.5 | 43% |  |
+| object | 1 | 1 | 40% | 65% | +0.9 | 34% |  |
+| person | 1 | 0 | – | – | – | – |  |
+
+## beat2
+
+What happens at 1.5-3 s.
+
+| level | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
+|---|---|---|---|---|---|---|---|
+| dark | 16 | 14 | 39% | 59% | -0.1 | – |  |
+| world | 0 | 0 | – | – | – | – |  |
+| event | 0 | 0 | – | – | – | – |  |
+
+## lock
+
+The lock-in, 3-10 s (sentences 2-3): why the rest is worth watching. It ends on the question the video answers.
+
+| level | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
+|---|---|---|---|---|---|---|---|
+| stakes | 17 | 15 | 39% | 59% | +0.0 | – |  |
+| lesson | 0 | 0 | – | – | – | – |  |
+| flip | 0 | 0 | – | – | – | – |  |
+| name | 0 | 0 | – | – | – | – |  |
+| proof | 0 | 0 | – | – | – | – |  |
+
+## CTA test (Keith, 28 Nov 2026: alternate the two for about two weeks)
+
+K = "Comment WORD and I'll reply with the cheat sheet" (even episodes). O = the cheat sheet is our own first comment + an open question (odd episodes).
+
+| arm | Reels | plays (median) | comments | per 1,000 plays | shares + saves |
+|---|---|---|---|---|---|
+| K | 0 | | | | |
+| O | 0 | | | | |
+| before (one-word poll) | 25 | 134 | 1 | 0.22 | 13 |
+
+Likes, comments, shares and saves are 0 for Reels whose row in insights.csv has no such columns yet.
+
+## The long road
+
+- Views so far: 4,540 of 100,000,000. Followers: 9 of 100,000.
+- Typical Reel now: 133 plays (median of the 9 Reels before the newest 3). Steps to pass: 150 → 500 → 2,000 → 10,000 → 100,000 plays a Reel. Passed: 0 of 5.
+- At 3 Reels a day, 100 million views in a year needs about 91,000 views a Reel. So the job is not more Reels: it is Reels that Instagram keeps showing, and that starts with the first 10 seconds.
+
+## To do for the next run
+
+- Nothing to retire yet.
+
+## Every opening so far
+
+| ep | words | text | picture | beat2 | lock | cta | plays | past 3 s | est. at 10 s |
+|---|---|---|---|---|---|---|---|---|---|
+| 9* | contrast | card | place | ? | stakes |  | 153 | 61% | 40% |
+| 10* | contrast | card | place | dark | stakes |  | 122 | 49% | 33% |
+| 11* | contrast | card | place | dark | stakes |  | 117 | 63% | 38% |
+| 12* | contrast | card | place | dark | stakes |  | 123 | 55% | 39% |
+| 13* | contrast | card | place | dark | stakes |  | 149 | 60% | 53% |
+| 14* | contrast | card | ? | dark | stakes |  | 153 | 58% | 36% |
+| 15* | contrast | card | place | dark | stakes |  | 133 | 54% | 40% |
+| 16* | contrast | card | object | dark | stakes |  | 112 | 65% | 40% |
+| 17* | contrast | card | place | dark | stakes |  | 132 | 63% | 44% |
+| 18* | contrast | card | place | dark | stakes |  | 235 | 48% | 31% |
+| 19* | contrast | card | place | dark | stakes |  | 125 | 58% | 41% |
+| 20* | contrast | card | place | dark | stakes |  | 124 | 42% | 25% |
+| 21* | number | card | action | dark | stakes |  | 139 | 72% | 41% |
+| 22* | contrast | card | ? | dark | stakes |  | 136 | 62% | 35% |
+| 23* | number | card | place | dark | stakes |  | 136 | 72% | 48% |
+| 24* | contrast | card | person | dark | stakes |  | 137 | too new | |
+| 25* | contrast | card | ? | dark | stakes |  | 45 | too new | |
+
+\* labelled by hand afterwards (hooklab/labels.json): a hint, not a test.
+
+How the 10 s number is made: Instagram reports the share who leave in the first 3 s and the average watch time, but no curve. We fit a curve (Weibull, shape 0.7) to those two numbers and read it at 10 s. Each Reel is scored once it is 12 h old with 60+ plays, and compared with the average of its own format (v2, v3).

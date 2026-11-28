@@ -4,6 +4,7 @@ import json, numpy as np, soundfile as sf
 from scipy import signal
 SR = 48000
 CU = json.load(open("audio/cues.json")); T = CU["T"]; DUR = CU["DUR"]; N = int(DUR * SR)
+OPEN = CU.get("open", {}); ARM = CU.get("arm", "K")          # the opening from the hook lab and the CTA arm (scene.js exports them)
 rng = np.random.default_rng(1324)
 db = lambda d: 10 ** (d / 20)
 def env_exp(n, tau, att=0.002):
@@ -95,9 +96,9 @@ def creak(dur=0.7):
 BEAT = 60 / 84
 CH = {"Dm": ["D", "F", "A"], "Dm9": ["D", "F", "A", "E"], "Bb": ["Bb", "D", "F"], "Bb7": ["Bb", "D", "F", "A"], "F": ["F", "A", "C"], "C": ["C", "E", "G"], "Gm": ["G", "Bb", "D"], "A": ["A", "C#", "E"], "As": ["A", "D", "E"]}
 ROOT = {"Dm": "D2", "Dm9": "D2", "Bb": "Bb1", "Bb7": "Bb1", "F": "F2", "C": "C2", "Gm": "G1", "A": "A1", "As": "A1"}
-PROG = [(0, "Dm9"), (3.6, "Bb7"), (T["wipe1"] + 1.35, "Dm"), (11.4, "Bb"), (T["b3"] + 0.1, "F"), (17.0, "C"), (T["b4"], "Gm"), (T["days"] + 0.3, "As"), (T["wipe2"] + 0.8, "Dm"), (T["generous"], "Bb"), (T["markets"] - 0.3, "F"), (T["official"] + 0.6, "C"),
-        (T["b6"], "Gm"), (T["piece"], "A"), (T["b7"], "Bb"), (T["price"] + 0.4, "As"), (T["twelve"] - 0.1, "Dm"), (T["twelve"] + 1.8, "Gm"), (T["wipe3"] + 0.78, "Dm"), (T["b9"], "Gm"), (T["interest"] + 0.9, "Bb"), (T["never"], "A"),
-        (T["b10"], "Dm"), (T["story"] + 1.8, "Bb"), (T["even"] + 0.2, "F"), (T["even"] + 2.2, "C"), (T["cta"], "Dm9"), (DUR, "Dm9")]
+PROG = [(0, "Dm9"), (3.6, "Bb7"), (T["wipe1"] + 1.35, "Dm"), (T["lock"] + 0.1, "Bb"), (T["b3"] + 0.1, "F"), (T["b3"] + 2.4, "C"), (T["b4"], "Gm"), (T["days"] + 0.3, "As"), (T["wipe2"] + 0.8, "Dm"), (T["generous"], "Bb"), (T["markets"] - 0.3, "F"), (T["official"] + 0.6, "C"),
+        (T["b6"], "Gm"), (T["piece"], "A"), (T["b7"], "Bb"), (T["price"] + 0.4, "As"), (T["rehook"], "A"), (T["twelve"] - 0.1, "Dm"), (T["twelve"] + 1.8, "Gm"), (T["wipe3"] + 0.78, "Dm"), (T["b9"], "Gm"), (T["interest"] + 0.9, "Bb"), (T["never"], "A"),
+        (T["b10"], "Dm"), (T["lesson"] + 1.8, "Bb"), (T["even"] + 0.2, "F"), (T["use"] + 0.3, "C"), (T["cta"], "Dm9"), (DUR, "Dm9")]
 def chord_at(t):
     c = PROG[0][1]
     for tt, cc in PROG:
@@ -137,7 +138,7 @@ arp(T["wipe2"] + 0.8, T["b6"] - 0.2, BEAT / 2, [0, 2, 4, 2, 3, 5, 4, 2], 3, 0.44
 drums(T["wipe2"] + 0.8, T["b6"] - 0.3, 0.3)
 arp(T["b5"] + 0.4, T["b6"] - 0.3, BEAT * 2, [5, 4, 3, 5, 4, 2], 5, 0.14, kalimba)
 arp(T["b6"] + 0.2, T["b7"] - 0.2, BEAT, [0, 2, 1, 3], 3, 0.36)                                     # too much gold
-arp(T["b7"] + 0.2, T["twelve"] - 0.2, BEAT, [4, 3, 2, 1, 3, 2, 1, 0], 3, 0.32)                     # the price slides down
+arp(T["b7"] + 0.2, T["rehook"] - 0.15, BEAT, [4, 3, 2, 1, 3, 2, 1, 0], 3, 0.32)                     # the price slides down (the music holds its breath on the rehook)
 arp(T["twelve"], T["wipe3"] - 0.3, BEAT, [0, 0, 2, 0], 4, 0.2, kalimba)                            # years ticking by
 arp(T["wipe3"] + 0.9, T["b10"] - 0.3, BEAT * 2, [0, 2, 1, 3], 3, 0.34)                             # the way home
 arp(T["b10"] + 0.2, T["cta"] - 0.2, BEAT / 2, [0, 2, 3, 2, 4, 3, 2, 1], 3, 0.36)                 # the story's close
@@ -152,8 +153,8 @@ for ch in MUS: ch *= fo
 # ───────── sound effects
 cues = []
 def cue(name, t): cues.append((round(t, 2), name))
-# the hook card: a soft hit on the first frame, a light whoosh when it lifts away
-sfx(thud(85, 42, 0.42), 0.0, 0, db(-21)); sfx(ding([587.3, 880, 1174.7], 1.3), 0.0, 0, db(-25)); cue("hook card", 0.0)
+# frame 0: a soft hit (with a hook card: louder; captions only: the picture carries it), a light whoosh when the card lifts away
+sfx(thud(85, 42, 0.42), 0.0, 0, db(-21 if T.get("hookEnd") else -25)); sfx(ding([587.3, 880, 1174.7], 1.3), 0.0, 0, db(-25)); cue("first frame", 0.0)
 if T.get("hookEnd"): sfx(whoosh(0.6, 500, 3600), T["hookEnd"] - 0.05, 0, db(-27)); cue("hook card lifts", T["hookEnd"])
 if T.get("bigIn"):                                                     # the big number (1.5-3 s)
     sfx(thud(70, 34, 0.6), T["bigIn"] + 0.02, 0, db(-19)); sfx(whoosh(0.5, 3200, 400), T["bigIn"] - 0.15, 0, db(-26)); cue("big number", T["bigIn"])
@@ -203,18 +204,31 @@ for j, tl in enumerate(CU["loans"]): sfx(tick(900, 0.05, 0.9), tl - 0.75, 0.5 - 
 cue("three loans", CU["loans"][0] - 0.75)
 sfx(blip(622, 0.14), T["interest"], 0, db(-25)); sfx(blip(659, 0.14), T["interest"] + 0.12, 0, db(-25)); cue("interest", T["interest"])
 sfx(blip(392, 0.3, -0.12), T["never"] + 0.2, 0, db(-23)); sfx(blip(294, 0.36, -0.1), T["never"] + 0.42, 0, db(-24)); cue("unpaid?", T["never"] + 0.2)
-sfx(ding([587.3, 880, 1174.7], 1.5), T["story"], 0, db(-23)); cue("title", T["story"])
+# beat2 "event": the second thing that happens at 1.5 s gets its own hit
+if OPEN.get("beat2") == "event":
+    sfx(thud(72, 36, 0.55), T["beat2"], 0, db(-20)); sfx(whoosh(0.5, 400, 3000), T["beat2"] - 0.12, 0, db(-27)); cue("beat 2 (event)", T["beat2"])
+    for k in range(12): sfx(coin(), T["beat2"] + 0.9 + k * 0.05, rng.uniform(-0.8, 0.8), db(-30 + rng.uniform(-3, 2)))
+# the lock-in: a small bell on the promise to the viewer
+sfx(ding([880, 1318.5], 0.8), T["yours"], 0.15, db(-28)); cue("lock-in promise", T["lock"])
+# the rehook: the music stops for a breath, a low hit and a rising whoosh, then the answer
+sfx(thud(64, 32, 0.6), T["rehook"] + 0.05, 0, db(-20)); sfx(whoosh(0.7, 300, 2600), T["rehook"] + 0.1, 0, db(-25)); sfx(ding([880, 1318.5], 0.9), T["twelve"], 0, db(-25)); cue("rehook", T["rehook"])
+# the lesson card: a clear bell when it lands, a softer one for the line the viewer can use
+sfx(ding([587.3, 880, 1174.7], 1.5), T["lesson"], 0, db(-23)); cue("lesson card", T["lesson"])
 for k in range(8): sfx(kalimba(3520 * 2 ** (-k / 12), 0.5), T["b10"] + 3.6 + k * 0.05, 0.3 + k * 0.06, db(-33))
-sfx(blip(698, 0.12), T["even"], 0, db(-26))
-sfx(ding([1318.5, 1975.5], 0.8), T["cta"] + 0.1, 0, db(-30)); cue("legend chip", T["cta"] + 0.1)
-for i, tk in enumerate(CU["typing"]): sfx(tick(2600 + i * 120, 0.018, 0.5), tk, 0, db(-28))
-cue("typing GOLD", CU["typing"][0])
-sfx(blip(1046.5, 0.09), T["rain0"] - 0.25, 0, db(-27)); sfx(blip(1568, 0.11), T["rain0"] - 0.15, 0, db(-28)); cue("posted", T["rain0"] - 0.25)
+sfx(blip(698, 0.12), T["even"], 0, db(-26)); sfx(ding([784, 1174.7], 0.9), T["use"] + 0.05, 0, db(-26)); cue("the check to use", T["use"])
+# the CTA: arm K types the keyword, posts it, and our reply pops up; arm O points at the comments and asks
+sfx(ding([1318.5, 1975.5], 0.8), T["cta"] + 0.1, 0, db(-30)); cue("CTA chip", T["cta"] + 0.1)
+if ARM == "K":
+    for i, tk in enumerate(CU["typing"]): sfx(tick(2600 + i * 120, 0.018, 0.5), tk, 0, db(-28))
+    cue("typing the keyword", CU["typing"][0])
+    sfx(blip(1046.5, 0.09), T["reply"] - 0.1, 0, db(-27)); sfx(blip(1568, 0.11), T["reply"], 0, db(-28)); cue("posted", T["reply"] - 0.1)
+    sfx(blip(880, 0.09), T["reply"] + 0.3, 0.2, db(-26)); sfx(blip(1318.5, 0.14), T["reply"] + 0.4, 0.2, db(-26)); cue("our reply", T["reply"] + 0.3)
+else:
+    sfx(blip(880, 0.09), T["ctaC"], 0.2, db(-27)); sfx(ding([1174.7, 1760], 0.9), T["ask"], 0, db(-25)); cue("the question", T["ask"])
 for i, tl in enumerate(CU["rain"]):
     if i % 3 == 0: sfx(coin(), tl, rng.uniform(-0.8, 0.8), db(-36 + rng.uniform(-3, 2)))
-for k in range(10): sfx(kalimba(1760 * 2 ** (k * 2 / 12), 0.5), T["rain0"] + k * 0.11, -0.5 + k * 0.1, db(-33))
-cue("gold rain", T["rain0"])
-sfx(blip(784, 0.12, -0.08), T["notToo"], 0.2, db(-28)); cue("just not too rich", T["notToo"])
+for k in range(8): sfx(kalimba(1760 * 2 ** (k * 2 / 12), 0.5), T["rain0"] + k * 0.11, -0.5 + k * 0.1, db(-33))
+cue("a little gold rain", T["rain0"])
 sfx(ding([1174.7, 1760], 0.8), T["borrowed"] + 0.0, 0, db(-60))   # (placeholder kept silent)
 
 # ───────── mix: voice in the middle, bed ~14 dB under it, effects on top; the bed ducks a little under the voice

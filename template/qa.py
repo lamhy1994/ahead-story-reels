@@ -25,9 +25,21 @@ cuts = [round(i / 30, 2) for i in np.where(d > 45)[0]]; print("hard cuts:", cuts
 for b in range(240, len(fr), 240):
     nb = np.r_[d[b - 6:b - 1], d[b:b + 5]]
     if d[b - 1] > max(nb.max() * 1.6, nb.mean() + 0.3): bad.append(f"segment join at {b/30:.1f}s jumps ({d[b-1]:.2f} vs {nb.max():.2f}); re-render the segments on both sides from the same code")
-hb = fr[0, 96:166, 10:206]                       # the first frame is the Reel's cover: the hook card must be on it (y 480-830)
-print(f"first frame: hook band contrast {hb.std():.0f}, white text {100 * (hb > 215).mean():.1f}%")
-if hb.std() < 50 or (hb > 215).mean() < 0.05: bad.append("no hook card on the first frame (the cover): HOOK in script.py, hook card at y 640 from t = 0")
+# the opening comes from the hook lab (OPEN in script.py): what must be on the first frame (the Reel's cover) and how much must move in the first second
+try: OPEN = dict(getattr(script, "OPEN", None) or {})
+except Exception: OPEN = {}
+if OPEN.get("text", "card") == "card":
+    hb = fr[0, 96:166, 10:206]                   # the hook card must be on the first frame (y 480-830)
+    print(f"first frame: hook band contrast {hb.std():.0f}, white text {100 * (hb > 215).mean():.1f}%")
+    if hb.std() < 50 or (hb > 215).mean() < 0.05: bad.append("no hook card on the first frame (the cover): HOOK in script.py, hook card at y 640 from t = 0")
+else:
+    cb = fr[0, 56:80, 10:206]                    # text: captions -> the first words of the first sentence show from frame 0 (y 280-400)
+    print(f"first frame: caption band white text {100 * (cb > 215).mean():.2f}%")
+    if (cb > 215).mean() < 0.005: bad.append("no caption on the first frame (the cover): with OPEN text = captions the first words show from frame 0")
+mv = np.abs(fr[min(30, len(fr) - 1)] - fr[0]); mid = float(mv[96:300, 30:186].mean())
+print(f"first second: change {mv.mean():.1f}, middle of the frame {mid:.1f} (picture = {OPEN.get('picture', 'place')})")
+if mv.mean() < 2.0: bad.append("almost nothing moves in the first second: start the camera move and the first event on frame 0")
+if OPEN.get("picture") == "action" and mid < 10: bad.append(f"OPEN picture is action, but the middle of the frame barely changes in the first second ({mid:.1f}, want 10+): the event must already be happening on frame 0")
 run = 0; worst = 0
 for x in d: run = run + 1 if x < 0.03 else 0; worst = max(worst, run)
 if worst > 20: bad.append(f"picture frozen for {worst/30:.1f}s")

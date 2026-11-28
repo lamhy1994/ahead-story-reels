@@ -1,6 +1,8 @@
 # Builds audio/vo_final.wav + audio/timing.json (+ web/timing.js) from script.py
 # Pace (Keith, 22 Nov 2026): about 160 words a minute over the whole video. Pauses inside a paragraph are capped at CAP s,
 # PAUSE (script.py) is the silence between paragraphs. Length: 45-60 s by default; over 75 s only with LONG = "reason" in script.py.
+# Format v3 (Keith, 28 Nov 2026): the opening comes from the hook lab (OPEN), the script has named parts (PARTS: hook, lock-in, body 1,
+# rehook, body 2, lesson, CTA), a lesson card (LESSON, LESSON_USE) and a cheat sheet (CTA_ARM, CTA, SHEET). v3_report() checks them.
 import sys, re, json, numpy as np, soundfile as sf
 from ttslib import *
 import script
@@ -70,10 +72,17 @@ def build(voice, speed, lead=0.12, tail=1.25):
     out.append(np.zeros(int(tail * SR), np.float32))
     a = np.concatenate(out); a = a / (np.max(np.abs(a)) + 1e-9) * 0.89
     T = {"duration": round(sentences[-1]["e"], 3), "sentences": sentences, "words": words}
+    op = dict(getattr(script, "OPEN", None) or {}); T["open"] = op; T["sub"] = getattr(script, "HOOK_SUB", "")
     hook = getattr(script, "HOOK", None)          # the hook card: 2 short lines (*word* = amber) + a small subline with subject and date
-    if hook: T["hook"] = {"lines": list(hook), "sub": getattr(script, "HOOK_SUB", "")}
+    if hook and op.get("text", "card") == "card": T["hook"] = {"lines": list(hook), "sub": getattr(script, "HOOK_SUB", "")}
     big = getattr(script, "BIG", None)            # the big number at 1.5-3 s: (value, what, when), e.g. ("−$2.9 TRILLION", "wiped off the S&P 500 in one day", "5 Nov 2026")
-    if big: T["big"] = {"value": big[0], "label": big[1] if len(big) > 1 else "", "when": big[2] if len(big) > 2 else "", "dir": big[3] if len(big) > 3 else ""}   # dir "down"/"up": red diving line or amber climbing (default: red when the value starts with a minus)
+    if big and op.get("beat2", "dark") != "event": T["big"] = {"value": big[0], "label": big[1] if len(big) > 1 else "", "when": big[2] if len(big) > 2 else "", "dir": big[3] if len(big) > 3 else ""}   # dir "down"/"up": red diving line or amber climbing (default: red when the value starts with a minus)
+    les = getattr(script, "LESSON", None)         # the lesson card: 2 short lines (*word* = amber) + the check the viewer can use
+    if les: T["lesson"] = {"lines": list(les), "use": getattr(script, "LESSON_USE", "")}
+    arm = getattr(script, "CTA_ARM", None); c = getattr(script, "CTA", None) or {}
+    if arm: T["cta"] = {"arm": arm, "word": c.get("word", ""), "get": c.get("get", ""), "ask": c.get("ask", "")}
+    parts = getattr(script, "PARTS", None)        # when each part starts and ends, and its sentence numbers (1-based, as in scene.js)
+    if parts: T["parts"] = {k: {"s": sentences[v[0]]["s"], "e": sentences[v[-1]]["e"], "i": [x + 1 for x in v]} for k, v in parts.items() if v and max(v) < len(sentences)}
     return a, T
 def pace_report(T):
     """Video length and pace; returns a list of problems that must be fixed before rendering."""
@@ -83,14 +92,86 @@ def pace_report(T):
     elif L > 75 and not long_ok: bad.append(f"length {L:.1f} s is over 75 s: cut the script, or set LONG = \"<reason>\" in script.py if the story really needs it")
     elif L > 60: print(f"note: {L:.1f} s is over the 60 s default" + (f" (LONG: {long_ok})" if long_ok else ": keep it only if every sentence earns its place"))
     if wpm < 150: print(f"WARN: {wpm:.0f} wpm is slow: fewer commas and full stops, longer paragraphs (fewer PAUSEs), shorter number phrases; speed at most 1.2")
-    if not getattr(script, "HOOK", None): bad.append("no HOOK in script.py (the hook card on the first frame)")
-    if not getattr(script, "BIG", None): bad.append("no BIG in script.py (the big number at 1.5-3 s)")
     bw = getattr(script, "BIG_WORD", None)
-    if bw:
+    if bw and T.get("big"):
         ws = [w for w in T["words"] if w["si"] == 1 and re.sub(r"[^a-z0-9]", "", w["t"].lower()) == re.sub(r"[^a-z0-9]", "", bw.lower())]
         if not ws: bad.append(f"BIG_WORD {bw!r} is not in sentence 1")
         elif not 1.2 <= ws[0]["s"] <= 3.0: print(f"WARN: the big number is said at {ws[0]['s']:.2f} s; it is on screen 1.5-3 s (move it in sentence 1)")
         else: print(f"big number said at {ws[0]['s']:.2f} s (on screen 1.5-3 s)")
+    return bad
+def lab_library():
+    """hooklab/library.json from the repo root (the episode folder is two levels below it, template/ one)."""
+    import os
+    d = os.getcwd()
+    for _ in range(4):
+        p = os.path.join(d, "hooklab", "library.json")
+        if os.path.exists(p): return json.load(open(p))
+        d = os.path.dirname(d)
+    return None
+ADVICE = re.compile(r"\b(you should (buy|sell|hold)|buy now|sell now|must buy|must sell|guarantee[sd]?|risk[- ]free|can't lose|cannot lose|will (rise|go up|moon|double|recover)|get rich|easy money)\b", re.I)
+NOLINK = re.compile(r"(https?://|www\.|\.com\b|\.app\b|link in bio|bybit|dm me|whatsapp|telegram)", re.I)
+NUMW = r"\d|\b(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|trillion|half|a third|a quarter)\b"
+ORDER = ["hook", "lock", "body1", "rehook", "body2", "lesson", "cta"]
+def v3_report(T):
+    """Format v3 checks (SKILL.md §3-4); returns a list of problems that must be fixed before rendering."""
+    bad = []; op = T.get("open") or {}; L = T["duration"] + 1.25; lib = lab_library()
+    if not op: bad.append("no OPEN in script.py: run `python3 ../../hooklab.py pick` and paste its two lines (OPEN, CTA_ARM)")
+    elif lib:
+        for f in lib["factors"]:
+            ids = [l["id"] for l in lib["factors"][f]["levels"] if l.get("status", "active") == "active"]
+            if op.get(f) not in ids: bad.append(f"OPEN[{f!r}] = {op.get(f)!r} is not an active level in hooklab/library.json ({', '.join(ids)})")
+    if op.get("text", "card") == "card" and not T.get("hook"): bad.append("OPEN text is card but script.py has no HOOK (the hook card on the first frame)")
+    if op.get("beat2", "dark") in ("dark", "world") and not T.get("big"): bad.append(f"OPEN beat2 is {op.get('beat2', 'dark')} but script.py has no BIG (the big number at 1.5-3 s)")
+    if getattr(script, "HOOK", None) and op.get("text") == "captions": print("note: HOOK is ignored (OPEN text is captions): the first sentence shows as captions from frame 0, HOOK_SUB as a small chip")
+    if getattr(script, "BIG", None) and op.get("beat2") == "event": print("note: BIG is ignored (OPEN beat2 is event): something must happen in the world at 1.5 s (T.beat2 in scene.js)")
+    s1 = plain(S[0][0]); w1 = s1.split(); wd = op.get("words")
+    if len(w1) > 14: print(f"WARN: the first sentence has {len(w1)} words; 14 at most")
+    if wd == "number" and not re.search(NUMW, " ".join(w1[:3]).lower()): print("WARN: OPEN words is number, but the first sentence does not start with the figure (first 3 words)")
+    if wd == "question" and not s1.strip().endswith("?"): print("WARN: OPEN words is question, but the first sentence is not a question")
+    if wd == "you" and not re.search(r"\byou(r|'re|’re)?\b", s1.lower()): print("WARN: OPEN words is you, but the first sentence does not say you or your")
+    if wd == "scene" and (len(w1) > 12 or re.search(r"\d", s1)): print("WARN: OPEN words is scene: a moment in at most 12 words, no figure (the size of the story comes in sentence 2)")
+    parts = getattr(script, "PARTS", None); cta_text = plain(S[-1][0])
+    if not parts: bad.append("no PARTS in script.py (hook, lock, body1, rehook, body2, lesson, cta)")
+    else:
+        miss = [k for k in ORDER if not parts.get(k)]; flat = [i for k in ORDER for i in parts.get(k, [])]
+        if miss: bad.append(f"PARTS is missing {', '.join(miss)}")
+        elif flat != list(range(len(S))): bad.append("PARTS must list every sentence exactly once, in this order: hook, lock, body1, rehook, body2, lesson, cta")
+        else:
+            Pt = T["parts"]; cta_text = " ".join(plain(S[i][0]) for i in parts["cta"])
+            print("parts: " + " · ".join(f"{k} {Pt[k]['s']:.1f} s" for k in ORDER) + f" · end {L:.1f} s")
+            le = Pt["lock"]["e"]; rh = Pt["rehook"]["s"] / L; nrh = sum(len(plain(S[i][0]).split()) for i in parts["rehook"])
+            if le > 12.5: bad.append(f"the lock-in ends at {le:.1f} s: it must end by 12 s (aim for 10). Shorten sentences 2-3")
+            elif le > 11: print(f"WARN: the lock-in ends at {le:.1f} s; aim for 10 s")
+            if not 0.30 <= rh <= 0.62: print(f"WARN: the rehook comes at {100 * rh:.0f}% of the video ({Pt['rehook']['s']:.1f} s); aim for 35-55% (about 20-30 s)")
+            if nrh > 12: print(f"WARN: the rehook has {nrh} words; one short sentence, 12 words at most")
+            if Pt["lesson"]["s"] / L < 0.6: print(f"WARN: the lesson starts at {100 * Pt['lesson']['s'] / L:.0f}% of the video; it belongs in the last third, after the story has paid off")
+            if L - Pt["cta"]["s"] > 8.5: print(f"WARN: the CTA takes {L - Pt['cta']['s']:.1f} s; keep it to 4-7 s")
+            if op.get("lock") == "lesson" and not re.search(r"\byou(r|'re|’re)?\b", " ".join(plain(S[i][0]) for i in parts["lock"]).lower()): print("WARN: OPEN lock is lesson, but sentences 2-3 do not say you or your")
+    les = getattr(script, "LESSON", None)
+    if not les: bad.append("no LESSON in script.py (the lesson card: 2 short lines, one *amber* word)")
+    else:
+        nw = sum(len(x.replace("*", "").split()) for x in les)
+        if len(les) > 2 or nw > 12: print(f"WARN: LESSON has {len(les)} lines and {nw} words; 2 lines and 12 words at most")
+        if not getattr(script, "LESSON_USE", None): bad.append("no LESSON_USE in script.py (the check the viewer can use: a question to ask or a number to look up, never buy or sell)")
+    arm = getattr(script, "CTA_ARM", None); c = getattr(script, "CTA", None) or {}; sheet = (getattr(script, "SHEET", "") or "").strip()
+    if arm not in ("K", "O"): bad.append("CTA_ARM must be \"K\" or \"O\" (hooklab.py pick prints it)")
+    if not c.get("get"): bad.append("CTA has no \"get\" (what the commenter gets, a few words: \"3 questions to ask first\")")
+    if arm == "K":
+        w = c.get("word", "")
+        if not re.fullmatch(r"[A-Z0-9]{3,7}", w): bad.append("arm K: CTA[\"word\"] must be 3-7 capital letters from the story (GOLD, MATH, TOP10)")
+        elif w.lower() not in cta_text.lower(): bad.append(f"arm K: the CTA sentence does not say the keyword {w}")
+        if "reply" not in cta_text.lower(): print("WARN: arm K: say what they get and how: \"Comment WORD and I'll reply with ...\"")
+    if arm == "O":
+        if re.search(r"\b[Cc]omment:?\s+[A-Z]{3,}\b", cta_text): bad.append("arm O must not ask for a keyword: the cheat sheet is in the comments, then one open question")
+        if "?" not in cta_text or not c.get("ask"): bad.append("arm O: the CTA ends on one open question about the lesson (CTA[\"ask\"], and say it)")
+        if "comments" not in cta_text.lower(): print("WARN: arm O: say where the cheat sheet is (\"... is in the comments\")")
+    if not sheet: bad.append("no SHEET in script.py (the cheat sheet a commenter gets)")
+    elif len(sheet) > 700: bad.append(f"SHEET has {len(sheet)} characters; 700 at most")
+    for name, txt in (("SHEET", sheet), ("the script", " ".join(plain(x[0]) for x in S)), ("LESSON", " ".join(les or []) + " " + (getattr(script, "LESSON_USE", "") or ""))):
+        m = ADVICE.search(txt)
+        if m: bad.append(f"{name} reads like advice or a promise (\"{m.group(0)}\"): teach how it works and what to check, never what to buy or sell")
+    m = NOLINK.search(sheet)
+    if m: bad.append(f"SHEET must not carry links, other apps or Bybit (\"{m.group(0)}\")")
     return bad
 def auto_speed(voice, target=160, lo=0.95, hi=1.2):
     """Kokoro speed that puts the whole video at about `target` words a minute (2-4 voice passes)."""
@@ -117,7 +198,7 @@ if __name__ == "__main__":
     nw = len(T["words"]); sp = sum(s["e"] - s["s"] for s in T["sentences"]); med, p10, p90 = f0_stats(a.astype(np.float64), SR)
     print(f"voice {voice} speed {speed}: {T['duration']:.2f} s, {nw} words, {nw/sp*60:.0f} wpm while speaking, pitch median {med:.0f} Hz ({p10:.0f}-{p90:.0f})")
     print("sentence starts:", " ".join(f"S{s['i']} {s['s']:.2f}" for s in T["sentences"]))
-    bad = pace_report(T)
+    bad = pace_report(T) + v3_report(T)
     # recognition check
     from faster_whisper import WhisperModel
     from scipy.signal import resample_poly
