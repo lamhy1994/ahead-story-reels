@@ -7,7 +7,7 @@ This file is what was learned. SKILL.md §3–4 holds the rules that came out of
 ## How it was done, and what it cannot tell us
 - 10 hook tutorials: two YouTube searches (100 results), ranked by likes, the ten most-liked ones that teach hooks (nine transcripts read, one Short watched). Likes as shown on 28 Nov 2026.
 - 20 shorts: vidIQ's Instagram + TikTok search for English money-story, economy and trading posts with 3M+ views (143 posts, all from Aug–Nov 2026, the window its index covers) and its YouTube Shorts list with 5M+ views; from those, the most-viewed ones that tell or explain something, plus the biggest trading posts. Watched scene by scene with vidIQ's video reader (its walkthrough, not our own eyes). Two TikToks had gone private or were under review and were replaced.
-- Cost: 280 vidIQ credits (Keith approved about 285; apart from the 20-a-day story budget).
+- Cost: 280 vidIQ credits (Keith approved about 285; apart from the 20-a-day story budget), plus 20 for the two Reels he sent afterwards: 300.
 - Limits: these are winners only. The study shows what they share; it cannot show that a video without these things would have failed. View counts also depend on how many followers an account has. That is why every finding went into the hook lab as a level or a starting guess to be tested on our own Reels, and nowhere as a law.
 
 ## The formula
@@ -86,6 +86,21 @@ The end
 - "One fact, one question": 15–20 s of news (W13).
 - A live counter from frame 0 (W4, W5, W20) and a split screen with two labels (W2, W18).
 The last four are shorter than our 30 s minimum or are not "one true story", so they wait for Keith.
+
+## Two more Reels Keith sent the same morning (28 Nov 2026, 09:46 and 09:53)
+Watched the same way (vidIQ's video reader, 10 credits each; 300 credits for the whole study). Views were not looked up.
+
+X1 "How to go viral for caveman" · Instagram DdQTsGVzkjR (the reader names the poster as Robert McKeaveney) · 35 s
+- A talking head who explains virality in broken "caveman" sentences of three or four words. The first frame shows his own numbers (19.3M views, 12 s average watch time) under a headline; a new overlay about every 1.2 s; no music; a follow ask at the end.
+- What it teaches is the formula above in three words, "Hook, build-up, pay-off.": the hook puts a question in the viewer's head, the build-up tells a story so they stay for the answer, the pay-off answers it and leaves a feeling, and the feeling is what makes people like, comment and send. Then: when one works, make more like it.
+- For us: nothing new in the rules, but two things to hold on to. The pay-off has to land a feeling, not only an answer (our lesson card informs, it rarely moves). And "make more of what worked" is what the hook lab is for.
+
+X2 the bullet and the round tube · Instagram DgMKBJJMeMP (poster not shown) · about 43 s, about 70 spoken words
+- 0–3 s: a clean 3D physics scene: a bullet is fired into a curved tube and comes back. 3–7 s: seen from above, the shooter is standing where the tube ends. 7 s: the picture jumps to dark trading screens and the voice says what really hurts is knowing what to do and doing the opposite. 12–26 s: second-person lines ("Your losses have nothing to do with the market."). 26–35 s: one contrast with the same number on both sides (hours on charts against seconds on an impulse). Then only music. No CTA, no headline; caption pills first, then big centred words; a slow, heavy voice over a phonk track; a cut every 1.5–2 s.
+- Keith, 09:53: "可不可以做成这样，先用现实普通人会遇到的比较特别的东西做hook，然后很没逻辑的link 到trading，然后把逻辑联合起来，然后最后给人家emotional". The shape, in his words: (1) something odd from ordinary life as the hook, (2) a jump to trading that makes no sense yet, (3) the logic that joins the two, (4) an ending that is felt.
+- Why it may travel further than a news story: the hook needs no interest in money, so the first audience is everybody; the turn opens a question (how is that like trading?) just when a viewer would leave; the ending is about the viewer.
+- In the 143-post list this shape is rare but it is at the very top: krish__pahuja23 (29.7M, the most-viewed of all 143) is an unrelated clip under one line that links it to trading, and dropp845 (3.5M) is a skit under "This is how trading works". Two posts are no proof.
+- What we did with it: one sample in our own look, "the other line always moves faster" (`samples/other-line/`), built for Keith to judge before anything changes in the daily runs.
 
 ## The 10 tutorials
 | | video | likes | views |
