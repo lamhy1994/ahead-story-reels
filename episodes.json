@@ -642,7 +642,7 @@
   "window": "evergreen",
   "keyword": null,
   "made": "2026-11-28",
-  "posted": null,
+  "posted": "2026-11-28",
   "format": "turn",
   "open": {
    "words": "you",
@@ -651,6 +651,17 @@
    "beat2": "event",
    "lock": "turn"
   },
-  "cta": "N"
+  "cta": "N",
+  "permalink": "https://www.instagram.com/reel/DgSg3hly2rN/",
+  "length_s": 46.8,
+  "wpm": 165,
+  "lesson": "Nobody knew more than you. Everyone was just braking. Before you sell: is there news, or only the drop?",
+  "pointer": false,
+  "sources": [
+   "22 cars on a 230 m circular track, asked to drive steadily at 30 km/h; a jam emerged with no bottleneck and moved backward like a wave: Sugiyama et al., 'Traffic jams without bottlenecks', New Journal of Physics 10 (2008) 033001 (iopscience.iop.org/article/10.1088/1367-2630/10/3/033001); Institute of Physics press release, 4 Mar 2008, via ScienceDaily (sciencedaily.com/releases/2008/03/080304075707.htm) and Phys.org",
+   "Large market moves often occur on days without any identifiable major news; the 50 largest one-day moves of the S&P index since 1946: Cutler, Poterba and Summers, 'What Moves Stock Prices?', NBER WP 2538 (1988), Journal of Portfolio Management 1989 (nber.org/papers/w2538; MIT scan dspace.mit.edu/bitstream/handle/1721.1/64351/whatmovesstockpr00cutl.pdf)",
+   "Many large stock price changes have no events associated with them (S&P 500 futures, 1982-1999): Ray C. Fair, 'Events That Shook the Market', Journal of Business 75(4), 2002 (fairmodel.econ.yale.edu/rayfair/pdf/2000a.htm)",
+   "The traffic on screen: our own car-following model of the same 22 cars and 230 m (optimal-velocity model, Bando et al. 1995, with the velocity-difference term of Jiang, Wu and Zhu 2001): odds.py and template/web/jam.js"
+  ]
  }
 ]

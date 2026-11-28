@@ -6,7 +6,7 @@ from scipy.signal import resample_poly
 from num2words import num2words
 from faster_whisper import WhisperModel
 norm = lambda s: re.sub(r"[^a-z0-9]", "", s.lower())
-HOMO = [("2", "too"), ("two", "too"), ("to", "too"), ("collette", "colette"), ("dominos", "dominoes"), ("corweave", "coreweave"), ("corweaves", "coreweaves")]
+HOMO = [("2", "too"), ("two", "too"), ("to", "too"), ("collette", "colette"), ("dominos", "dominoes"), ("corweave", "coreweave"), ("corweaves", "coreweaves"), ("break", "brake"), ("breaks", "brakes"), ("breaking", "braking")]   # brake / break sound the same (episode 28)
 wav = sys.argv[1]; T = json.load(open(sys.argv[2] if len(sys.argv) > 2 else "audio/timing.json"))
 a, sr = sf.read(wav)
 if a.ndim > 1: a = a.mean(axis=1)

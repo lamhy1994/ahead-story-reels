@@ -819,3 +819,19 @@ export function redCross(s = 1) { const b = new GB(); b.box(3.0 * s, 3.0 * s, 0.
 export const CHAIN_LINK = (() => { const b = new GB(); b.box(1.0, 0.3, 0.42, 0xFFFFFF, 0, 0, 0); b.box(0.42, 0.3, 0.16, 0xFFFFFF, 0, 0, 0); return b.geo(); })();
 export function padlock() { const g = new THREE.Group(), b = new GB(); b.box(5.2, 4.4, 1.4, 0xC9A24A, 0, 0, 0); b.box(4.6, 3.8, 1.5, 0xE2B24A, 0, 0, 0); b.cyl(0.42, 0.42, 1.6, 10, 0x3A2E24, 0, 0.4, 0, Math.PI / 2, 0, 0); b.box(0.36, 1.1, 1.62, 0x3A2E24, 0, -0.45, 0);
   b.add(new THREE.TorusGeometry(1.75, 0.42, 8, 18, Math.PI), 0x9AA2AE, M(0, 2.2, 0)); b.cyl(0.42, 0.42, 0.9, 8, 0x9AA2AE, -1.75, 1.95, 0); b.cyl(0.42, 0.42, 0.9, 8, 0x9AA2AE, 1.75, 1.95, 0); g.add(b.mesh()); return g; }   // body centred on the origin, shackle on top, facing +z
+
+// episode 28: a small car with an open frame cabin (or no roof at all: o.open) and a driver you can see; facing +x, origin on the ground.
+// Returns a Group; userData.tail is the tail-light mesh (give it its own MeshBasicMaterial to light the brakes), userData.head the headlights.
+export function carOpen(col, o = {}) {
+  const g = new THREE.Group(), b = new GB(), dk = 0x262B33, L = 4.3;
+  b.box(L, 0.66, 1.8, col, 0, 0.66, 0); b.box(L * 0.22, 0.1, 1.7, col, L * 0.33, 1.02, 0);
+  b.box(0.1, 0.22, 1.82, dk, L / 2 + 0.02, 0.5, 0); b.box(0.1, 0.22, 1.82, dk, -L / 2 - 0.02, 0.5, 0);
+  for (const x of [L * 0.31, -L * 0.31]) for (const z of [0.86, -0.86]) b.cyl(0.36, 0.36, 0.26, 10, 0x1E2226, x, 0.36, z, Math.PI / 2, 0, 0);
+  if (!o.open) { b.box(2.0, 0.12, 1.62, col, -0.3, 1.72, 0); for (const x of [0.62, -1.22]) for (const z of [0.76, -0.76]) b.box(0.14, 0.72, 0.12, col, x, 1.34, z); b.box(0.08, 0.5, 1.5, 0xBFE3F2, 0.66, 1.33, 0, 0, 0, -0.35); }
+  else { b.box(0.08, 0.42, 1.6, 0xBFE3F2, 0.7, 1.22, 0, 0, 0, -0.45); b.box(0.5, 0.36, 1.66, col, -1.75, 1.15, 0); b.box(0.08, 0.36, 1.6, 0x3A3F48, -0.1, 1.15, 0); }
+  g.add(b.mesh(o.mat || MAT));
+  const hl = new GB(); hl.box(0.05, 0.16, 0.36, 0xffffff, L / 2 + 0.1, 0.82, 0.6); hl.box(0.05, 0.16, 0.36, 0xffffff, L / 2 + 0.1, 0.82, -0.6); const head = new THREE.Mesh(hl.geo(), o.headMat || new THREE.MeshBasicMaterial({ color: 0xFFF4D0, toneMapped: false })); g.add(head);
+  const tl = new GB(); tl.box(0.06, 0.2, 0.42, 0xffffff, -L / 2 - 0.08, 0.84, 0.6); tl.box(0.06, 0.2, 0.42, 0xffffff, -L / 2 - 0.08, 0.84, -0.6); const tail = new THREE.Mesh(tl.geo(), o.tailMat || new THREE.MeshBasicMaterial({ color: 0x5A1010, toneMapped: false })); g.add(tail);
+  const d = person(o.driver || {}); d.scale.setScalar(0.92); d.position.set(-0.25, 0.08, 0.38); g.add(d);
+  g.userData = { tail, head, driver: d }; return g;
+}

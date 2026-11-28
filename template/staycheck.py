@@ -42,7 +42,7 @@ for i in range(n):
         for s in sents:
             if s["e"] - s["s"] > 7.5 and s["s"] <= a and s["e"] >= b: warn.append("inside a %.0f s sentence" % (s["e"] - s["s"]))
     prev_kw = kw
-    keep = old.get(norm(said), ["?", "?", ""])
+    keep = old.get(norm(said or "(no words)"), ["?", "?", ""])        # the end card has no words: its row is keyed by "(no words)"
     rows.append([f"{a:.0f}–{b:.0f} s", part_at(a + 0.01), said or "(no words)", "; ".join(warn), *keep])
 
 head = ["time", "part", "said", "warning", "picture: what visibly changes", "stay: the question still open, or the payoff that lands", "note: what you changed, or why the warning is fine"]

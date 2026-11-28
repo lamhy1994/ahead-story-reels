@@ -13,7 +13,7 @@ template/audio/
 template/render/
 *.mp4
 *.wav
-# Episode folders are working copies of template/; git keeps only these five files per episode (SKILL.md §8)
+# Episode folders are working copies of template/; git keeps only these files per episode (SKILL.md §8, and stay.md for the stay check, §0)
 episodes/*/*
 !episodes/*/script.py
 !episodes/*/scene.js
@@ -21,3 +21,4 @@ episodes/*/*
 !episodes/*/sources.md
 !episodes/*/caption.txt
 !episodes/*/odds.py
+!episodes/*/stay.md
