@@ -631,5 +631,26 @@
    "Once two people go in, the next one ignores her own hunch: Bikhchandani, Hirshleifer and Welch, 'A Theory of Fads, Fashion, Custom, and Cultural Change as Informational Cascades', Journal of Political Economy 100(5), 1992, pp. 996-997 (snap.stanford.edu/class/cs224w-readings/bikhchandani92fads.pdf); Easley and Kleinberg, Networks, Crowds, and Markets, 2010, ch. 16, pp. 483 and 487 (cs.cornell.edu/home/kleinber/networks-book/networks-book-ch16.pdf); own check, odds.py",
    "99 of 100 people had a hint that next door was better, the one who did not chose first, and all 100 went to the busy place: Abhijit Banerjee, 'A Simple Model of Herd Behavior', Quarterly Journal of Economics 107(3), 1992, pp. 798-799 (economics.mit.edu/research/publications/simple-model-herd-behavior); an example inside a model; own replay in odds.py: 100 of 100"
   ]
+ },
+ {
+  "n": 28,
+  "slug": "028-nothing-at-the-front",
+  "title": "Nothing at the Front",
+  "event": "Evergreen (no news event): why a traffic jam can have nothing at the front, and what that has to do with selling because the price is falling.",
+  "story": "a traffic jam with nothing at the front (a phantom jam)",
+  "angle": "selling into a drop: every reaction is a little bigger than its cause, so a dip grows like a phantom jam (feedback); the market's biggest days often came with no big news (Cutler, Poterba and Summers 1989; Fair 2002)",
+  "window": "evergreen",
+  "keyword": null,
+  "made": "2026-11-28",
+  "posted": null,
+  "format": "turn",
+  "open": {
+   "words": "you",
+   "text": "captions",
+   "picture": "action",
+   "beat2": "event",
+   "lock": "turn"
+  },
+  "cta": "N"
  }
 ]
