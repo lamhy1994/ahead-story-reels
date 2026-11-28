@@ -11,7 +11,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))      # works from the repo 
 
 LIB = json.load(open("hooklab/library.json")); OLD = json.load(open("hooklab/labels.json"))["episodes"]
 FACTORS = list(LIB["factors"]); K_SHAPE = 0.7; MIN_AGE_H = 12; MIN_PLAYS = 60
-FMT = LIB.get("format", "v3"); FSET = LIB.get("formats", {}).get(FMT, {})      # the format every new episode is made in (Keith, 28 Nov 2026: "turn" for all three daily videos)
+FMT = LIB.get("format", "v3"); FSET = LIB.get("formats", {}).get(FMT, {})      # the format every new episode is made in (Keith, 28 Nov 2026: "turn" for every daily video)
 def arm_for(n):  # the CTA arm: even episodes K, odd O, until Keith picks one ("cta": {"arm": "K" or "O"} in library.json). The turn format has no CTA: N.
     if FSET.get("cta"): return FSET["cta"]
     a = LIB.get("cta", {}).get("arm", "alternate"); return a if a in ("K", "O") else ("K" if n % 2 == 0 else "O")

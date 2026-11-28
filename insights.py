@@ -60,4 +60,23 @@ for fmt, v in sorted(agg.items()):
     out.append(f"| {fmt} | {n} | {a(0):.1f} | {a(1):.1f} | {a(2):.1f} | {a(4):.0f}% | {med} | {sum(x[5] for x in v):.0f} | {sum(x[6] for x in v):.0f} | {sum(x[7] for x in v):.0f} |")
 asof = max(P(r["as_of_utc"]) for r in rows) + dt.timedelta(hours=8)
 out += ["", f"As of {asof:%d %b %Y %H:%M} Malaysia time. Each Reel is shown to about 130 people at first, so one Reel's numbers swing by several points: read trends over 5+ Reels. Openings are compared in trends/hooklab.md."]
+
+# Where viewers leave (Keith, 28 Nov 2026: fix every second where people swipe away, not only the hook). Instagram's API gives two
+# numbers a Reel (skip rate, average watch time) and no curve, so these are read off the same fitted curve as "at 10 s":
+# estimates of the shape, not measurements. The real curve is the Retention chart in the Instagram app (trends/retention.md).
+def leave(r, e):
+    L = float(e["length_s"]); s, w = float(r["skip_pct"]), float(r["avg_watch_s"]); at = lambda t: r10(s, w, L, at=t)
+    half = next((t / 2 for t in range(6, int(L * 2) + 1) if at(t / 2) <= (100 - s) / 2), L)      # when half of those who stayed past 3 s are gone
+    per_s = 100 * (1 - (at(min(20.0, L)) / (100 - s)) ** (1 / (min(20.0, L) - 3)))                # share of the remaining viewers lost each second, 3-20 s
+    return [100 - s, at(10), at(min(20.0, L)), at(min(30.0, L)), at(L), half, per_s]
+lv = [(EP[r["shortcode"]], leave(r, EP[r["shortcode"]])) for r in rows if EP.get(r["shortcode"], {}).get("length_s") and float(r["plays"]) >= 60]
+if lv:
+    lv.sort(key=lambda x: x[0]["n"]); fm = lambda e: e.get("format", "v1" if e["n"] <= 8 else "v2")
+    out += ["", "## Where viewers leave (estimates)", "",
+            "Share of plays still watching at each point, read off the fitted curve (not measured). `leak` is the share of the viewers still there who leave each second between 3 and 20 s; `half gone` is when half of those who stayed past 3 s have left. The hook decides the first column; the script and the picture decide the rest.", "",
+            "| Reels | past 3 s | at 10 s | at 20 s | at 30 s | at the end | half gone by | leak a second |", "|---|---|---|---|---|---|---|---|"]
+    row = lambda name, v: f"| {name} | {v[0]:.0f}% | {v[1]:.0f}% | {v[2]:.0f}% | {v[3]:.0f}% | {v[4]:.0f}% | {v[5]:.0f} s | {v[6]:.1f}% |"
+    for f in sorted({fm(e) for e, _ in lv}):
+        g = [v for e, v in lv if fm(e) == f]; out.append(row(f"{f} (average of {len(g)})", [sum(x[i] for x in g) / len(g) for i in range(7)]))
+    for e, v in lv[-6:]: out.append(row(f"ep {e['n']} {e['title']} ({fm(e)}, {e['length_s']:.0f} s)", v))
 open("trends/insights.md", "w").write("\n".join(out) + "\n"); print("\n".join(out))
