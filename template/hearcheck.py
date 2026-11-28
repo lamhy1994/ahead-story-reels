@@ -38,7 +38,9 @@ for j, (raw, st) in enumerate(ws):
         n = int(digits)
         for x in re.sub(r"[^a-z ]", " ", num2words(n).replace("-", " ")).split():
             if x != "and": heard.append((x, st))
-        if n >= 1000 and str(n).startswith("1"): heard.append(("a", st))
+        for x in re.sub(r"[^a-z\- ]", " ", num2words(n)).split():         # a hyphenated caption word ("ninety-nine") is heard as "99"
+            if "-" in x: heard.append((norm(x), st))
+        if n >= 100 and str(n).startswith("1"): heard.append(("a", st))          # "a hundred" / "a thousand" are written "100" / "1,000"
     if "£" in raw: heard.append(("pounds", st))
     if "$" in raw: heard.append(("dollars", st))
     if "%" in raw: heard.append(("percent", st))
@@ -51,6 +53,8 @@ for raw, st in ws:                                                           # W
     if re.search(r"[a-z][-.][a-z]", raw) or raw.startswith("."): heard.extend((norm(x), st) for x in re.split(r"[-.]", raw) if norm(x)); heard.extend([("dot", st), ("dotcom", st)] if ".com" in raw else [])   # a hyphenated caption word ("dot-com") is heard as two ("dot com")
 heard += glued
 print("HEARD:", " ".join(h[0] for h in heard))
-miss = [(w["t"], w["s"]) for w in T["words"] if not any(h[0] == norm(w["t"]) and abs(h[1] - w["s"]) < 1.5 for h in heard)]
+near = lambda x, t: any(h[0] == x and abs(h[1] - t) < 1.5 for h in heard)
+W_ = T["words"]                                                              # Whisper may write two caption words as one ("next door" -> "nextdoor")
+miss = [(w["t"], w["s"]) for i, w in enumerate(W_) if not (near(norm(w["t"]), w["s"]) or (i > 0 and near(norm(W_[i - 1]["t"]) + norm(w["t"]), w["s"])) or (i + 1 < len(W_) and near(norm(w["t"]) + norm(W_[i + 1]["t"]), w["s"])))]
 print("caption words not heard near their time:", miss)
 sys.exit(1 if miss else 0)

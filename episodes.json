@@ -613,7 +613,7 @@
   "window": "evergreen",
   "keyword": null,
   "made": "2026-11-28",
-  "posted": null,
+  "posted": "2026-11-28",
   "format": "turn",
   "open": {
    "words": "question",
@@ -622,6 +622,14 @@
    "beat2": "event",
    "lock": "turn"
   },
-  "cta": "N"
+  "cta": "N",
+  "permalink": "https://www.instagram.com/reel/DgRpjSfusiJ/",
+  "length_s": 47.3,
+  "wpm": 162,
+  "lesson": "You never followed a crowd. You followed whoever came first. Before you join in: your reason, or just the queue?",
+  "sources": [
+   "Once two people go in, the next one ignores her own hunch: Bikhchandani, Hirshleifer and Welch, 'A Theory of Fads, Fashion, Custom, and Cultural Change as Informational Cascades', Journal of Political Economy 100(5), 1992, pp. 996-997 (snap.stanford.edu/class/cs224w-readings/bikhchandani92fads.pdf); Easley and Kleinberg, Networks, Crowds, and Markets, 2010, ch. 16, pp. 483 and 487 (cs.cornell.edu/home/kleinber/networks-book/networks-book-ch16.pdf); own check, odds.py",
+   "99 of 100 people had a hint that next door was better, the one who did not chose first, and all 100 went to the busy place: Abhijit Banerjee, 'A Simple Model of Herd Behavior', Quarterly Journal of Economics 107(3), 1992, pp. 798-799 (economics.mit.edu/research/publications/simple-model-herd-behavior); an example inside a model; own replay in odds.py: 100 of 100"
+  ]
  }
 ]

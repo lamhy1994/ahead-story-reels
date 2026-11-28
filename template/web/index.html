@@ -183,6 +183,23 @@ html,body{margin:0;padding:0;background:#070B24;overflow:hidden;}
 .strip.two .d i{width:54px;height:54px;border-radius:50%;margin:4px 8px;}
 .strip.two .f{margin-top:16px;color:#FF8A80;}
 .strip.two .f b{color:#FF5A4E;}
+/* episode 27 (The Long Queue): the queue-effect board, the 100 dots of the famous example */
+.board .src2{font:700 31px/1.2 'Figtree',sans-serif;color:#fff;margin-top:16px;}
+.dots{width:560px;box-sizing:border-box;padding:24px 0 20px;text-align:center;background:rgba(8,10,26,.9);border:2px solid rgba(255,225,160,.6);border-radius:32px;box-shadow:0 18px 50px rgba(5,7,20,.5);}
+.dots .t{font:700 23px/1 'Inter',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#FFD27A;}
+.dots .t b{font:800 30px/1 'JBM',monospace;letter-spacing:0;color:#fff;margin:0 3px;vertical-align:-2px;}
+.dots .g{display:grid;grid-template-columns:repeat(10,27px);gap:7px;justify-content:center;margin-top:18px;}
+.dots .g i{display:block;width:27px;height:27px;border-radius:50%;box-sizing:border-box;border:2.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);transition:none;}
+.dots .g i.n{background:#2FA39A;border-color:#2FA39A;}
+.dots .g i.h{background:#F7A600;border-color:#F7A600;}
+.dots .g i.q{box-shadow:0 0 0 2.5px #F7A600;}
+.dots .g i.n.q{background:#4E6B6A;border-color:#4E6B6A;}
+.dots .g i.hl{box-shadow:0 0 0 5px #fff,0 0 26px rgba(247,166,0,.95);}
+.dots .f{display:grid;margin-top:16px;font:700 30px/1.2 'Figtree',sans-serif;color:#fff;}
+.dots .f span{grid-area:1/1;}
+.dots .f b{font:800 38px/1 'JBM',monospace;color:#FFC84A;margin:0 4px;}
+.dots .f1 b{color:#4FD1C5;}
+.dots .src{margin-top:12px;font:500 19px/1 'Inter',sans-serif;letter-spacing:.04em;color:rgba(255,255,255,.62);}
 </style>
 <script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
 </head>
