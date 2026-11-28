@@ -11,6 +11,8 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))      # works from the repo 
 
 LIB = json.load(open("hooklab/library.json")); OLD = json.load(open("hooklab/labels.json"))["episodes"]
 FACTORS = list(LIB["factors"]); K_SHAPE = 0.7; MIN_AGE_H = 12; MIN_PLAYS = 60
+def arm_for(n):  # the CTA arm: even episodes K, odd O, until Keith picks one ("cta": {"arm": "K" or "O"} in library.json)
+    a = LIB.get("cta", {}).get("arm", "alternate"); return a if a in ("K", "O") else ("K" if n % 2 == 0 else "O")
 P = lambda s: dt.datetime.fromisoformat(s.replace("Z", "+00:00"))
 num = lambda r, k, d=0.0: float(r[k]) if r.get(k) not in (None, "") else d
 
@@ -94,8 +96,8 @@ def cmd_pick(argv):
     eps, ins, rows, _ = load(); st, *_ = stats(rows)
     n = int(argv[0]) if argv else max(e["n"] for e in eps) + 1
     have = next((e for e in eps if e.get("n") == n and e.get("open")), None)
-    if have: op, why, arm = have["open"], {f: "already claimed" for f in FACTORS}, have.get("cta") or ("K" if n % 2 == 0 else "O")
-    else: (op, why), arm = pick(n, [r for r in rows if r["n"] != n], st), ("K" if n % 2 == 0 else "O")
+    if have: op, why, arm = have["open"], {f: "already claimed" for f in FACTORS}, have.get("cta") or arm_for(n)
+    else: (op, why), arm = pick(n, [r for r in rows if r["n"] != n], st), arm_for(n)
     print(f"EPISODE {n}: build the first 10 seconds like this (SKILL.md §3.1). Put these two lines in script.py and the same values in the episode's episodes.json entry (open, cta):")
     print("OPEN = " + json.dumps(op)); print(f'CTA_ARM = "{arm}"'); print()
     for f in FACTORS:
@@ -134,6 +136,10 @@ def cmd_report():
         if not v: L.append(f"| {arm or 'before (one-word poll)'} | 0 | | | | |"); continue
         pl = sorted(r["plays"] for r in v); tot = sum(pl); cm = sum(r["comments"] for r in v)
         L.append(f"| {arm or 'before (one-word poll)'} | {len(v)} | {pl[len(pl) // 2]} | {cm:.0f} | {1000 * cm / tot:.2f} | {sum(r['shares'] + r['saves'] for r in v):.0f} |")
+    c = LIB.get("cta", {})
+    if c.get("arm") in ("K", "O"): L += ["", f"Keith picked arm {c['arm']}: every episode uses it now."]
+    elif c.get("decide_from") and asof.date() >= dt.date.fromisoformat(c["decide_from"]):
+        L += ["", f"**Time to decide** (the two weeks ended on {c['decide_from']}): put the K and O rows above in the report to Keith in one line and say he can pick K, O or two more weeks. Keep alternating until he picks; then set \"cta\": {{\"arm\": \"K\"}} or \"O\" in hooklab/library.json."]
     L += ["", "Likes, comments, shares and saves are 0 for Reels whose row in insights.csv has no such columns yet.", ""]
     # the long road (Keith's goal: 100 million views and 100,000 followers)
     plays_all = sum(int(float(r["plays"])) for r in ins.values()); fol = None

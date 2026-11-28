@@ -3,6 +3,7 @@
   "goal": {"r10": 60, "window": 10, "why": "Keith: test openings until people are willing to watch to 10 seconds"},
   "min_tries": 2,
   "retire": {"min_scored": 6, "p_best_below": 0.05},
+  "cta": {"arm": "alternate", "decide_from": "2026-12-12", "about": "Keith, 28 Nov 2026: alternate the two CTA arms for about two weeks (even episodes K, odd O), then decide from trends/hooklab.md. When he picks, set arm to K or O."},
   "factors": {
     "words": {
       "what": "What the hook says: the card text (if there is a card) and the first spoken sentence. At most 14 spoken words, no date or name in front.",
