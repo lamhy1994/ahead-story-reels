@@ -6,7 +6,8 @@
 # average watch time and the video's length. Instagram's API gives no retention curve, so this is an estimate (see r10).
 # Picking: every level is tried at least twice first (least-tried first), then Thompson sampling: levels that score better
 # are picked more often, the others still get a turn now and then.
-import csv, json, math, random, sys, datetime as dt
+import csv, json, math, random, sys, datetime as dt, os
+os.chdir(os.path.dirname(os.path.abspath(__file__)))      # works from the repo root or from an episode folder (python3 ../../hooklab.py)
 
 LIB = json.load(open("hooklab/library.json")); OLD = json.load(open("hooklab/labels.json"))["episodes"]
 FACTORS = list(LIB["factors"]); K_SHAPE = 0.7; MIN_AGE_H = 12; MIN_PLAYS = 60

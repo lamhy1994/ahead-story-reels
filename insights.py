@@ -5,7 +5,8 @@
 #   python3 insights.py followers 9      -> adds a line to trends/account.csv (followersCount from the same tool result)
 #   python3 insights.py                  -> writes trends/insights.md
 # Then `python3 hooklab.py` scores the openings (trends/hooklab.md). Only Reels at least 24 h old count in the averages here.
-import csv, json, sys, datetime as dt
+import csv, json, sys, datetime as dt, os
+os.chdir(os.path.dirname(os.path.abspath(__file__)))      # works from the repo root or from an episode folder (python3 ../../insights.py)
 COLS = ["shortcode", "posted_utc", "as_of_utc", "plays", "avg_watch_s", "watched_pct", "skip_pct", "likes", "comments", "shares", "saves"]
 P = lambda s: dt.datetime.fromisoformat(s.replace("Z", "+00:00"))
 now = lambda: dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -33,7 +34,6 @@ if len(sys.argv) > 1 and sys.argv[1] == "set":
         n += 1
     write({k: r for k, r in rows.items() if ok(r.get("plays")) and ok(r.get("skip_pct")) and ok(r.get("avg_watch_s"))}); print(f"{n} Reels updated, {len(rows)} in trends/insights.csv"); sys.exit(0)
 if len(sys.argv) > 2 and sys.argv[1] == "followers":
-    import os
     new = not os.path.exists("trends/account.csv"); plays = sum(int(float(r["plays"])) for r in read().values())
     with open("trends/account.csv", "a", newline="") as f:
         w = csv.writer(f)
