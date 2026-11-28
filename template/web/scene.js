@@ -20,6 +20,9 @@ const R = rng(13240719);
 // · beat2 (dark | world | event) · lock. The CTA has two arms (script.py CTA_ARM): K = comment a keyword, we reply; O = the cheat sheet is in the comments.
 const OPEN = Object.assign({ words: 'contrast', text: 'card', picture: 'place', beat2: 'dark', lock: 'stakes' }, TIM.open || {});
 const CTA = Object.assign({ arm: 'K', word: 'GOLD', get: '', ask: '' }, TIM.cta || {}), ARM = CTA.arm;
+// text: banner (hook study, 28 Nov 2026: 12 of the 20 most-viewed finance shorts we watched keep a headline on screen from frame 0 to the end).
+// The banner sits at y 205-430; everything else in the top band (captions, chips, name cards) moves down by SH so nothing sits under it.
+const BAN = TIM.banner || null, SH = BAN ? 160 : 0;
 
 // ───────────────────────── story clock (everything hangs off the narration)
 const T = {
@@ -353,8 +356,13 @@ const CAM = [
   ...(FIRST[OPEN.picture] || FIRST.place),
   { t: T.wipe1 + 0.5, tg: [-45, 80, 0], d: 40, az: -10, el: -40, up: 0, mv: 1 },
   { t: T.wipe1 + 1.35, tg: K(0, 2.6, 0), d: 15, az: 60, el: 8, mv: 1 },
-  { t: T.rich - 0.2, tg: K(0, 2.6, 0), d: 17, az: 30, el: 10 },
-  { t: T.lock + 0.3, tg: K(0, 2.6, 0), d: 13, az: 44, el: 9 },                        // lock-in: closer to the king while the promise is made
+  // the first 10 seconds show something new about every 1.5 s (hook study, 28 Nov 2026): a new subject, scale or place, a quick move (mv 3) on a word
+  { t: T.rich - 0.2, tg: K(0, 2.6, 0), d: 16, az: 44, el: 9 },
+  { t: T.rich + 0.15, tg: K(-9, 2.0, 0), d: 34, az: 78, el: 18, up: 0.05, mv: 3 },     // "the richest man in history": out to the whole caravan of gold behind him
+  { t: T.lock - 0.05, tg: K(-10, 2.0, 0), d: 36, az: 81, el: 19, up: 0.05 },
+  { t: T.lock + 0.3, tg: K(0, 3.0, 0), d: 9.5, az: 40, el: 7, mv: 3 },                 // lock-in: punch in close on the king while the promise is made
+  { t: T.yours - 0.1, tg: K(0, 3.0, 0), d: 9.0, az: 46, el: 7 },
+  { t: T.yours + 0.25, tg: K(0.6, 2.2, 0), d: 6.2, az: 58, el: 2, up: 0.03, mv: 3 },   // "your money": closer still, low, the gold on the saddle in front
   { t: T.b3 - 0.5, tg: K(-2, 2.4, 0), d: 16, az: 60, el: 11 },
   { t: T.b3 + 0.9, tg: K(-8, 2.0, 0), d: 38, az: 76, el: 20, up: 0.06, mv: 1 },
   { t: T.gold3 - 0.3, tg: K(-13, 1.0, 0), d: 60, az: 84, el: 27, up: 0.055 },
@@ -412,7 +420,8 @@ function setCamera(t) {
 const ui = document.getElementById('ui'); const _v = new THREE.Vector3();
 function proj(x, y, z) { _v.set(x, y, z).project(camera); return [(_v.x * 0.5 + 0.5) * W, (-_v.y * 0.5 + 0.5) * H, _v.z < 1]; }
 function mk(cls, html = '') { const e = document.createElement('div'); e.className = 'abs ' + cls; e.innerHTML = html; e.style.opacity = 0; ui.appendChild(e); return e; }
-function put(e, x, y, o = 1, sc = 1, ax = '-50%', ay = '-50%') { e.style.opacity = o.toFixed(3); if (o <= 0.001) return; e.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) translate(${ax},${ay}) scale(${sc.toFixed(3)})`; }
+let banEl = null;
+function put(e, x, y, o = 1, sc = 1, ax = '-50%', ay = '-50%') { if (SH && e !== banEl) y += SH * c01((900 - y) / 300); e.style.opacity = o.toFixed(3); if (o <= 0.001) return; e.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) translate(${ax},${ay}) scale(${sc.toFixed(3)})`; }
 const pop = (t, t0, d = 0.32) => t < t0 ? 0 : 0.82 + 0.18 * back(seg(t, t0, t0 + d));
 const chunks = [];
 {
@@ -425,7 +434,7 @@ const chunks = [];
   if (!TIM.hook) chunks[0].s = -1;
   chunks.forEach((c, i) => { const nx = chunks[i + 1]; c.hide = nx ? Math.min(nx.s, c.e + 0.5) : c.e + 0.8; });
 }
-const capEl = document.getElementById('cap'); let capIdx = -2;
+const capEl = document.getElementById('cap'); let capIdx = -2; if (SH) capEl.style.top = (300 + SH) + 'px';
 function updateCaption(t) {
   capEl.style.opacity = TIM.big && !WORLD ? (1 - win(t, T.bigIn - 0.12, T.bigOut - 0.05, 0.12, 0.25)).toFixed(3) : '1';   // hidden only while the dark number card is up
   let idx = -1; for (let i = 0; i < chunks.length; i++) if (t >= chunks[i].s && t < chunks[i].hide) { idx = i; break; }
@@ -437,7 +446,10 @@ function updateCaption(t) {
 }
 // hook card: on the very first frame (it is also the Reel's cover) until the hook sentence ends; lines from script.py HOOK, *word* = amber
 const HK = TIM.hook, hookEl = HK ? mk('hook', `<div class="n">${HK.lines.map(l => l.replace(/\*([^*]+)\*/g, '<em>$1</em>')).join('\n')}</div>` + (HK.sub ? `<div class="s">${HK.sub}</div>` : '')) : null;
+// the banner (text: banner): the HOOK lines as a headline box at the top from frame 0 to the last frame, HOOK_SUB as a small tag above it
+banEl = BAN ? mk('ban', (BAN.sub ? `<div class="s">${BAN.sub}</div>` : '') + `<div class="n">${BAN.lines.map(l => l.replace(/\*([^*]+)\*/g, '<em>$1</em>')).join('\n')}</div>`) : null;
 function fitHook() {
+  if (banEl) { const n = banEl.querySelector('.n'), w = n.offsetWidth; if (w > 980) n.style.fontSize = (72 * 980 / w).toFixed(1) + 'px'; }
   if (hookEl) { const n = hookEl.querySelector('.n'), w = n.scrollWidth; if (w > 940) n.style.fontSize = (112 * 940 / w).toFixed(1) + 'px'; }
   if (bigEl) { const v = bigEl.querySelector('.v'), bw = v.scrollWidth, lim = WORLD ? 820 : 960, base = WORLD ? 150 : 172; setHTML(BIGN.v, bigText(1)); const w1 = v.scrollWidth; if (Math.max(bw, w1) > lim) v.style.fontSize = (base * lim / Math.max(bw, w1)).toFixed(1) + 'px'; }
   if (lcard) { const n = lcard.querySelector('.n'); if (n.scrollWidth > 812) n.style.fontSize = (80 * 812 / n.scrollWidth).toFixed(1) + 'px'; if (lUse && lUse.scrollWidth > 812) lUse.style.fontSize = (38 * 812 / lUse.scrollWidth).toFixed(1) + 'px'; }
@@ -467,7 +479,7 @@ const emptyTag = mk('tag grey', 'gold: <b style="color:#fff">0</b>');
 const meter = mk('meter', '<span>gold left</span><div class="bar"><div class="fill"></div></div>'); const meterFill = meter.querySelector('.fill');
 const iou = MER.map(() => mk('tag am', 'loan'));
 const intTag = mk('chip', 'borrowed · at <b>high</b> interest');
-const subChip = !TIM.hook && TIM.sub ? mk('chip', TIM.sub) : null;
+const subChip = !TIM.hook && !BAN && TIM.sub ? mk('chip', TIM.sub) : null;
 const rehookChip = mk('chip am', 'the part nobody expects');
 // the lesson card (script.py LESSON, LESSON_USE): up while the lesson is spoken; the line the viewer can use fades in under it. Built to be screenshotted.
 const LS = TIM.lesson, lcard = LS ? mk('lcard', `<div class="k">The lesson</div><div class="n">${LS.lines.map(l => l.replace(/\*([^*]+)\*/g, '<em>$1</em>')).join('\n')}</div>` + (LS.use ? `<div class="u">${LS.use}</div>` : '')) : null, lUse = lcard ? lcard.querySelector('.u') : null;
@@ -491,6 +503,7 @@ function updateUI(t) {
   if (bigEl) { const o = win(t, T.bigIn, T.bigOut - 0.05, 0.15, 0.25), u = eo(seg(t, T.bigIn + 0.05, T.bigIn + 0.7)), land = seg(t, T.bigIn + 0.7, T.bigIn + 1.0), sh = (1 - land) * (land > 0 ? 1 : 0);
     if (bigBg) bigBg.style.opacity = (0.92 * o).toFixed(3); setHTML(BIGN.v, bigText(u)); BIGN.line.style.strokeDashoffset = (BIGN.len * (1 - eo(seg(t, T.bigIn, T.bigIn + 0.9)))).toFixed(1);
     put(bigEl, W / 2 + Math.sin(t * 90) * 7 * sh, (WORLD ? 900 : 860) + Math.cos(t * 77) * 5 * sh, o, pop(t, T.bigIn, 0.4) * (1 + 0.05 * Math.sin(Math.PI * land))); }
+  if (banEl) put(banEl, W / 2, 205, 1, 1, '-50%', '0%');                                // text: banner → the headline stays for the whole video
   if (subChip) put(subChip, W / 2, 472, win(t, -1, 2.7, 0.01, 0.3), 1);                 // text: captions → subject and date as a small chip instead of the card
   // 2 — the king
   { const k = kingAt(t), p = proj(k[0], k[1] + 6.6, k[2]); put(nameEl, c01((p[0] - 250) / 580) * 580 + 250, Math.max(585, p[1]), win(t, T.name, T.lock - 0.05, 0.3, 0.3), pop(t, T.name)); }

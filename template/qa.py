@@ -28,7 +28,15 @@ for b in range(240, len(fr), 240):
 # the opening comes from the hook lab (OPEN in script.py): what must be on the first frame (the Reel's cover) and how much must move in the first second
 try: OPEN = dict(getattr(script, "OPEN", None) or {})
 except Exception: OPEN = {}
-if OPEN.get("text", "card") == "card":
+if OPEN.get("text") == "banner":
+    bb = fr[0, 50:84, 10:206]                    # text: banner -> the headline box is on the first frame (y 250-420 of 205-430) and stays to the end
+    cb = fr[0, 92:108, 10:206]                   # ... and the first words show as captions under it (y 460-540)
+    eb = fr[-45, 50:84, 10:206] if len(fr) > 60 else bb
+    print(f"first frame: banner band white {100 * (bb > 215).mean():.0f}%, caption band white text {100 * (cb > 215).mean():.2f}%; banner near the end {100 * (eb > 215).mean():.0f}%")
+    if (bb > 215).mean() < 0.10: bad.append("no banner on the first frame (the cover): HOOK in script.py, OPEN text = banner, headline box at y 205-430 from t = 0")
+    if (cb > 215).mean() < 0.005: bad.append("no caption under the banner on the first frame: with OPEN text = banner the first words show from frame 0")
+    if (eb > 215).mean() < 0.10: bad.append("the banner is gone before the end: with OPEN text = banner the headline stays for the whole video")
+elif OPEN.get("text", "card") == "card":
     hb = fr[0, 96:166, 10:206]                   # the hook card must be on the first frame (y 480-830)
     print(f"first frame: hook band contrast {hb.std():.0f}, white text {100 * (hb > 215).mean():.1f}%")
     if hb.std() < 50 or (hb > 215).mean() < 0.05: bad.append("no hook card on the first frame (the cover): HOOK in script.py, hook card at y 640 from t = 0")

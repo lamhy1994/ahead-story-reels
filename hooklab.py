@@ -64,6 +64,9 @@ def centred(rows):
     return sc, allm, max(4.0, sd)
 
 def active(f): return [l["id"] for l in LIB["factors"][f]["levels"] if l.get("status", "active") == "active"]
+def prior(f, l):
+    """The starting guess for a level (library.json "prior", points at 10 s against the average; from the hook study). It counts as one scored Reel."""
+    return float(next((x.get("prior", 0) for x in LIB["factors"][f]["levels"] if x["id"] == l), 0))
 
 def stats(rows):
     sc, allm, sd = centred(rows); st = {}
@@ -72,7 +75,7 @@ def stats(rows):
         for l in [x["id"] for x in LIB["factors"][f]["levels"]]:
             v = [r for r in sc if r["open"].get(f) == l]; tried = sum(1 for r in rows if r["open"].get(f) == l)
             n = len(v); m = sum(r["yc"] for r in v) / n if n else 0.0
-            st[f][l] = {"tried": tried, "n": n, "eff": m, "post_m": n * m / (n + 1), "post_sd": sd / math.sqrt(n + 1),
+            st[f][l] = {"tried": tried, "n": n, "eff": m, "prior": prior(f, l), "post_m": (prior(f, l) + n * m) / (n + 1), "post_sd": sd / math.sqrt(n + 1),
                         "r10": sum(r["r10"] for r in v) / n if n else None, "hold3": sum(r["hold3"] for r in v) / n if n else None}
         rnd = random.Random(7); act = [l for l in active(f) if st[f][l]["n"] >= 1]; wins = {l: 0 for l in act}
         for _ in range(4000 if len(act) > 1 else 0):
@@ -87,7 +90,7 @@ def pick(n, rows, st):
     for f in FACTORS:
         act = active(f); low = [l for l in act if st[f][l]["tried"] < LIB["min_tries"]]
         if low:
-            out[f] = rnd.choices(low, weights=[(LIB["min_tries"] - st[f][l]["tried"]) ** 2 for l in low])[0]; why[f] = f"new: tried {st[f][out[f]]['tried']} time(s) so far"
+            out[f] = rnd.choices(low, weights=[(LIB["min_tries"] - st[f][l]["tried"]) ** 2 * math.exp(prior(f, l) / 3) for l in low])[0]; why[f] = f"new: tried {st[f][out[f]]['tried']} time(s) so far; the study's guess for it is {prior(f, out[f]):+.0f} pts"
         else:
             out[f] = max(act, key=lambda l: rnd.gauss(st[f][l]["post_m"], st[f][l]["post_sd"])); why[f] = "picked by score (" + (f"{100 * st[f][out[f]]['p_best']:.0f}% chance of being the best" if st[f][out[f]]["p_best"] is not None else "no score yet") + ")"
     return out, why
@@ -113,7 +116,7 @@ def cmd_report():
     cur = sum(r["r10"] for r in last) / len(last) if last else 0; curh = sum(r["hold3"] for r in last) / len(last) if last else 0
     lab = [r for r in rows if r["lab"]]; combos = {tuple(r["open"].get(f) for f in FACTORS) for r in lab}
     L += ["# Hook lab: which opening keeps people to 10 seconds", "",
-          f"As of {asof:%d %b %Y %H:%M} Malaysia time. {len(sc)} Reels scored ({len(lab)} made by the lab, {len(combos)} different openings tried out of 600).", "",
+          f"As of {asof:%d %b %Y %H:%M} Malaysia time. {len(sc)} Reels scored ({len(lab)} made by the lab, {len(combos)} different openings tried out of {math.prod(len(active(f)) for f in FACTORS):,}).", "",
           f"**Goal: {g['r10']}% of viewers still watching at 10 s, averaged over the last {g['window']} scored Reels. Now: {cur:.0f}%** (estimated; {curh:.0f}% get past 3 s, measured).", ""]
     L += ["## The formula so far", "", "| part | best so far | est. at 10 s | lead over the average | sure? |", "|---|---|---|---|---|"]
     for f in FACTORS:
@@ -123,11 +126,11 @@ def cmd_report():
         L.append(f"| {f} | **{b}** | {s['r10']:.0f}% | {s['eff']:+.1f} pts | {100 * (s['p_best'] or 0):.0f}% chance it is the best ({s['n']} Reels) |")
     L += ["", "A lead under about 5 points with fewer than 6 Reels a level is still mostly luck: each Reel is shown to only about 130 people.", ""]
     for f in FACTORS:
-        L += [f"## {f}", "", LIB["factors"][f]["what"], "", "| level | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |", "|---|---|---|---|---|---|---|---|"]
+        L += [f"## {f}", "", LIB["factors"][f]["what"], "", "| level | study guess | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |", "|---|---|---|---|---|---|---|---|---|"]
         for lv in LIB["factors"][f]["levels"]:
             s = st[f][lv["id"]]; a = lv.get("status", "active") == "active"
             flag = "retired" if not a else ("RETIRE?" if s["retire"] else "")
-            L.append(f"| {lv['id']} | {s['tried']} | {s['n']} | " + (f"{s['r10']:.0f}% | {s['hold3']:.0f}% | {s['eff']:+.1f}" if s["n"] else "– | – | –") + " | " + (f"{100 * s['p_best']:.0f}%" if s["p_best"] is not None else "–") + f" | {flag} |")
+            L.append(f"| {lv['id']} | {s['prior']:+.0f} | {s['tried']} | {s['n']} | " + (f"{s['r10']:.0f}% | {s['hold3']:.0f}% | {s['eff']:+.1f}" if s["n"] else "– | – | –") + " | " + (f"{100 * s['p_best']:.0f}%" if s["p_best"] is not None else "–") + f" | {flag} |")
         L.append("")
     L += ["## CTA test (Keith, 28 Nov 2026: alternate the two for about two weeks)", "", "K = \"Comment WORD and I'll reply with the cheat sheet\" (even episodes). O = the cheat sheet is our own first comment + an open question (odd episodes).", "",
           "| arm | Reels | plays (median) | comments | per 1,000 plays | shares + saves |", "|---|---|---|---|---|---|"]

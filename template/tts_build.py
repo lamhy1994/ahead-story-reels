@@ -75,6 +75,7 @@ def build(voice, speed, lead=0.12, tail=1.25):
     op = dict(getattr(script, "OPEN", None) or {}); T["open"] = op; T["sub"] = getattr(script, "HOOK_SUB", "")
     hook = getattr(script, "HOOK", None)          # the hook card: 2 short lines (*word* = amber) + a small subline with subject and date
     if hook and op.get("text", "card") == "card": T["hook"] = {"lines": list(hook), "sub": getattr(script, "HOOK_SUB", "")}
+    if hook and op.get("text") == "banner": T["banner"] = {"lines": list(hook), "sub": getattr(script, "HOOK_SUB", "")}   # text: banner -> the same lines as a headline that stays on screen from frame 0 to the end (hook study, 28 Nov 2026)
     big = getattr(script, "BIG", None)            # the big number at 1.5-3 s: (value, what, when), e.g. ("−$2.9 TRILLION", "wiped off the S&P 500 in one day", "5 Nov 2026")
     if big and op.get("beat2", "dark") != "event": T["big"] = {"value": big[0], "label": big[1] if len(big) > 1 else "", "when": big[2] if len(big) > 2 else "", "dir": big[3] if len(big) > 3 else ""}   # dir "down"/"up": red diving line or amber climbing (default: red when the value starts with a minus)
     les = getattr(script, "LESSON", None)         # the lesson card: 2 short lines (*word* = amber) + the check the viewer can use
@@ -121,6 +122,11 @@ def v3_report(T):
             ids = [l["id"] for l in lib["factors"][f]["levels"] if l.get("status", "active") == "active"]
             if op.get(f) not in ids: bad.append(f"OPEN[{f!r}] = {op.get(f)!r} is not an active level in hooklab/library.json ({', '.join(ids)})")
     if op.get("text", "card") == "card" and not T.get("hook"): bad.append("OPEN text is card but script.py has no HOOK (the hook card on the first frame)")
+    if op.get("text") == "banner":
+        if not T.get("banner"): bad.append("OPEN text is banner but script.py has no HOOK (the headline that stays on screen for the whole video)")
+        else:
+            nb = sum(len(l.replace("*", "").split()) for l in T["banner"]["lines"])
+            if nb > 10 or len(T["banner"]["lines"]) > 2: print(f"WARN: the banner headline has {nb} words on {len(T['banner']['lines'])} lines; 2 lines and 10 words at most, so it reads in one second")
     if op.get("beat2", "dark") in ("dark", "world") and not T.get("big"): bad.append(f"OPEN beat2 is {op.get('beat2', 'dark')} but script.py has no BIG (the big number at 1.5-3 s)")
     if getattr(script, "HOOK", None) and op.get("text") == "captions": print("note: HOOK is ignored (OPEN text is captions): the first sentence shows as captions from frame 0, HOOK_SUB as a small chip")
     if getattr(script, "BIG", None) and op.get("beat2") == "event": print("note: BIG is ignored (OPEN beat2 is event): something must happen in the world at 1.5 s (T.beat2 in scene.js)")
@@ -130,6 +136,14 @@ def v3_report(T):
     if wd == "question" and not s1.strip().endswith("?"): print("WARN: OPEN words is question, but the first sentence is not a question")
     if wd == "you" and not re.search(r"\byou(r|'re|’re)?\b", s1.lower()): print("WARN: OPEN words is you, but the first sentence does not say you or your")
     if wd == "scene" and (len(w1) > 12 or re.search(r"\d", s1)): print("WARN: OPEN words is scene: a moment in at most 12 words, no figure (the size of the story comes in sentence 2)")
+    if wd == "whatif" and not re.match(r"(if|what if|would you|could you|how many|how long)\b", s1.strip().lower()): print("WARN: OPEN words is whatif, but the first sentence does not start with If, What if, Would you, Could you, How many or How long")
+    if wd == "mystery" and not re.match(r"(someone|somebody|nobody|no one|one |a |an )", s1.strip().lower()): print("WARN: OPEN words is mystery, but the first sentence does not start with an unnamed doer (Someone, Nobody, One man, A stranger ...)")
+    # two rules for every episode from the hook study of 28 Nov 2026 (research/hook-study-2026-11-28.md, SKILL.md §3)
+    first4 = " ".join(plain(x[0]) for x in S[:4]).lower()
+    if not re.search(r"\byou(r|'re|’re|'d|’d|'ll|’ll|'ve|’ve)?\b", first4): print("WARN: no you or your in the first four sentences: by about 15 s one line must turn the story onto the viewer")
+    turns = [i + 1 for i, x in enumerate(S[:-1]) if re.match(r"(but|so|then|and that|and the|here's|here’s|there's one|there’s one|that's not|that’s not|think|the good news|the bad news|the scary part|the strange part|except|only|until|now)\b", plain(x[0]).strip().lower())]
+    if len(turns) < 3: print(f"WARN: only {len(turns)} sentence(s) start with a turn (But / So / Then / Here's / There's one catch / That's not ...): open a new question every 10-15 s")
+    else: print("turns at sentences " + ", ".join(map(str, turns)))
     parts = getattr(script, "PARTS", None); cta_text = plain(S[-1][0])
     if not parts: bad.append("no PARTS in script.py (hook, lock, body1, rehook, body2, lesson, cta)")
     else:

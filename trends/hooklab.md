@@ -1,6 +1,6 @@
 # Hook lab: which opening keeps people to 10 seconds
 
-As of 28 Nov 2026 09:04 Malaysia time. 15 Reels scored (0 made by the lab, 0 different openings tried out of 600).
+As of 28 Nov 2026 09:04 Malaysia time. 15 Reels scored (0 made by the lab, 0 different openings tried out of 1,764).
 
 **Goal: 60% of viewers still watching at 10 s, averaged over the last 10 scored Reels. Now: 38%** (estimated; 59% get past 3 s, measured).
 
@@ -8,11 +8,11 @@ As of 28 Nov 2026 09:04 Malaysia time. 15 Reels scored (0 made by the lab, 0 dif
 
 | part | best so far | est. at 10 s | lead over the average | sure? |
 |---|---|---|---|---|
-| words | still testing | | | 1 of 5 levels have 3+ scored Reels |
-| text | still testing | | | 1 of 2 levels have 3+ scored Reels |
+| words | still testing | | | 1 of 7 levels have 3+ scored Reels |
+| text | still testing | | | 1 of 3 levels have 3+ scored Reels |
 | picture | still testing | | | 1 of 4 levels have 3+ scored Reels |
 | beat2 | still testing | | | 1 of 3 levels have 3+ scored Reels |
-| lock | still testing | | | 1 of 5 levels have 3+ scored Reels |
+| lock | still testing | | | 1 of 7 levels have 3+ scored Reels |
 
 A lead under about 5 points with fewer than 6 Reels a level is still mostly luck: each Reel is shown to only about 130 people.
 
@@ -20,55 +20,60 @@ A lead under about 5 points with fewer than 6 Reels a level is still mostly luck
 
 What the hook says: the card text (if there is a card) and the first spoken sentence. At most 14 spoken words, no date or name in front.
 
-| level | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
-|---|---|---|---|---|---|---|---|
-| contrast | 15 | 13 | 38% | 57% | -0.9 | 13% |  |
-| number | 2 | 2 | 45% | 72% | +5.8 | 87% |  |
-| question | 0 | 0 | – | – | – | – |  |
-| you | 0 | 0 | – | – | – | – |  |
-| scene | 0 | 0 | – | – | – | – |  |
+| level | study guess | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
+|---|---|---|---|---|---|---|---|---|
+| contrast | -2 | 15 | 13 | 38% | 57% | -0.9 | 9% |  |
+| number | +3 | 2 | 2 | 45% | 72% | +5.8 | 91% |  |
+| question | +2 | 0 | 0 | – | – | – | – |  |
+| you | +2 | 0 | 0 | – | – | – | – |  |
+| scene | +0 | 0 | 0 | – | – | – | – |  |
+| whatif | +3 | 0 | 0 | – | – | – | – |  |
+| mystery | +2 | 0 | 0 | – | – | – | – |  |
 
 ## text
 
 What is written on the first frame (it is also the cover).
 
-| level | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
-|---|---|---|---|---|---|---|---|
-| card | 17 | 15 | 39% | 59% | +0.0 | – |  |
-| captions | 0 | 0 | – | – | – | – |  |
+| level | study guess | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
+|---|---|---|---|---|---|---|---|---|
+| card | -3 | 17 | 15 | 39% | 59% | +0.0 | – |  |
+| captions | +0 | 0 | 0 | – | – | – | – |  |
+| banner | +4 | 0 | 0 | – | – | – | – |  |
 
 ## picture
 
 What the camera shows from frame 0 to 1.5 s. Whatever the level, something moves in the first half second.
 
-| level | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
-|---|---|---|---|---|---|---|---|
-| place | 11 | 11 | 39% | 57% | +0.3 | 23% |  |
-| action | 1 | 1 | 41% | 72% | +2.5 | 43% |  |
-| object | 1 | 1 | 40% | 65% | +0.9 | 34% |  |
-| person | 1 | 0 | – | – | – | – |  |
+| level | study guess | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
+|---|---|---|---|---|---|---|---|---|
+| place | -2 | 11 | 11 | 39% | 57% | +0.3 | 15% |  |
+| action | +2 | 1 | 1 | 41% | 72% | +2.5 | 47% |  |
+| object | +2 | 1 | 1 | 40% | 65% | +0.9 | 38% |  |
+| person | +1 | 1 | 0 | – | – | – | – |  |
 
 ## beat2
 
 What happens at 1.5-3 s.
 
-| level | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
-|---|---|---|---|---|---|---|---|
-| dark | 16 | 14 | 39% | 59% | -0.1 | – |  |
-| world | 0 | 0 | – | – | – | – |  |
-| event | 0 | 0 | – | – | – | – |  |
+| level | study guess | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
+|---|---|---|---|---|---|---|---|---|
+| dark | -2 | 16 | 14 | 39% | 59% | -0.1 | – |  |
+| world | +1 | 0 | 0 | – | – | – | – |  |
+| event | +1 | 0 | 0 | – | – | – | – |  |
 
 ## lock
 
 The lock-in, 3-10 s (sentences 2-3): why the rest is worth watching. It ends on the question the video answers.
 
-| level | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
-|---|---|---|---|---|---|---|---|
-| stakes | 17 | 15 | 39% | 59% | +0.0 | – |  |
-| lesson | 0 | 0 | – | – | – | – |  |
-| flip | 0 | 0 | – | – | – | – |  |
-| name | 0 | 0 | – | – | – | – |  |
-| proof | 0 | 0 | – | – | – | – |  |
+| level | study guess | tried | scored | est. at 10 s | past 3 s | vs average | chance best | |
+|---|---|---|---|---|---|---|---|---|
+| stakes | +0 | 17 | 15 | 39% | 59% | +0.0 | – |  |
+| lesson | +1 | 0 | 0 | – | – | – | – |  |
+| flip | +1 | 0 | 0 | – | – | – | – |  |
+| name | +0 | 0 | 0 | – | – | – | – |  |
+| proof | +0 | 0 | 0 | – | – | – | – |  |
+| yours | +3 | 0 | 0 | – | – | – | – |  |
+| tease | +2 | 0 | 0 | – | – | – | – |  |
 
 ## CTA test (Keith, 28 Nov 2026: alternate the two for about two weeks)
 
